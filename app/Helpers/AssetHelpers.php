@@ -68,7 +68,7 @@ function calculateGroupCurrency($data)
 function getAssetKeys($isCharacter = false)
 {
     if(!$isCharacter) return ['items', 'currencies', 'raffle_tickets', 'loot_tables', 'user_items', 'characters'];
-    else return ['currencies', 'items', 'character_items', 'loot_tables'];
+    else return ['currencies', 'items', 'character_items', 'loot_tables','features'];
 }
 
 /**
@@ -116,6 +116,10 @@ function getAssetModelString($type, $namespaced = true)
         case 'character_items':
             if($namespaced) return '\App\Models\Character\CharacterItem';
             else return 'CharacterItem';
+            break;
+        case 'features':
+            if($namespaced) return '\App\Models\Feature\Feature';
+            else return 'Feature';
             break;
     }
     return null;
@@ -317,6 +321,11 @@ function fillCharacterAssets($assets, $sender, $recipient, $logType, $data, $sub
             $service = new \App\Services\InventoryManager;
             foreach($contents as $asset)
                 if(!$service->creditItem($sender, ( ($asset['asset']->category && $asset['asset']->category->is_character_owned) ? $recipient : $item_recipient), $logType, $data, $asset['asset'], $asset['quantity'])) return false;
+        }
+        elseif($key == 'features' && count($contents))
+        {
+            foreach($contents as $asset)
+            \App\Models\Character\CharacterFeature::create(['character_image_id' => $recipient->image->id, 'feature_id' => $asset['asset'], 'data' => null]);
         }
     }
     return $assets;
