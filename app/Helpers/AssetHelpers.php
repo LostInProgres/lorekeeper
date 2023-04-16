@@ -324,9 +324,12 @@ function fillCharacterAssets($assets, $sender, $recipient, $logType, $data, $sub
         }
         elseif($key == 'features' && count($contents))
         {
+            //just directly create the traits on the characterfeature model
+            //myos cant be submitted for prompts so character_type is always Character
             foreach($contents as $asset)
-            \App\Models\Character\CharacterFeature::create(['character_image_id' => $recipient->image->id, 'feature_id' => $asset['asset'], 'data' => null]);
+            if(!\App\Models\Character\CharacterFeature::create(['character_image_id' => $recipient->image->id, 'feature_id' => $asset['asset']->id, 'feature_data' => null, 'character_type' => 'Character'])) return false;
         }
+
     }
     return $assets;
 }

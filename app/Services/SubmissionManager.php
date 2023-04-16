@@ -220,7 +220,7 @@ class SubmissionManager extends Service
                         case 'Currency': if($data['character_rewardable_quantity'][$data['character_id']][$key]) addAsset($assets, $data['currencies'][$reward], $data['character_rewardable_quantity'][$data['character_id']][$key]); break;
                         case 'Item': if($data['character_rewardable_quantity'][$data['character_id']][$key]) addAsset($assets, $data['items'][$reward], $data['character_rewardable_quantity'][$data['character_id']][$key]); break;
                         case 'LootTable': if($data['character_rewardable_quantity'][$data['character_id']][$key]) addAsset($assets, $data['tables'][$reward], $data['character_rewardable_quantity'][$data['character_id']][$key]); break;
-                        case 'Feature': if($data['character_rewardable_quantity'][$data['character_id']][$key]) addAsset($assets, $data['features'][$reward], $data['character_rewardable_quantity'][$data['character_id']][$key]); break;
+                        case 'Feature': if([$data['character_id']][$key]) addAsset($assets, $data['features'][$reward], [$data['character_id']][$key]); break;
                     }
                 }
             }
