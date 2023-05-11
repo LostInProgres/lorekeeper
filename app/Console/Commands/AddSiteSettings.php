@@ -103,6 +103,16 @@ class AddSiteSettings extends Command
 
         $this->addSiteSetting('group_currency', 1, 'ID of the group currency to award from gallery submissions (if enabled).');
 
+        $this->addSiteSetting('fetch_item', 1, 'ID of the currently requested fetch quest item.');
+
+        $this->addSiteSetting('fetch_currency_id', 1, 'ID for fetch currency');
+
+        $this->addSiteSetting('fetch_category_id', 1, 'ID for category to pull items from');
+
+        $this->addSiteSetting('fetch_reward', 10, 'MINIMUM Reward granted after fetch is completed');
+
+        $this->addSiteSetting('fetch_reward_max', 100, 'MAXIMUM Reward granted after fetch is completed');
+        
         $this->line("\nSite settings up to date!");
 
     }
