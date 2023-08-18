@@ -12,5 +12,12 @@ return [
     //     'version' => '1.0.0',
     // ],
     
-
+    'trait_prompt_reward' => [
+         'key' => 'trait_prompt_reward',
+             'wiki_key' => 'Trait_Prompt_Reward',
+             'creators' => json_encode([
+                 'CH3RVB' => 'https://github.com/CH3RVB/',
+             ]),
+             'version' => '1.0.0',
+         ],
 ];

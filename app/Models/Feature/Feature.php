@@ -250,4 +250,14 @@ class Feature extends Model
     {
         return url('masterlist?feature_id[]='.$this->id);
     }
+
+     /**
+     * Gets the status effect's asset type for asset management.
+     *
+     * @return string
+     */
+    public function getAssetTypeAttribute()
+    {
+        return 'features';
+    }
 }
