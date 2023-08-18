@@ -324,10 +324,10 @@ function fillCharacterAssets($assets, $sender, $recipient, $logType, $data, $sub
         }
         elseif($key == 'features' && count($contents))
         {
-            //just directly create the traits on the characterfeature model
-            //myos cant be submitted for prompts so character_type is always Character
+            $service = new \App\Services\CharacterManager;
             foreach($contents as $asset)
-            if(!\App\Models\Character\CharacterFeature::create(['character_image_id' => $recipient->image->id, 'feature_id' => $asset['asset']->id, 'feature_data' => null, 'character_type' => 'Character'])) return false;
+                if(!$service->creditUnlockedFeature($sender, $item_recipient, $logType, $data['data'], $asset['asset'])) return false;
+
         }
 
     }

@@ -31,6 +31,7 @@ use App\Models\Species\Subtype;
 use App\Models\Rarity;
 use App\Models\Currency\Currency;
 use App\Models\Feature\Feature;
+use App\Models\Character\UnlockedFeature;
 
 class CharacterManager extends Service
 {
@@ -2504,5 +2505,105 @@ is_object($sender) ? $sender->id : null,
             $this->setError('error', $e->getMessage());
         }
         return $this->rollbackReturn(false);
+    }
+
+    /**
+     * Grants unlocked traits
+     *
+     * @param  array                            $data
+     * @param  \App\Models\Character\Character  $character
+     * @param  \App\Models\User\User            $staff
+     * @return bool
+     */
+    public function grantUnlockedFeatures($data, $character, $staff)
+    {
+        DB::beginTransaction();
+
+        try {
+            if(!$character) throw new \Exception("Invalid character selected.");
+            dd($data);
+
+            // Process feature(s)
+            $features = Feature::find($data['feature_ids']);
+            foreach($features as $feature) {
+                // Skip the feature if it's not the correct species.
+                if($feature->species_id && $feature->species_id != $character->image->species_id) throw new \Exception("This trait is not compatible with this character's species.");
+            }
+            if(!count($features)) throw new \Exception("No valid features found.");
+
+            foreach($features as $feature) {
+                $this->creditUnlockedFeature($staff, $character, 'Staff Grant', Arr::only($data, ['data']), $feature);
+            }
+
+            return $this->commitReturn(true);
+        } catch(\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+        return $this->rollbackReturn(false);
+    }
+
+     /**
+     * Credits feature to a character.
+     *
+     * @param  \App\Models\User\User|\App\Models\Character\Character  $sender
+     * @param  \App\Models\User\User|\App\Models\Character\Character  $recipient
+     * @param  string                                                 $type 
+     * @param  array                                                  $data
+     * @param  \App\Models\Feature\Feature                                  $feature
+     * @return bool
+     */
+    public function creditUnlockedFeature($sender, $recipient, $type, $data, $feature)
+    {
+        DB::beginTransaction();
+
+        try {
+            $encoded_data = \json_encode($data);
+
+                $recipient_stack = UnlockedFeature::where([
+                    ['character_id', '=', $recipient->id],
+                    ['feature_id', '=', $feature->id],
+                    ['data', '=', $encoded_data]
+                ])->first();
+                
+                if(!$recipient_stack)
+                    $recipient_stack = UnlockedFeature::create(['character_id' => $recipient->id, 'feature_id' => $feature->id, 'data' => $encoded_data]);
+                $recipient_stack->save();
+            if($type && !$this->createFeatureLog($sender ? $sender->id : null, $sender ? $sender->logType : null, $recipient ? $recipient->id : null, $recipient ? $recipient->logType : null, $type, $data['data'], $feature->id)) throw new \Exception("Failed to create log.");
+
+            return $this->commitReturn(true);
+        } catch(\Exception $e) { 
+            $this->setError('error', $e->getMessage());
+        }
+        return $this->rollbackReturn(false);
+    }
+
+        /**
+     * Creates an inventory log.
+     *
+     * @param  int     $senderId
+     * @param  string  $senderType
+     * @param  int     $recipientId
+     * @param  string  $recipientType
+     * @param  string  $type 
+     * @param  string  $data
+     * @return  int
+     */
+    public function createFeatureLog($senderId, $senderType, $recipientId, $recipientType, $type, $data, $featureId)
+    {
+        
+        return DB::table('unlocked_features_log')->insert(
+            [
+                'sender_id' => $senderId,
+                'sender_type' => $senderType,
+                'recipient_id' => $recipientId,
+                'recipient_type' => $recipientType,
+                'log' => $type . ($data ? ' (' . $data . ')' : ''),
+                'log_type' => $type,
+                'data' => $data, // this should be just a string
+                'feature_id' => $featureId,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]
+        );
     }
 }

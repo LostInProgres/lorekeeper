@@ -13,6 +13,10 @@
 
 @include('character._header', ['character' => $character])
 
+@if(Auth::check() && Auth::user()->hasPower('edit_inventories'))
+        <a href="#" class="float-right btn btn-outline-info btn-sm" id="grantButton" data-toggle="modal" data-target="#grantModal"><i class="fas fa-cog"></i> Admin</a>
+    @endif
+
 {{-- Main Image --}}
 <div class="row mb-3">
     <div class="col-md-7">
@@ -72,9 +76,95 @@
     </div>
 </div>
 
+@if(Auth::check() && Auth::user()->hasPower('edit_inventories'))
+    <div class="modal fade" id="grantModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title h5 mb-0">[ADMIN] Grant Traits</span>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                @php 
+                    $featureOptions = \App\Models\Feature\Feature::pluck('name','id');
+                    
+                @endphp
+                <div class="modal-body">
+                <p>This will credit the traits to the character's unlocked traits list..</p>
+                <div class="form-group">
+                {!! Form::open(['url' => 'admin/character/'.$character->slug.'/grant-features']) !!}
+                    {!! Form::label('Feature(s)') !!} {!! add_help('Must have at least 1 feature and Quantity must be at least 1.') !!}
+                    <div id="featureList">
+                        <div class="d-flex mb-2">
+                            {!! Form::select('feature_ids[]', $featureOptions, null, ['class' => 'form-control mr-2 default feature-select', 'placeholder' => 'Select Feature']) !!}
+                            <a href="#" class="remove-feature btn btn-danger mb-2 disabled">×</a>
+                        </div>
+                    </div>
+                    <div><a href="#" class="btn btn-primary" id="add-feature">Add Feature</a></div>
+                    <div class="feature-row hide mb-2">
+                        {!! Form::select('feature_ids[]', $featureOptions, null, ['class' => 'form-control mr-2 feature-select', 'placeholder' => 'Select Feature']) !!}
+                        <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
+                    </div>
+
+                    <h5>Additional Data</h5>
+
+                    <div class="form-group">
+                        {!! Form::label('data', 'Reason (Optional)') !!} {!! add_help('A reason for the grant. This will be noted in the logs and in the features description.') !!}
+                        {!! Form::text('data', null, ['class' => 'form-control', 'maxlength' => 400]) !!}
+                    </div>
+
+                    <div class="text-right">
+                        {!! Form::submit('Submit', ['class' => 'btn btn-primary']) !!}
+                    </div>
+
+                {!! Form::close() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
 @endsection
 
 @section('scripts')
     @parent
     @include('character._image_js', ['character' => $character])
+
+    <script>
+
+$( document ).ready(function() {
+    $('.default.feature-select').selectize();
+        $('#add-feature').on('click', function(e) {
+            e.preventDefault();
+            addFeatureRow();
+        });
+        $('.remove-feature').on('click', function(e) {
+            e.preventDefault();
+            removeFeatureRow($(this));
+        })
+        function addFeatureRow() {
+            var $rows = $("#featureList > div")
+            if($rows.length === 1) {
+                $rows.find('.remove-feature').removeClass('disabled')
+            }
+            var $clone = $('.feature-row').clone();
+            $('#featureList').append($clone);
+            $clone.removeClass('hide feature-row');
+            $clone.addClass('d-flex');
+            $clone.find('.remove-feature').on('click', function(e) {
+                e.preventDefault();
+                removeFeatureRow($(this));
+            })
+            $clone.find('.feature-select').selectize();
+        }
+        function removeFeatureRow($trigger) {
+            $trigger.parent().remove();
+            var $rows = $("#featureList > div")
+            if($rows.length === 1) {
+                $rows.find('.remove-feature').addClass('disabled')
+            }
+        }
+});
+
+</script>
 @endsection
