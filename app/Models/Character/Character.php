@@ -27,6 +27,8 @@ use App\Models\Item\ItemLog;
 use App\Models\Submission\Submission;
 use App\Models\Submission\SubmissionCharacter;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Feature\FeatureLog;
+use App\Models\Feature\Feature;
 
 class Character extends Model
 {
@@ -553,5 +555,23 @@ class Character extends Model
                     'character_name' => $this->fullName
                 ]);
         }
+    }
+
+     /**
+     * Get the user's border logs.
+     *
+     * @param  int  $limit
+     * @return \Illuminate\Support\Collection|\Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getFeatureLogs($limit = 10)
+    {
+        $character = $this;
+        $query = FeatureLog::with('feature')->where(function($query) use ($character) {
+            $query->with('sender')->where('sender_id', $character->id)->whereNotIn('log_type', ['Staff Grant', 'Prompt Rewards', 'Claim Rewards']);
+        })->orWhere(function($query) use ($character) {
+            $query->with('recipient')->where('recipient_id', $character->id)->where('log_type', '!=', 'Staff Removal');
+        })->orderBy('id', 'DESC');
+        if($limit) return $query->take($limit)->get();
+        else return $query->paginate(30);
     }
 }

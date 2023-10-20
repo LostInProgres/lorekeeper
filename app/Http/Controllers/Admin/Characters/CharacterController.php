@@ -681,24 +681,4 @@ class CharacterController extends Controller
             'slots' => Character::myo(1)->orderBy('id', 'DESC')->paginate(30),
         ]);
     }
-
-        /**
-     * Grants items to pets.
-     *
-     * @param  string                          $slug
-     * @param  \Illuminate\Http\Request        $request
-     * @param  App\Services\CharacterManager   $service
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function postUnlockedFeatures($slug, Request $request, CharacterManager $service)
-    {
-        $data = $request->only(['feature_ids','data']);
-        if($service->grantUnlockedFeatures($data,  Character::where('slug', $slug)->first(), Auth::user())) {
-            flash('Items granted successfully.')->success();
-        }
-        else {
-            foreach($service->errors()->getMessages()['error'] as $error) flash($error)->error();
-        }
-        return redirect()->back();
-    }
 }

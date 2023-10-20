@@ -413,6 +413,38 @@ class CharacterController extends Controller
     }
 
     /**
+     * Shows a character's ownership logs.
+     *
+     * @param  string  $slug
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getCharacterFeatureLogs($slug)
+    {
+        return view('character.feature_logs', [
+            'character' => $this->character,
+            'logs' => $this->character->getFeatureLogs(0)
+        ]);
+    }
+
+    /**
+     * Shows a character's ownership logs.
+     *
+     * @param  string  $slug
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getCharacterFeatures($slug)
+    {
+        $default =  Feature::where('is_default', 1)->get();
+        $featureOptions = Feature::pluck('name','id');
+        return view('character.features', [
+            'character' => $this->character, 
+            'logs' => $this->character->getFeatureLogs(),
+            'takeFeatureOptions' => Feature::whereIn('id', UnlockedFeature::where('character_id', $this->character->id)->pluck('feature_id')->toArray())->orderBy('sort_character', 'DESC')->pluck('name', 'id')->toArray(),
+            'featureOptions' => $featureOptions, 
+        ]);
+    }
+
+    /**
      * Shows a character's transfer page.
      *
      * @param  string  $slug

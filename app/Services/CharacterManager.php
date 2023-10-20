@@ -2521,7 +2521,6 @@ is_object($sender) ? $sender->id : null,
 
         try {
             if(!$character) throw new \Exception("Invalid character selected.");
-            dd($data);
 
             // Process feature(s)
             $features = Feature::find($data['feature_ids']);

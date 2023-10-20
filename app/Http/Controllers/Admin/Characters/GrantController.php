@@ -12,6 +12,7 @@ use App\Models\Item\Item;
 
 use App\Services\CurrencyManager;
 use App\Services\InventoryManager;
+use App\Services\CharacterManager;
 
 use App\Http\Controllers\Controller;
 
@@ -56,4 +57,25 @@ class GrantController extends Controller
         }
         return redirect()->back();
     }
+
+    /**
+     * Grants or removes currency from a character.
+     *
+     * @param  string                        $slug
+     * @param  \Illuminate\Http\Request      $request
+     * @param  App\Services\CurrencyManager  $service
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postCharacterFeatures($slug, Request $request, CharacterManager $service)
+    {
+        $data = $request->only(['feature_ids', 'quantity', 'data']);
+        if($service->grantCharacterFeatures($data, Character::where('slug', $slug)->first(), Auth::user())) {
+            flash('Traits granted successfully.')->success();
+        }
+        else {
+            foreach($service->errors()->getMessages()['error'] as $error) flash($error)->error();
+        }
+        return redirect()->back();
+    }
+
 }
