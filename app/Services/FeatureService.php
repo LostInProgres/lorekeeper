@@ -292,6 +292,8 @@ class FeatureService extends Service
             unset($data['remove_image']);
         }
 
+        if(!isset($data['is_default'])) $data['is_default'] = 0;
+
         return $data;
     }
     

@@ -61,6 +61,10 @@
             {!! Form::select('subtype_id', $subtypes, $feature->subtype_id, ['class' => 'form-control']) !!}
         </div>
     </div>
+    <div class="col-md form-group">
+        {!! Form::checkbox('is_default', 1, $feature->id ? $feature->is_default : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
+        {!! Form::label('is_default', 'Is Default', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned off, this trait cannot be selected unless unlocked by a character') !!}
+    </div>
 </div>
 <div class="form-group">
     {!! Form::label('Description (Optional)') !!}

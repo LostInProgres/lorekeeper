@@ -32,6 +32,7 @@ use App\Models\Character\CharacterTransfer;
 use App\Services\CurrencyManager;
 use App\Services\InventoryManager;
 use App\Services\CharacterManager;
+use App\Models\Character\UnlockedFeature;
 
 use App\Http\Controllers\Controller;
 
@@ -418,28 +419,14 @@ class CharacterController extends Controller
      * @param  string  $slug
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getCharacterFeatureLogs($slug)
-    {
-        return view('character.feature_logs', [
-            'character' => $this->character,
-            'logs' => $this->character->getFeatureLogs(0)
-        ]);
-    }
-
-    /**
-     * Shows a character's ownership logs.
-     *
-     * @param  string  $slug
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function getCharacterFeatures($slug)
     {
         $default =  Feature::where('is_default', 1)->get();
-        $featureOptions = Feature::pluck('name','id');
+        $featureOptions = Feature::whereNotIn('id', UnlockedFeature::where('character_id', $this->character->id)->pluck('feature_id')->toArray())->where('is_default', 0)->pluck('name', 'id')->toArray();
         return view('character.features', [
             'character' => $this->character, 
-            'logs' => $this->character->getFeatureLogs(),
-            'takeFeatureOptions' => Feature::whereIn('id', UnlockedFeature::where('character_id', $this->character->id)->pluck('feature_id')->toArray())->orderBy('sort_character', 'DESC')->pluck('name', 'id')->toArray(),
+            'default' => $default, 
+            'takeFeatureOptions' => Feature::whereIn('id', UnlockedFeature::where('character_id', $this->character->id)->pluck('feature_id')->toArray())->pluck('name', 'id')->toArray(),
             'featureOptions' => $featureOptions, 
         ]);
     }

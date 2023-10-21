@@ -21,23 +21,8 @@ class AddUnlockableTraitTables extends Migration
             $table->unique(['character_id', 'feature_id']);
         });
 
-        Schema::create('unlocked_features_log', function(Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('id');
-            $table->integer('feature_id')->unsigned();
-
-            $table->integer('sender_id')->unsigned()->nullable();
-            $table->integer('recipient_id')->unsigned()->nullable();
-            $table->string('log'); 
-            $table->string('log_type'); 
-            $table->string('data', 1024)->nullable(); 
-
-            $table->timestamps();
-
-            $table->foreign('feature_id')->references('id')->on('features');
-
-            $table->foreign('sender_id')->references('id')->on('users');
-            $table->foreign('recipient_id')->references('id')->on('characters');
+        Schema::table('features', function (Blueprint $table) {
+            $table->boolean('is_default')->default(0); //can be selected for free at any time
         });
     }
 

@@ -47,4 +47,15 @@ class UnlockedFeature extends Model
     {
         return $this->belongsTo('App\Models\Feature\Feature', 'feature_id');
     }
+
+    
+     /**
+     *  
+     *
+     * @return string
+     */
+    public function getFeatureNameAttribute()
+    { 
+        return $this->feature->name;
+    }
 }

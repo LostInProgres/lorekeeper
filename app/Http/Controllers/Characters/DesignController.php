@@ -193,12 +193,15 @@ class DesignController extends Controller
         $r = CharacterDesignUpdate::find($id);
         if(!$r || ($r->user_id != Auth::user()->id && !Auth::user()->hasPower('manage_characters'))) abort(404);
 
+        $char = Character::find($r->id);
+        $featureoptions = $char->unlockedTraits()->get()->pluck('featureName', 'id')->toArray() + Feature::where('is_default', 1)->get()->pluck('name', 'id')->toArray();
+
         return view('character.design.features', [
             'request' => $r,
             'specieses' => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes' => ['0' => 'No Subtype'] + Subtype::where('species_id','=',$r->species_id)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'rarities' => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'features' => Feature::orderBy('name')->pluck('name', 'id')->toArray()
+            'features' => $featureoptions
         ]);
     }
 
