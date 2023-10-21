@@ -2833,19 +2833,16 @@ class CharacterManager extends Service
      * @param  \App\Models\Currency\Currency                          $currency
      * @return  bool
      */
-    public function debitFeature($sender, $recipient, $type, $data, $feature)
+    public function debitFeature($sender, $recipient, $feature)
     {
         DB::beginTransaction();
 
         try {
-            $record = UnlockedFeature::where('character_id', $sender->id)
-                ->where('feature_id', $feature->id)
-                ->first();
+            $record = UnlockedFeature::where([['character_id', '=', $recipient->id], ['feature_id', '=', $feature->id]])->first();
             if (!$record ) {
-                throw new \Exception('Not enough ' . $feature->name . ' to carry out this action.');
+                throw new \Exception('Can\'t debit ' . $feature->name . ' if the character hasn\'t unlocked it.');
             }
-
-            $record->delete();
+            UnlockedFeature::where([['character_id', '=', $recipient->id], ['feature_id', '=', $feature->id]])->first()->delete();
 
             return $this->commitReturn(true);
         } catch (\Exception $e) {

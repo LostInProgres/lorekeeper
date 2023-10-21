@@ -312,6 +312,7 @@ Route::group(['prefix' => 'character', 'namespace' => 'Characters', 'middleware'
     Route::post('{slug}/grant', 'GrantController@postCharacterCurrency');
     Route::post('{slug}/grant-items', 'GrantController@postCharacterItems');
     Route::post('{slug}/grant-features', 'GrantController@postCharacterFeatures');
+    Route::post('{slug}/take-features', 'GrantController@postRemoveCharacterFeatures');
 });
 
 Route::group(['prefix' => 'character', 'namespace' => 'Characters', 'middleware' => 'power:manage_characters'], function() {
