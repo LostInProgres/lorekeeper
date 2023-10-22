@@ -84,7 +84,7 @@
                         <div class="form-group">
                             {!! Form::open(['url' => 'admin/character/' . $character->slug . '/grant-features']) !!}
                             {!! Form::label('Traits(s)') !!}
-                            <div id="featureList">
+                            <div id="featureListGive">
                                 <div class="d-flex mb-2">
                                     {!! Form::select('feature_ids[]', $featureOptions, null, [
                                         'class' => 'form-control mr-2 default feature-select',
@@ -121,22 +121,22 @@
                         <div class="form-group">
                             {!! Form::open(['url' => 'admin/character/' . $character->slug . '/take-features']) !!}
                             {!! Form::label('Traits(s)') !!}
-                            <div id="featureList">
+                            <div id="featureListRemove">
                                 <div class="d-flex mb-2">
                                     {!! Form::select('feature_ids[]', $takeFeatureOptions, null, [
                                         'class' => 'form-control mr-2 default feature-select',
                                         'placeholder' => 'Select Trait',
                                     ]) !!}
-                                    <a href="#" class="remove-feature btn btn-danger mb-2 disabled">×</a>
+                                    <a href="#" class="remove-remove-feature btn btn-danger mb-2 disabled">×</a>
                                 </div>
                             </div>
-                            <div><a href="#" class="btn btn-primary" id="add-feature">Add Trait</a></div>
-                            <div class="feature-row hide mb-2">
+                            <div><a href="#" class="btn btn-primary" id="add-remove-feature">Add Trait</a></div>
+                            <div class="feature-remove-row hide mb-2">
                                 {!! Form::select('feature_ids[]', $takeFeatureOptions, null, [
                                     'class' => 'form-control mr-2 feature-select',
                                     'placeholder' => 'Select Trait',
                                 ]) !!}
-                                <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
+                                <a href="#" class="remove-remove-feature btn btn-danger mb-2">×</a>
                             </div>
 
                             <div class="text-right">
@@ -165,6 +165,8 @@
             var $takeButton = $('#takeButton');
             var $takeContent = $('#takeContent');
 
+
+            // Buttons that pop-up the modals for removing/adding traits
             $giveButton.on('click', function(e) {
                 e.preventDefault();
                 $giveContent.removeClass('hide');
@@ -179,7 +181,7 @@
                 $confirmationModal.modal('show');
             });
 
-
+            // Adding rows to the "give" option.
             $('.default.feature-select').selectize();
             $('#add-feature').on('click', function(e) {
                 e.preventDefault();
@@ -191,12 +193,12 @@
             })
 
             function addFeatureRow() {
-                var $rows = $("#featureList > div")
+                var $rows = $("#featureListGive > div")
                 if ($rows.length === 1) {
                     $rows.find('.remove-feature').removeClass('disabled')
                 }
                 var $clone = $('.feature-row').clone();
-                $('#featureList').append($clone);
+                $('#featureListGive').append($clone);
                 $clone.removeClass('hide feature-row');
                 $clone.addClass('d-flex');
                 $clone.find('.remove-feature').on('click', function(e) {
@@ -208,10 +210,37 @@
 
             function removeFeatureRow($trigger) {
                 $trigger.parent().remove();
-                var $rows = $("#featureList > div")
+                var $rows = $("#featureListGive > div")
                 if ($rows.length === 1) {
                     $rows.find('.remove-feature').addClass('disabled')
                 }
+            }
+
+            // Adding rows to the "take" option.
+            $('.default.feature-select-take').selectize();
+            $('#add-remove-feature').on('click', function(e) {
+                e.preventDefault();
+                addFeatureRemoveRow();
+            });
+            $('.remove-remove-feature').on('click', function(e) {
+                e.preventDefault();
+                removeFeatureRow($(this));
+            })
+
+            function addFeatureRemoveRow() {
+                var $rows = $("#featureListRemove > div")
+                if ($rows.length === 1) {
+                    $rows.find('.remove-remove-feature').removeClass('disabled')
+                }
+                var $clone = $('.feature-remove-row').clone();
+                $('#featureListRemove').append($clone);
+                $clone.removeClass('hide feature-remove-row');
+                $clone.addClass('d-flex');
+                $clone.find('.remove-remove-feature').on('click', function(e) {
+                    e.preventDefault();
+                    removeFeatureRow($(this));
+                })
+                $clone.find('.feature-select-take').selectize();
             }
         });
     </script>
