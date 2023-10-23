@@ -401,19 +401,6 @@ class CharacterController extends Controller
     }
 
     /**
-     * Shows a character's submissions.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function getCharacterSubmissions($slug)
-    {
-        return view('character.submission_logs', [
-            'character' => $this->character,
-            'logs' => $this->character->getSubmissions()
-        ]);
-    }
-
-    /**
      * Shows a character's ownership logs.
      *
      * @param  string  $slug
@@ -428,6 +415,60 @@ class CharacterController extends Controller
             'default' => $default, 
             'takeFeatureOptions' => Feature::whereIn('id', UnlockedFeature::where('character_id', $this->character->id)->pluck('feature_id')->toArray())->pluck('name', 'id')->toArray(),
             'featureOptions' => $featureOptions, 
+            'logs' => $this->character->getFeatureLogs(),
+        ]);
+    }
+
+    /**
+     * Shows a character's feature logs.
+     *
+     * @param  string  $slug
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getCharacterFeatureLogs($slug)
+    {
+        $default =  Feature::where('is_default', 1)->get();
+        $featureOptions = Feature::whereNotIn('id', UnlockedFeature::where('character_id', $this->character->id)->pluck('feature_id')->toArray())->where('is_default', 0)->pluck('name', 'id')->toArray();
+        return view('character.features_log', [
+            'character' => $this->character, 
+            'default' => $default, 
+            'takeFeatureOptions' => Feature::whereIn('id', UnlockedFeature::where('character_id', $this->character->id)->pluck('feature_id')->toArray())->pluck('name', 'id')->toArray(),
+            'featureOptions' => $featureOptions, 
+            'logs' => $this->character->getFeatureLogs(),
+        ]);
+    }
+
+    /**
+     * Shows a character's ownership logs.
+     *
+     * @param  string  $slug
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getCharacterFeaturesLog($slug)
+    {
+        $default =  Feature::where('is_default', 1)->get();
+        $featureOptions = Feature::whereNotIn('id', UnlockedFeature::where('character_id', $this->character->id)->pluck('feature_id')->toArray())->where('is_default', 0)->pluck('name', 'id')->toArray();
+        
+        return view('character.features', [
+            'character' => $this->character, 
+            'default' => $default, 
+            'takeFeatureOptions' => Feature::whereIn('id', UnlockedFeature::where('character_id', $this->character->id)->pluck('feature_id')->toArray())->pluck('name', 'id')->toArray(),
+            'featureOptions' => $featureOptions, 
+            'logs' => $this->character->getFeatureLogs(),
+        ]);
+    }
+
+
+    /**
+     * Shows a character's submissions.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getCharacterSubmissions($slug)
+    {
+        return view('character.submission_logs', [
+            'character' => $this->character,
+            'logs' => $this->character->getSubmissions()
         ]);
     }
 

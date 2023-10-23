@@ -78,7 +78,7 @@ class GrantController extends Controller
         return redirect()->back();
     }
 
-        /**
+    /**
      * Grants or removes currency from a character.
      *
      * @param  string                        $slug

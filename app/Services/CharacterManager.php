@@ -2800,7 +2800,7 @@ class CharacterManager extends Service
      * @param  \App\Models\User\User|\App\Models\Character\Character  $recipient
      * @param  string                                                 $type
      * @param  array                                                  $data
-     * @param  \App\Models\Award\Award                                  $award
+     * @param  \App\Models\Award\Award                                $award
      * @param  int                                                    $quantity
      * @return bool
      */
@@ -2815,6 +2815,7 @@ class CharacterManager extends Service
                 $recipient_stack = UnlockedFeature::create(['character_id' => $recipient->id, 'feature_id' => $feature->id]);
             }
 
+            if(!$this->createFeatureLog($sender ? $sender->id : null, $sender ? $sender->logType : null, $recipient ? $recipient->id : null, $recipient ? $recipient->logType : null, 'Granted Feature', 'Granted ' . $feature->name, $feature->id)) throw new \Exception("Failed to create log.");
 
             return $this->commitReturn(true);
         } catch (\Exception $e) {
@@ -2822,6 +2823,33 @@ class CharacterManager extends Service
         }
         return $this->rollbackReturn(false);
     }
+
+    /**
+     * Creates an inventory log.
+     *
+     * @param  int     $senderId
+     * @param  string  $senderType
+     * @param  int     $recipientId
+     * @param  string  $recipientType
+     * @param  string  $type 
+     * @param  string  $data
+     * @return  int
+     */
+    public function createFeatureLog($senderId, $senderType, $recipientId, $recipientType, $type, $data, $featureId)
+    {
+        return DB::table('unlocked_features_log')->insert(
+            [
+                'sender_id' => $senderId,
+                'recipient_id' => $recipientId,
+                'log' => $type . ($data ? ' (' . $data . ')' : ''),
+                'log_type' => $type,
+                'data' => $data, // this should be just a string
+                'feature_id' => $featureId,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]
+            );
+        }
 
     /**
      * Debits currency from a user or character.

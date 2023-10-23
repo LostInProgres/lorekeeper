@@ -71,6 +71,27 @@
         </div>
     @endif
 
+    <h3>Latest Activity</h3>
+    <div class="row ml-md-2">
+  <div class="d-flex row flex-wrap col-12 mt-1 pt-1 px-0 ubt-bottom">
+    <div class="col-6 col-md-2 font-weight-bold">Sender</div>
+    <div class="col-6 col-md-2 font-weight-bold">Recipient</div>
+    <div class="col-6 col-md-2 font-weight-bold">Feature</div>
+    <div class="col-6 col-md-4 font-weight-bold">Log</div>
+    <div class="col-6 col-md-2 font-weight-bold">Date</div>
+  </div>
+    @foreach($logs as $log)
+        <div class="d-flex row flex-wrap col-12 mt-1 pt-1 px-0 ubt-top">
+                <div class="col-6 col-md-2">{!! $log->sender ? $log->sender->displayName : '' !!}</div>
+                <div class="col-6 col-md-8">{!! $log->log !!}</div>
+                <div class="col-6 col-md-2">{!! pretty_date($log->created_at) !!}</div>
+            </div>
+    @endforeach
+</div>
+<div class="text-right">
+    <a href="{{ url($character->url.'/feature-logs') }}">View all...</a>
+</div>
+
     @if (Auth::check() && Auth::user()->hasPower('edit_inventories'))
         <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
