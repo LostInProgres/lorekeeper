@@ -16,8 +16,8 @@
             ? 'sublist/' . $character->category->sublist->key
             : 'masterlist',
         $character->fullName => $character->url,
-        'Bank' => $character->url . '/bank',
-        'Logs' => $character->url . '/trait-logs',
+        'Unlocked Traits' => $character->url . '/features',
+        'Trait Logs' => $character->url . '/trait-logs',
     ]) !!}
 
     @include('character._header', ['character' => $character])
@@ -36,8 +36,14 @@
         </div>
         @foreach ($logs as $log)
             <div class="d-flex row flex-wrap col-12 mt-1 pt-1 px-0 ubt-top">
-                <div class="col-6 col-md-2">{!! $log->sender ? $log->sender->displayName : '' !!}</div>
-                <div class="col-6 col-md-8">{!! $log->log !!}</div>
+                <div class="col-6 col-md-2">
+                    <i
+                        class="btn py-1 m-0 px-2 btn-{{ $log->recipient_id == $character->id && $log->recipient_type == $character->logType ? 'success' : 'danger' }} fas {{ $log->recipient_id == $character->id && $log->recipient_type == $character->logType ? 'fa-arrow-up' : 'fa-arrow-down' }} mr-2"></i>
+                    {!! $log->sender ? $log->sender->displayName : '' !!}
+                </div>
+                <div class="col-6 col-md-2">{!! $log->recipient ? $log->recipient->displayName : '' !!}</div>
+                <div class="col-6 col-md-2">{!! $log->feature->displayName !!}</div>
+                <div class="col-6 col-md-4">{!! $log->log !!}</div>
                 <div class="col-6 col-md-2">{!! pretty_date($log->created_at) !!}</div>
             </div>
         @endforeach

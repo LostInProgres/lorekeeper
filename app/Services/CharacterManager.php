@@ -2804,7 +2804,7 @@ class CharacterManager extends Service
      * @param  int                                                    $quantity
      * @return bool
      */
-    public function creditFeature($sender, $recipient,$feature)
+    public function creditFeature($sender, $recipient, $feature)
     {
         DB::beginTransaction();
 
@@ -2815,7 +2815,7 @@ class CharacterManager extends Service
                 $recipient_stack = UnlockedFeature::create(['character_id' => $recipient->id, 'feature_id' => $feature->id]);
             }
 
-            if(!$this->createFeatureLog($sender ? $sender->id : null, $sender ? $sender->logType : null, $recipient ? $recipient->id : null, $recipient ? $recipient->logType : null, 'Granted Feature', 'Granted ' . $feature->name, $feature->id)) throw new \Exception("Failed to create log.");
+            if(!$this->createFeatureLog($sender ? $sender->id : null, $sender ? $sender->logType : null, $recipient ? $recipient->id : null, $recipient ? $recipient->logType : null, 'Granted Trait', 'Staff Grant', $feature->id)) throw new \Exception("Failed to create log.");
 
             return $this->commitReturn(true);
         } catch (\Exception $e) {
@@ -2840,7 +2840,9 @@ class CharacterManager extends Service
         return DB::table('unlocked_features_log')->insert(
             [
                 'sender_id' => $senderId,
+                'sender_type' => $senderType,
                 'recipient_id' => $recipientId,
+                'recipient_type' => $recipientType,
                 'log' => $type . ($data ? ' (' . $data . ')' : ''),
                 'log_type' => $type,
                 'data' => $data, // this should be just a string
@@ -2871,6 +2873,10 @@ class CharacterManager extends Service
                 throw new \Exception('Can\'t debit ' . $feature->name . ' if the character hasn\'t unlocked it.');
             }
             UnlockedFeature::where([['character_id', '=', $recipient->id], ['feature_id', '=', $feature->id]])->first()->delete();
+
+            if(!$this->createFeatureLog($sender ? $sender->id : null, $sender ? $sender->logType : null,
+            $recipient ? $recipient->id : null, $recipient ? $recipient->logType : null,
+            'Removed Trait', 'Staff Removal', $feature->id)) throw new \Exception("Failed to create log.");
 
             return $this->commitReturn(true);
         } catch (\Exception $e) {

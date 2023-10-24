@@ -420,26 +420,21 @@ class CharacterController extends Controller
     }
 
     /**
-     * Shows a character's feature logs.
+     * Shows a character's trait logs.
      *
      * @param  string  $slug
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getCharacterFeatureLogs($slug)
     {
-        $default =  Feature::where('is_default', 1)->get();
-        $featureOptions = Feature::whereNotIn('id', UnlockedFeature::where('character_id', $this->character->id)->pluck('feature_id')->toArray())->where('is_default', 0)->pluck('name', 'id')->toArray();
         return view('character.features_log', [
-            'character' => $this->character, 
-            'default' => $default, 
-            'takeFeatureOptions' => Feature::whereIn('id', UnlockedFeature::where('character_id', $this->character->id)->pluck('feature_id')->toArray())->pluck('name', 'id')->toArray(),
-            'featureOptions' => $featureOptions, 
-            'logs' => $this->character->getFeatureLogs(),
+            'character' => $this->character,
+            'logs' => $this->character->getFeatureLogs(0)
         ]);
     }
 
     /**
-     * Shows a character's ownership logs.
+     * Shows a character's trait logs.
      *
      * @param  string  $slug
      * @return \Illuminate\Contracts\Support\Renderable
