@@ -326,7 +326,7 @@ function fillCharacterAssets($assets, $sender, $recipient, $logType, $data, $sub
         {
             $service = new \App\Services\CharacterManager;
             foreach($contents as $asset)
-                if(!$service->creditFeature($sender, $item_recipient, $asset['asset'])) return false;
+                if(!$service->creditFeature($sender, $recipient, $asset['asset'])) return false;
         }
     }
     return $assets;

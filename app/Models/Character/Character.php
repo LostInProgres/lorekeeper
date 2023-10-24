@@ -557,8 +557,8 @@ class Character extends Model
         }
     }
 
-         /**
-     * Get the user's border logs.
+    /**
+     * Get the character's border logs.
      *
      * @param  int  $limit
      * @return \Illuminate\Support\Collection|\Illuminate\Pagination\LengthAwarePaginator
