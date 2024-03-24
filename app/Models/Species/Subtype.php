@@ -76,6 +76,16 @@ class Subtype extends Model {
         return $this->belongsTo(Item::class);
     }
 
+    /**
+     * Get features associated with this subtype.
+     */
+    public function features()
+    {
+        $query = $this->hasMany('App\Models\Feature\Feature', 'subtype_id');
+
+        return $query->orderByDesc('feature_category_id');
+    }
+
     /**********************************************************************************************
 
             SCOPES
