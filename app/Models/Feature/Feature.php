@@ -2,6 +2,7 @@
 
 namespace App\Models\Feature;
 
+use App\Models\Item\Item;
 use App\Models\Model;
 use App\Models\Rarity;
 use App\Models\Species\Species;
@@ -15,7 +16,7 @@ class Feature extends Model {
      * @var array
      */
     protected $fillable = [
-        'feature_category_id', 'species_id', 'subtype_id', 'rarity_id', 'name', 'has_image', 'description', 'parsed_description', 'is_visible', 'hash',
+        'feature_category_id', 'species_id', 'subtype_id', 'rarity_id', 'name', 'has_image', 'description', 'parsed_description', 'is_visible', 'hash', 'item_id',
     ];
 
     /**
@@ -86,6 +87,14 @@ class Feature extends Model {
      */
     public function category() {
         return $this->belongsTo(FeatureCategory::class, 'feature_category_id');
+    }
+
+    /**
+    * Get the item associated with this feature.
+    */
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
     }
 
     /**********************************************************************************************

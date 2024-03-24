@@ -64,6 +64,12 @@
             </div>
         </div>
     </div>
+
+    <div class="form-group">
+        {!! Form::label('Related Item (Optional)') !!} {!! add_help('This is (usually) the item used to apply the trait.') !!}
+        {!! Form::select('item_id', $items, $feature->item_id, ['class' => 'form-control selectize', 'placeholder' => 'Select Item']) !!}
+    </div>
+
     <div class="form-group">
         {!! Form::label('Description (Optional)') !!}
         {!! Form::textarea('description', $feature->description, ['class' => 'form-control wysiwyg']) !!}

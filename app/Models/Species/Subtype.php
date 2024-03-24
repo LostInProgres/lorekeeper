@@ -2,6 +2,8 @@
 
 namespace App\Models\Species;
 
+use App\Models\Item\Item;
+
 use App\Models\Model;
 
 class Subtype extends Model {
@@ -11,7 +13,7 @@ class Subtype extends Model {
      * @var array
      */
     protected $fillable = [
-        'species_id', 'name', 'sort', 'has_image', 'description', 'parsed_description', 'is_visible', 'hash',
+        'species_id', 'name', 'sort', 'has_image', 'description', 'parsed_description', 'is_visible', 'hash', 'item_id'
     ];
 
     /**
@@ -64,6 +66,14 @@ class Subtype extends Model {
      */
     public function species() {
         return $this->belongsTo(Species::class, 'species_id');
+    }
+
+    /**
+    * Get the item associated with this feature.
+    */
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
     }
 
     /**********************************************************************************************

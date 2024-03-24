@@ -30,5 +30,19 @@
         <div class="world-entry-text parsed-text">
             {!! $feature->parsed_description !!}
         </div>
+        @if ($feature->item_id)
+            <div class="col text-center">
+                <h4>Related item:</h4>
+                @if ($feature->item->imageUrl)
+                    <div class="world-entry-image"><a href="{{ $feature->item->imageUrl }}" data-lightbox="entry" data-title="{{ $feature->item->name }}"><img src="{{ $feature->item->imageUrl }}" class="world-entry-image" alt="{{ $feature->item->name }}" /></a></div>
+                @endif
+                <h5>
+                {!! $feature->item->name !!}
+                    <a href="{{ $feature->item->idUrl }}" class="world-entry-search text-muted">
+                        <i class="fas fa-search"></i>
+                    </a>
+                </h5>
+            </div>
+        @endif
     </div>
 </div>

@@ -21,4 +21,18 @@
             {!! $subtype->parsed_description !!}
         </div>
     </div>
+    @if ($subtype->item_id)
+        <div class="col text-center">
+            <h4>Related item:</h4>
+            @if ($subtype->item->imageUrl)
+                <div class="world-entry-image"><a href="{{ $subtype->item->imageUrl }}" data-lightbox="entry" data-title="{{ $subtype->item->name }}"><img src="{{ $subtype->item->imageUrl }}" class="world-entry-image" alt="{{ $subtype->item->name }}" /></a></div>
+            @endif
+            <h5>
+            {!! $subtype->item->name !!}
+                <a href="{{ $subtype->item->idUrl }}" class="world-entry-search text-muted">
+                    <i class="fas fa-search"></i>
+                </a>
+            </h5>
+        </div>
+    @endif
 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Data;
 
 use App\Http\Controllers\Controller;
+use App\Models\Item\Item;
 use App\Models\Character\Sublist;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
@@ -164,6 +165,7 @@ class SpeciesController extends Controller {
         return view('admin.specieses.create_edit_subtype', [
             'subtype'   => new Subtype,
             'specieses' => Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'items'     => Item::orderBy('name')->pluck('name', 'id')->toArray(),
         ]);
     }
 
@@ -183,6 +185,7 @@ class SpeciesController extends Controller {
         return view('admin.specieses.create_edit_subtype', [
             'subtype'   => $subtype,
             'specieses' => Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'items'     => Item::orderBy('name')->pluck('name', 'id')->toArray(),
         ]);
     }
 
@@ -197,7 +200,7 @@ class SpeciesController extends Controller {
     public function postCreateEditSubtype(Request $request, SpeciesService $service, $id = null) {
         $id ? $request->validate(Subtype::$updateRules) : $request->validate(Subtype::$createRules);
         $data = $request->only([
-            'species_id', 'name', 'description', 'image', 'remove_image', 'is_visible',
+            'species_id', 'name', 'description', 'image', 'remove_image', 'is_visible', 'item_id',
         ]);
         if ($id && $service->updateSubtype(Subtype::find($id), $data, Auth::user())) {
             flash('Subtype updated successfully.')->success();
