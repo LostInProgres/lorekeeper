@@ -7,6 +7,7 @@ use App\Models\Model;
 use App\Models\Rarity;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
+use App\Models\Character\CharacterFeature;
 use Illuminate\Support\Facades\DB;
 
 class Feature extends Model {
@@ -95,6 +96,18 @@ class Feature extends Model {
     public function item()
     {
         return $this->belongsTo(Item::class);
+    }
+
+    /**
+     * Get characters associated with this feature.
+     */
+    public function characters()
+    {
+        $features = CharacterFeature::inRandomOrder()->where('character_type', '!=', 'Update')->where('feature_id', $this->id)->whereRelation('image', 'is_valid', 1)->get()->filter(function ($feature) {
+            return $feature->image->character->is_visible == true;
+        });
+
+        return $features->take(3);
     }
 
     /**********************************************************************************************
