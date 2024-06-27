@@ -82,6 +82,9 @@
     @endif
 
     @include('feed::links')
+
+    @include('layouts.user_font_size')
+
 </head>
 
 <body>
