@@ -275,4 +275,33 @@ class AccountController extends Controller
         }
         return redirect()->back();
     }
+
+    /**
+     * Show the notepad editor
+     *
+     * @param  int  $id
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getNotepad()
+    {
+        return view('widgets.notepad_editor');
+    }
+
+    /**
+     * Updates the notepad
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Services\UserService  $service
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postNotepad(Request $request, UserService $service)
+    {
+        if($service->updateNotepad($request->input('notepad'), Auth::user())) {
+            flash('Notepad updated successfully.')->success();
+        }
+        else {
+            foreach($service->errors()->getMessages()['error'] as $error) flash($error)->error();
+        }
+        return redirect()->back();
+    }
 }

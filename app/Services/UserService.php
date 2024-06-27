@@ -303,4 +303,16 @@ class UserService extends Service
         }
         return $this->rollbackReturn(false);
     }
+
+    /**
+     * Updates user's notepad
+     */
+    public function updateNotepad($data, $user)
+    {
+        $user->settings->notepad = $data;
+        $user->settings->parsed_notepad = parse($data);
+        $user->settings->save();
+
+        return true;
+    }
 }
