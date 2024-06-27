@@ -1,15 +1,13 @@
-<div class="card mb-3 inventory-category" id="notepad">
-    <div class="card-header h3">
-        <a data-toggle="collapse" href="#openNotepad">Open Notepad <i class="fas fa-pen-to-square"></i></a>
+<div class="card inventory-category p-0" id="notepad">
+    <div class="card-header h3 text-right">
+        <a data-toggle="collapse" href="#openNotepad">Open Notepad <i class="fas fa-chevron-down"></i></a>
     </div>
     <div class="card-body collapse mt-1" id="openNotepad">
-        <div class="card-body">
-            <div class="parsed-text imagenoteseditingparse">
-                {!! Auth::user()->settings->parsed_notepad !!}
-            </div>
-            <div class="mt-3">
-                <a href="#" class="btn btn-outline-info btn-sm edit-notes"><i class="fas fa-cog"></i> Edit</a>
-            </div>
+        <div class="parsed-text imagenoteseditingparse">
+            {!! Auth::user()->settings->parsed_notepad !!}
+        </div>
+        <div class="mt-3">
+            <a href="#" class="btn btn-outline-info btn-sm edit-notes w-100"><i class="fas fa-cog"></i> Edit</a>
         </div>
     </div>
 </div>
@@ -18,11 +16,13 @@
 <style>
     #notepad {
         padding: 0.25em 0.75em;
+        margin-left: 1em;
         position: fixed;
         bottom: 1em;
         right: 0.75em;
         display: block;
         transition: all 0.5s ease;
+        z-index: 1040;
     }
 </style>
 

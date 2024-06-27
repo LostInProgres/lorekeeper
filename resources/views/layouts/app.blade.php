@@ -105,6 +105,10 @@
                         @yield('content')
                     </div>
 
+                    @if(Auth::check())
+                        @include('widgets.notepad')
+                    @endif
+
                     <div class="site-footer mt-4" id="footer">
                             @include('layouts._footer')
                     </div>
