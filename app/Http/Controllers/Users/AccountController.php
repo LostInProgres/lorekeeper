@@ -477,7 +477,7 @@ class AccountController extends Controller {
     }
 
     /**
-     * Changes user font settings
+     * Changes user font settings.
      *
      * @param App\Services\UserService $service
      *
