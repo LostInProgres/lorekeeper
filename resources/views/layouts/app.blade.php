@@ -82,8 +82,8 @@
     @endif
 
     @include('feed::links')
-@if (Auth::check())
-    @include('layouts.user_font_size')
+    @if (Auth::check())
+        @include('layouts.user_font_size')
     @endif
 
 </head>
