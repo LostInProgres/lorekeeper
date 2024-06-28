@@ -1,6 +1,6 @@
 @php
-    $userFontSize = 1.2;
-    $DefaultFont = TRUE
+    $userFontSize = Auth::user()->settings->font_size;
+    $DefaultFont = Auth::user()->settings->site_fonts_disabled;
 @endphp
 
 <style>

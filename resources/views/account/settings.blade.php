@@ -173,4 +173,30 @@
             {!! Form::close() !!}
         @endif
     </div>
+
+    <div class="card p-3 mb-2">
+        <div class="row">
+        <div class="col-md-6">
+            <h3>Font Settings</h3>
+            <p>From here, you can disable the site's font style, as well as change its size.</p>
+            {!! Form::open(['url' => 'account/font']) !!}
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Change Font Size{!! add_help('This will be adjusted RELATIVE to the site\'s font size. (.rem)') !!}</label>
+                <div class="col-md-9">
+                    {!! Form::number('font_size', Auth::user()->settings->font_size, ['class' => 'form-control','step' => 'any']) !!}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Enable/Disable Site Fonts {!! add_help('If fonts are turned off, it will default to the Lorekeeper\'s default font.') !!}</label>
+                <div class="col-md-9">
+                    {!! Form::select('site_fonts_disabled', ['0' => 'View this site\'s font style.', '1' => 'Disable this site\'s font style.'], Auth::user()->settings->site_fonts_disabled, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="text-right">
+                {!! Form::submit('Edit', ['class' => 'btn btn-primary']) !!}
+            </div>
+            {!! Form::close() !!}
+        </div>
+    </div>
+    </div>
 @endsection
