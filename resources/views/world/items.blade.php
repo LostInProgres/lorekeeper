@@ -59,7 +59,7 @@
                     ->orderBy('sort', 'DESC')
                     ->get();
                 ?>
-                @include('world._item_entry', ['imageUrl' => $item->imageUrl, 'name' => $item->displayName, 'description' => $item->parsed_description, 'idUrl' => $item->idUrl, 'shops' => $shops])
+                @include('world._item_entry', ['imageUrl' => $item->imageUrl, 'name' => $item->displayName, 'description' => $item->parsed_description, 'altText' => $item->alt_text, 'idUrl' => $item->idUrl, 'shops' => $shops])
             </div>
         </div>
     @endforeach

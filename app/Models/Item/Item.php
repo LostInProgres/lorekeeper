@@ -14,7 +14,7 @@ class Item extends Model {
      * @var array
      */
     protected $fillable = [
-        'item_category_id', 'name', 'has_image', 'description', 'parsed_description', 'allow_transfer',
+        'item_category_id', 'name', 'has_image', 'description', 'parsed_description', 'alt_text', 'allow_transfer',
         'data', 'reference_url', 'artist_alias', 'artist_url', 'artist_id', 'is_released', 'hash',
     ];
 
@@ -35,6 +35,7 @@ class Item extends Model {
         'item_category_id'  => 'nullable',
         'name'              => 'required|unique:items|between:3,100',
         'description'       => 'nullable',
+        'alt_text'          => 'nullable',
         'image'             => 'mimes:png',
         'rarity'            => 'nullable',
         'reference_url'     => 'nullable|between:3,200',
@@ -52,6 +53,7 @@ class Item extends Model {
         'item_category_id'  => 'nullable',
         'name'              => 'required|between:3,100',
         'description'       => 'nullable',
+        'alt_text'          => 'nullable',
         'image'             => 'mimes:png',
         'reference_url'     => 'nullable|between:3,200',
         'uses'              => 'nullable|between:3,250',

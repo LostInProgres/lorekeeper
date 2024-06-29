@@ -33,6 +33,10 @@
             </div>
         @endif
     </div>
+    <div class="form-group">
+        {!! Form::label('Alt text (Optional)') !!} {!! add_help('This is a small blurb that, in some scenarios, substitutes the image. If you're unsure, more info can be found on the Lorekeeper Wiki.') !!}
+        {!! Form::text('alt_text', $item->alt_text, ['class' => 'form-control', 'maxLength' => 512]) !!}
+    </div>
 
     <div class="row">
         <div class="col-md">
@@ -175,7 +179,7 @@
         <h3>Preview</h3>
         <div class="card mb-3">
             <div class="card-body">
-                @include('world._item_entry', ['imageUrl' => $item->imageUrl, 'name' => $item->displayName, 'description' => $item->parsed_description, 'searchUrl' => $item->searchUrl])
+                @include('world._item_entry', ['imageUrl' => $item->imageUrl, 'name' => $item->displayName, 'description' => $item->parsed_description, 'altText' => $item->alt_text, 'searchUrl' => $item->searchUrl])
             </div>
         </div>
     @endif

@@ -443,6 +443,7 @@ class WorldController extends Controller {
             'imageUrl'    => $item->imageUrl,
             'name'        => $item->displayName,
             'description' => $item->parsed_description,
+            'alt_text'    => $item->alt_text,
             'categories'  => $categories->keyBy('id'),
             'shops'       => Shop::whereIn('id', ShopStock::where('item_id', $item->id)->pluck('shop_id')->unique()->toArray())->orderBy('sort', 'DESC')->get(),
         ]);

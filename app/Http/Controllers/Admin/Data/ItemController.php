@@ -261,7 +261,7 @@ class ItemController extends Controller {
     public function postCreateEditItem(Request $request, ItemService $service, $id = null) {
         $id ? $request->validate(Item::$updateRules) : $request->validate(Item::$createRules);
         $data = $request->only([
-            'name', 'allow_transfer', 'item_category_id', 'description', 'image', 'remove_image', 'rarity',
+            'name', 'allow_transfer', 'item_category_id', 'description', 'alt_text', 'image', 'remove_image', 'rarity',
             'reference_url', 'artist_id', 'artist_url', 'uses', 'shops', 'prompts', 'release', 'currency_id', 'currency_quantity',
             'is_released',
         ]);
