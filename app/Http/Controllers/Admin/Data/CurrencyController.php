@@ -71,7 +71,7 @@ class CurrencyController extends Controller {
         $id ? $request->validate(Currency::$updateRules) : $request->validate(Currency::$createRules);
         $data = $request->only([
             'is_user_owned', 'is_character_owned',
-            'name', 'abbreviation', 'description',
+            'name', 'abbreviation', 'description', 'alt_text',
             'is_displayed', 'allow_user_to_user', 'allow_user_to_character', 'allow_character_to_user',
             'icon', 'image', 'remove_icon', 'remove_image',
             'conversion_id', 'rate',

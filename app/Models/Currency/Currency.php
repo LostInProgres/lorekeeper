@@ -12,7 +12,7 @@ class Currency extends Model {
      */
     protected $fillable = [
         'is_user_owned', 'is_character_owned',
-        'name', 'abbreviation', 'description', 'parsed_description', 'sort_user', 'sort_character',
+        'name', 'abbreviation', 'description', 'parsed_description', 'alt_text', 'sort_user', 'sort_character',
         'is_displayed', 'allow_user_to_user', 'allow_user_to_character', 'allow_character_to_user',
         'has_icon', 'has_image', 'hash',
     ];
@@ -32,6 +32,7 @@ class Currency extends Model {
         'name'         => 'required|unique:currencies|between:3,100',
         'abbreviation' => 'nullable|unique:currencies|between:1,25',
         'description'  => 'nullable',
+        'alt_text'          => 'nullable',
         'icon'         => 'mimes:png',
         'image'        => 'mimes:png',
     ];
@@ -45,6 +46,7 @@ class Currency extends Model {
         'name'         => 'required|between:3,100',
         'abbreviation' => 'nullable|between:1,25',
         'description'  => 'nullable',
+        'alt_text'          => 'nullable',
         'icon'         => 'mimes:png',
         'image'        => 'mimes:png',
     ];

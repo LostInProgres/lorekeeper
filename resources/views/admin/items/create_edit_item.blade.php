@@ -33,6 +33,7 @@
             </div>
         @endif
     </div>
+    
     <div class="form-group">
         {!! Form::label('Alt text (Optional)') !!} {!! add_help('This is a small blurb that, in some scenarios, substitutes the image. If you're unsure, more info can be found on the Lorekeeper Wiki.') !!}
         {!! Form::text('alt_text', $item->alt_text, ['class' => 'form-control', 'maxLength' => 512]) !!}
