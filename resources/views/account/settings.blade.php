@@ -175,28 +175,44 @@
     </div>
 
     <div class="card p-3 mb-2">
-        <div class="row">
-            <div class="col-md-6">
-                <h3>Font Settings</h3>
-                <p>From here, you can disable the site's font style, as well as change its size.</p>
-                {!! Form::open(['url' => 'account/font']) !!}
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label">Change Font Size{!! add_help('This will be adjusted RELATIVE to the site\'s font size. (.rem)') !!}</label>
-                    <div class="col-md-9">
-                        {!! Form::number('font_size', Auth::user()->settings->font_size, ['class' => 'form-control', 'step' => 'any']) !!}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label">Enable/Disable Site Fonts {!! add_help('If fonts are turned off, it will default to the Lorekeeper\'s default font.') !!}</label>
-                    <div class="col-md-9">
-                        {!! Form::select('site_fonts_disabled', ['0' => 'View this site\'s font style.', '1' => 'Disable this site\'s font style.'], Auth::user()->settings->site_fonts_disabled, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-                <div class="text-right">
-                    {!! Form::submit('Edit', ['class' => 'btn btn-primary']) !!}
-                </div>
-                {!! Form::close() !!}
+        <h3>Font Settings</h3>
+        <p>From here, you can disable the site's font style, as well as change its size.</p>
+        {!! Form::open(['url' => 'account/font']) !!}
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">Enable/Disable Site Fonts {!! add_help('If fonts are turned off, it will default to the Lorekeeper\'s default font.') !!}</label>
+            <div class="col-md-9">
+                {!! Form::select('site_fonts_disabled', ['0' => 'View this site\'s font style.', '1' => 'Disable this site\'s font style.'], Auth::user()->settings->site_fonts_disabled, ['class' => 'form-control']) !!}
             </div>
         </div>
+        <div class="alert alert-info">Note that all the below settings are measured in .rem, which means they are relative to the site's font. Suggested values are added for each field, but setting these fields to higher numbers might make layouts break.
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 col-form-label">Change Font Size{!! add_help('Suggested value is between 1 and 1.8.') !!}</label>
+            <div class="col-md-8">
+                {!! Form::number('font_size', Auth::user()->settings->font_size, ['class' => 'form-control', 'step' => 'any']) !!}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 col-form-label">Change letter spacing{!! add_help('Suggested value is between 0 and 0.2') !!}</label>
+            <div class="col-md-8">
+                {!! Form::number('letter_spacing', Auth::user()->settings->letter_spacing, ['class' => 'form-control', 'step' => 'any']) !!}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 col-form-label">Change word spacing{!! add_help('Suggested value is between 0.1 and 0.3') !!}</label>
+            <div class="col-md-8">
+                {!! Form::number('word_spacing', Auth::user()->settings->word_spacing, ['class' => 'form-control', 'step' => 'any']) !!}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 col-form-label">Change line height{!! add_help('Suggested value is between 0 and 2') !!}</label>
+            <div class="col-md-8">
+                {!! Form::number('line_height', Auth::user()->settings->line_height, ['class' => 'form-control', 'step' => 'any']) !!}
+            </div>
+        </div>
+        <div class="text-right">
+            {!! Form::submit('Edit', ['class' => 'btn btn-primary']) !!}
+        </div>
+        {!! Form::close() !!}
     </div>
 @endsection

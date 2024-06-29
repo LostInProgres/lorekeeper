@@ -484,7 +484,7 @@ class AccountController extends Controller {
      * @return \Illuminate\Http\RedirectResponse
      */
     public function postFont(Request $request, UserService $service) {
-        $data = $request->only(['font_size', 'site_fonts_disabled']);
+        $data = $request->only(['font_size', 'site_fonts_disabled', 'letter_spacing', 'word_spacing', 'line_height']);
         if ($service->updateFontSetting($data, Auth::user())) {
             flash('Setting updated successfully.')->success();
         } else {
