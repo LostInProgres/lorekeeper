@@ -61,6 +61,11 @@
     </div>
 
     <div class="form-group">
+        {!! Form::label('Alt text (Optional)') !!} {!! add_help('This is a small blurb that, in some scenarios, substitutes the image. If you are unsure, more info can be found on the Lorekeeper Wiki. This alt text only applies to the World Page Image.') !!}
+        {!! Form::text('alt_text', $currency->alt_text, ['class' => 'form-control', 'maxLength' => 512]) !!}
+    </div>
+
+    <div class="form-group">
         {!! Form::label('Description (Optional)') !!}
         {!! Form::textarea('description', $currency->description, ['class' => 'form-control wysiwyg']) !!}
     </div>
