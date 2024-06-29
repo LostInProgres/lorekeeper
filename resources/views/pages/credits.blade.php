@@ -159,6 +159,10 @@
             <a href="http://wiki.lorekeeper.me/index.php?title=Extensions:90_Percent_Watermark"><strong>Watermark Resizing</strong></a> by <a href="https://github.com/SpeedyD">Speedy</a>
             ({{ config('lorekeeper.settings.watermark_resizing') ? 'Enabled' : 'Disabled' }})/({{ config('lorekeeper.settings.watermark_resizing_thumb') ? 'Enabled' : 'Disabled' }})
         </p>
+        <p class="mb-0 col-md-4">
+            <a href="http://wiki.lorekeeper.me/index.php?title=Extensions:Universal_Trait_Index"><strong>Universal Trait Index</strong></a> by <a href="https://github.com/CH3RVB">CH3RVB</a>
+            ({{ config('lorekeeper.extensions.universal_trait_index.enable') ? 'Enabled' : 'Disabled' }})
+        </p>
     </div>
 
     <hr />

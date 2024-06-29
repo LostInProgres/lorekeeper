@@ -35,6 +35,7 @@ Route::group(['prefix' => 'account', 'namespace' => 'Users'], function () {
     Route::get('remove-alias/{id}', 'AccountController@getRemoveAlias');
     Route::post('remove-alias/{id}', 'AccountController@postRemoveAlias');
     Route::post('dob', 'AccountController@postBirthday');
+    Route::post('font', 'AccountController@postFont');
 
     Route::get('two-factor/confirm', 'AccountController@getConfirmTwoFactor');
     Route::post('two-factor/enable', 'AccountController@postEnableTwoFactor');
@@ -78,6 +79,9 @@ Route::group(['prefix' => 'characters', 'namespace' => 'Users'], function () {
 Route::group(['prefix' => 'bank', 'namespace' => 'Users'], function () {
     Route::get('/', 'BankController@getIndex');
     Route::post('transfer', 'BankController@postTransfer');
+    Route::get('convert/{id}', 'BankController@getConvertCurrency');
+    Route::get('convert/{currency_id}/rate/{conversion_id}', 'BankController@getConvertCurrencyRate');
+    Route::post('convert', 'BankController@postConvertCurrency');
 });
 
 Route::group(['prefix' => 'trades', 'namespace' => 'Users'], function () {
