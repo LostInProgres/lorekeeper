@@ -23,6 +23,7 @@
         display: block;
         transition: all 0.5s ease;
         z-index: 1040;
+        max-width: 66.6666666667%;
     }
 </style>
 
