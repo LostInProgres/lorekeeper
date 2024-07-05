@@ -81,8 +81,9 @@
     {!! Form::close() !!}
 
     @if ($feature->id)
-        @include('widgets._associated_features_select', ['associations' => $feature->featureAssociations, 'object' => $feature, 'type' => 'trait'])
-        
+        @if (Config::get('lorekeeper.traits_expanded.feature_associations'))
+            @include('widgets._associated_features_select', ['associations' => $feature->featureAssociations, 'object' => $feature, 'type' => 'trait'])
+        @endif
         <h3>Preview</h3>
         <div class="card mb-3">
             <div class="card-body">

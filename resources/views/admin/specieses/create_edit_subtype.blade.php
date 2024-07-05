@@ -55,7 +55,9 @@
     {!! Form::close() !!}
 
     @if ($subtype->id)
-        @include('widgets._associated_features_select', ['associations' => $subtype->featureAssociations, 'object' => $subtype, 'type' => 'subtype'])
+        @if (Config::get('lorekeeper.traits_expanded.subtype_associations'))
+            @include('widgets._associated_features_select', ['associations' => $subtype->featureAssociations, 'object' => $subtype, 'type' => 'subtype'])
+        @endif
         <h3>Preview</h3>
         <div class="card mb-3">
             <div class="card-body">

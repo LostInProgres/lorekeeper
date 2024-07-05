@@ -20,37 +20,7 @@
         <div class="world-entry-text">
             {!! $subtype->parsed_description !!}
         </div>
-        <h5 class="inventory-header">
-            Related Traits
-            <a class="small collapse-toggle collapsed" href="#alt-{{ $subtype->id }}" data-toggle="collapse">Show</a></h3>
-        </h5>
-        <div class="collapse" id="alt-{{ $subtype->id }}">
-            @if ($subtype->features->count())
-                @php
-                    $traitgroup = $subtype->features()->get()->groupBy('feature_category_id');
-                @endphp
-                <div class="row">
-                    @if ($subtype->features->count())
-                        @foreach ($traitgroup as $key => $group)
-                            <div class="mb-2 col-md-4">
-                                @if ($key)
-                                    <strong>{!! $group->first()->category->displayName !!}:</strong>
-                                @else
-                                    <strong>Miscellaneous:</strong>
-                                @endif
-                                @foreach ($group as $feature)
-                                    <div>{!! $feature->displayName !!} @if ($feature->data)
-                                            ({{ $feature->data }})
-                                        @endif
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
-            @endif
-        </div>
-        @if ($subtype->featureAssociations()->count())
+        @if ($subtype->featureAssociations()->count() && Config::get('lorekeeper.traits_expanded.subtype_associations'))
             @include('widgets._feature_associations', ['object' => $subtype])
         @endif
     </div>

@@ -21,7 +21,7 @@
         <div class="world-entry-text">
             {!! $description !!}
         </div>
-        @if ($rarity->featureAssociations()->count())
+        @if ($rarity->featureAssociations()->count() && Config::get('lorekeeper.traits_expanded.rarity_associations'))
             @include('widgets._feature_associations', ['object' => $rarity])
         @endif
     </div>

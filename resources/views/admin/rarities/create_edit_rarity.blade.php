@@ -56,7 +56,9 @@
     {!! Form::close() !!}
 
     @if ($rarity->id)
-        @include('widgets._associated_features_select', ['associations' => $rarity->featureAssociations, 'object' => $rarity, 'type' => 'rarity'])
+        @if (Config::get('lorekeeper.traits_expanded.rarity_associations'))
+            @include('widgets._associated_features_select', ['associations' => $rarity->featureAssociations, 'object' => $rarity, 'type' => 'rarity'])
+        @endif
         <h3>Preview</h3>
         <div class="card mb-3">
             <div class="card-body">

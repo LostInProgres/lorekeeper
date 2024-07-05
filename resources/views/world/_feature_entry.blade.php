@@ -58,7 +58,7 @@
         @else
             <p>No characters found.</p>
         @endif
-        @if ($feature->featureAssociations()->count())
+        @if ($feature->featureAssociations()->count() && Config::get('lorekeeper.traits_expanded.feature_associations'))
             @include('widgets._feature_associations', ['object' => $feature])
         @endif
     </div>
