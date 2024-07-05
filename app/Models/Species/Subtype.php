@@ -4,6 +4,7 @@ namespace App\Models\Species;
 
 
 use App\Models\Model;
+use App\Models\Character\CharacterImage;
 
 class Subtype extends Model {
     /**
@@ -75,6 +76,18 @@ class Subtype extends Model {
         $query = $this->hasMany('App\Models\Feature\Feature', 'subtype_id');
 
         return $query->orderByDesc('feature_category_id');
+    }
+
+    /**
+     * Get characters associated with this subtype.
+     */
+    public function randomCharacters()
+    {
+        $subtype = CharacterImage::inRandomOrder()->where('subtype_id', $this->id)->where('is_valid', 1)->get()->filter(function ($subtype) {
+            return $subtype->character->is_visible && !$subtype->character->is_myo_slot;
+        });
+
+        return $subtype->take(4);
     }
 
     public function featureAssociations()

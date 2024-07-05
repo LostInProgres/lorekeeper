@@ -18,7 +18,7 @@ return [
     'rarity_associations' => 1, 
 
     //Set to 1 to display examples from the masterlist
-    'feature_examples' => 0, 
-    'subtype_examples' => 0, 
-    'rarity_examples' => 0, 
+    'feature_examples' => 1, 
+    'subtype_examples' => 1, 
+    'rarity_examples' => 1, 
 ];

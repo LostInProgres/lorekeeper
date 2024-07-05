@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Models\Character\CharacterImage;
 
 class Rarity extends Model {
     /**
@@ -156,6 +157,18 @@ class Rarity extends Model {
         $query = $this->hasMany('App\Models\Feature\Feature', 'subtype_id');
 
         return $query->orderByDesc('feature_category_id');
+    }
+
+    /**
+     * Get characters associated with this rarity.
+     */
+    public function randomCharacters()
+    {
+        $rarity = CharacterImage::inRandomOrder()->where('rarity_id', $this->id)->where('is_valid', 1)->get()->filter(function ($rarity) {
+            return $rarity->character->is_visible && !$rarity->character->is_myo_slot;
+        });
+
+        return $rarity->take(4);
     }
 
     public function featureAssociations()

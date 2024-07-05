@@ -33,30 +33,32 @@
         <div class="world-entry-text parsed-text">
             {!! $feature->parsed_description !!}
         </div>
-        <h4>Characters with {{ $feature->name }}:</h4>
-        @if (count($feature->characters()))
-            <div class="row">
-                @foreach ($feature->characters() as $character)
-                    <div class="col-md-3 text-center mb-2">
-                        <div>
-                            <a href="{{ $character->url }}"><img src="{{ $character->image->thumbnailUrl }}" class="img-thumbnail" alt="{{ $character->fullName }}" /></a>
+        @if (Config::get('lorekeeper.traits_expanded.feature_examples'))
+            <h4>Characters with {{ $feature->name }}:</h4>
+            @if (count($feature->characters()))
+                <div class="row">
+                    @foreach ($feature->characters() as $character)
+                        <div class="col-md-3 text-center mb-2">
+                            <div>
+                                <a href="{{ $character->url }}"><img src="{{ $character->image->thumbnailUrl }}" class="img-thumbnail" alt="{{ $character->fullName }}" /></a>
+                            </div>
+                            <div class="mt-1">
+                                <a href="{{ $character->image->character->url }}" class="h5 mb-0">
+                                    @if (!$character->image->character->is_visible)
+                                        <i class="fas fa-eye-slash"></i>
+                                    @endif
+                                    {{ Illuminate\Support\Str::limit($character->image->character->fullName, 20, $end = '...') }}
+                                </a>
+                            </div>
+                            <div class="small">
+                                {!! $character->image->character->image->species_id ? $character->image->character->image->species->displayName : 'No Species' !!} ・ {!! $character->image->character->image->rarity_id ? $character->image->character->image->rarity->displayName : 'No Rarity' !!}
+                            </div>
                         </div>
-                        <div class="mt-1">
-                            <a href="{{ $character->image->character->url }}" class="h5 mb-0">
-                                @if (!$character->image->character->is_visible)
-                                    <i class="fas fa-eye-slash"></i>
-                                @endif
-                                {{ Illuminate\Support\Str::limit($character->image->character->fullName, 20, $end = '...') }}
-                            </a>
-                        </div>
-                        <div class="small">
-                            {!! $character->image->character->image->species_id ? $character->image->character->image->species->displayName : 'No Species' !!} ・ {!! $character->image->character->image->rarity_id ? $character->image->character->image->rarity->displayName : 'No Rarity' !!}
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        @else
-            <p>No characters found.</p>
+                    @endforeach
+                </div>
+            @else
+                <p>No characters found.</p>
+            @endif
         @endif
         @if ($feature->featureAssociations()->count() && Config::get('lorekeeper.traits_expanded.feature_associations'))
             @include('widgets._feature_associations', ['object' => $feature])
