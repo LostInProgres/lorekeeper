@@ -2,10 +2,12 @@
 
 namespace App\Models\Feature;
 
+use App\Models\Item\Item;
 use App\Models\Model;
 use App\Models\Rarity;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
+use App\Models\Character\CharacterFeature;
 use Illuminate\Support\Facades\DB;
 
 class Feature extends Model {
@@ -15,7 +17,7 @@ class Feature extends Model {
      * @var array
      */
     protected $fillable = [
-        'feature_category_id', 'species_id', 'subtype_id', 'rarity_id', 'name', 'has_image', 'description', 'parsed_description', 'is_visible', 'hash',
+        'feature_category_id', 'species_id', 'subtype_id', 'rarity_id', 'name', 'has_image', 'description', 'parsed_description', 'is_visible', 'hash'
     ];
 
     /**
@@ -86,6 +88,23 @@ class Feature extends Model {
      */
     public function category() {
         return $this->belongsTo(FeatureCategory::class, 'feature_category_id');
+    }
+
+    /**
+     * Get characters associated with this feature.
+     */
+    public function characters()
+    {
+        $features = CharacterFeature::inRandomOrder()->where('character_type', '!=', 'Update')->where('feature_id', $this->id)->whereRelation('image', 'is_valid', 1)->get()->filter(function ($feature) {
+            return $feature->image->character->is_visible == true;
+        });
+
+        return $features->take(3);
+    }
+
+    public function featureAssociations()
+    {
+        return $this->hasMany('App\Models\Feature\FeatureAssociation', 'object_id')->where('object_type',class_basename($this));
     }
 
     /**********************************************************************************************

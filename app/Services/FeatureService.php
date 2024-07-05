@@ -3,12 +3,14 @@
 namespace App\Services;
 
 use App\Models\Feature\Feature;
+use App\Models\Feature\FeatureAssociation;
 use App\Models\Feature\FeatureCategory;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use Illuminate\Support\Facades\DB;
 
-class FeatureService extends Service {
+class FeatureService extends Service
+{
     /*
     |--------------------------------------------------------------------------
     | Feature Service
@@ -16,13 +18,13 @@ class FeatureService extends Service {
     |
     | Handles the creation and editing of feature categories and features.
     |
-    */
+     */
 
     /**********************************************************************************************
 
-        FEATURE CATEGORIES
+    FEATURE CATEGORIES
 
-    **********************************************************************************************/
+     **********************************************************************************************/
 
     /**
      * Create a category.
@@ -32,7 +34,8 @@ class FeatureService extends Service {
      *
      * @return bool|FeatureCategory
      */
-    public function createFeatureCategory($data, $user) {
+    public function createFeatureCategory($data, $user)
+    {
         DB::beginTransaction();
 
         try {
@@ -50,7 +53,7 @@ class FeatureService extends Service {
 
             $category = FeatureCategory::create($data);
 
-            if (!$this->logAdminAction($user, 'Created Feature Category', 'Created '.$category->displayName)) {
+            if (!$this->logAdminAction($user, 'Created Feature Category', 'Created ' . $category->displayName)) {
                 throw new \Exception('Failed to log admin action.');
             }
 
@@ -75,7 +78,8 @@ class FeatureService extends Service {
      *
      * @return bool|FeatureCategory
      */
-    public function updateFeatureCategory($category, $data, $user) {
+    public function updateFeatureCategory($category, $data, $user)
+    {
         DB::beginTransaction();
 
         try {
@@ -96,11 +100,11 @@ class FeatureService extends Service {
 
             $category->update($data);
 
-            if (!$this->logAdminAction($user, 'Updated Feature Category', 'Updated '.$category->displayName)) {
+            if (!$this->logAdminAction($user, 'Updated Feature Category', 'Updated ' . $category->displayName)) {
                 throw new \Exception('Failed to log admin action.');
             }
 
-            if (!$this->logAdminAction($user, 'Updated Feature Category', 'Updated '.$category->displayName)) {
+            if (!$this->logAdminAction($user, 'Updated Feature Category', 'Updated ' . $category->displayName)) {
                 throw new \Exception('Failed to log admin action.');
             }
 
@@ -124,7 +128,8 @@ class FeatureService extends Service {
      *
      * @return bool
      */
-    public function deleteFeatureCategory($category, $user) {
+    public function deleteFeatureCategory($category, $user)
+    {
         DB::beginTransaction();
 
         try {
@@ -133,7 +138,7 @@ class FeatureService extends Service {
                 throw new \Exception('A trait with this category exists. Please change its category first.');
             }
 
-            if (!$this->logAdminAction($user, 'Deleted Feature Category', 'Deleted '.$category->name)) {
+            if (!$this->logAdminAction($user, 'Deleted Feature Category', 'Deleted ' . $category->name)) {
                 throw new \Exception('Failed to log admin action.');
             }
 
@@ -157,7 +162,8 @@ class FeatureService extends Service {
      *
      * @return bool
      */
-    public function sortFeatureCategory($data) {
+    public function sortFeatureCategory($data)
+    {
         DB::beginTransaction();
 
         try {
@@ -178,9 +184,9 @@ class FeatureService extends Service {
 
     /**********************************************************************************************
 
-        FEATURES
+    FEATURES
 
-    **********************************************************************************************/
+     **********************************************************************************************/
 
     /**
      * Creates a new feature.
@@ -190,7 +196,8 @@ class FeatureService extends Service {
      *
      * @return bool|Feature
      */
-    public function createFeature($data, $user) {
+    public function createFeature($data, $user)
+    {
         DB::beginTransaction();
 
         try {
@@ -234,7 +241,7 @@ class FeatureService extends Service {
 
             $feature = Feature::create($data);
 
-            if (!$this->logAdminAction($user, 'Created Feature', 'Created '.$feature->displayName)) {
+            if (!$this->logAdminAction($user, 'Created Feature', 'Created ' . $feature->displayName)) {
                 throw new \Exception('Failed to log admin action.');
             }
 
@@ -259,7 +266,8 @@ class FeatureService extends Service {
      *
      * @return bool|Feature
      */
-    public function updateFeature($feature, $data, $user) {
+    public function updateFeature($feature, $data, $user)
+    {
         DB::beginTransaction();
 
         try {
@@ -305,7 +313,7 @@ class FeatureService extends Service {
 
             $feature->update($data);
 
-            if (!$this->logAdminAction($user, 'Updated Feature', 'Updated '.$feature->displayName)) {
+            if (!$this->logAdminAction($user, 'Updated Feature', 'Updated ' . $feature->displayName)) {
                 throw new \Exception('Failed to log admin action.');
             }
 
@@ -329,7 +337,8 @@ class FeatureService extends Service {
      *
      * @return bool
      */
-    public function deleteFeature($feature, $user) {
+    public function deleteFeature($feature, $user)
+    {
         DB::beginTransaction();
 
         try {
@@ -338,7 +347,7 @@ class FeatureService extends Service {
                 throw new \Exception('A character with this trait exists. Please remove the trait first.');
             }
 
-            if (!$this->logAdminAction($user, 'Deleted Feature', 'Deleted '.$feature->name)) {
+            if (!$this->logAdminAction($user, 'Deleted Feature', 'Deleted ' . $feature->name)) {
                 throw new \Exception('Failed to log admin action.');
             }
 
@@ -363,7 +372,8 @@ class FeatureService extends Service {
      *
      * @return array
      */
-    private function populateCategoryData($data, $category = null) {
+    private function populateCategoryData($data, $category = null)
+    {
         if (isset($data['description']) && $data['description']) {
             $data['parsed_description'] = parse($data['description']);
         }
@@ -391,7 +401,8 @@ class FeatureService extends Service {
      *
      * @return array
      */
-    private function populateData($data, $feature = null) {
+    private function populateData($data, $feature = null)
+    {
         if (isset($data['description']) && $data['description']) {
             $data['parsed_description'] = parse($data['description']);
         }
@@ -414,4 +425,35 @@ class FeatureService extends Service {
 
         return $data;
     }
+
+    /**
+     * Processes user input for creating/updating associations
+     */
+    public function editAssociations($object, $data)
+    {
+        DB::beginTransaction();
+
+        try {
+            // Clear the old associations...
+            $object->featureAssociations()->delete();
+
+            if (isset($data['association_type'])) {
+                foreach ($data['association_type'] as $key => $type) {
+                    FeatureAssociation::create([
+                        'object_id' => $object->id,
+                        'object_type' => class_basename($object),
+                        'association_type' => $type,
+                        'association_id' => $data['association_id'][$key],
+                        'association_summary' => $data['association_summary'][$key] ?? null,
+                    ]);
+                }
+            }
+            return $this->commitReturn(true);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+
 }

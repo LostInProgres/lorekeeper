@@ -2,6 +2,7 @@
 
 namespace App\Models\Species;
 
+
 use App\Models\Model;
 
 class Subtype extends Model {
@@ -11,7 +12,7 @@ class Subtype extends Model {
      * @var array
      */
     protected $fillable = [
-        'species_id', 'name', 'sort', 'has_image', 'description', 'parsed_description', 'is_visible', 'hash',
+        'species_id', 'name', 'sort', 'has_image', 'description', 'parsed_description', 'is_visible', 'hash'
     ];
 
     /**
@@ -64,6 +65,21 @@ class Subtype extends Model {
      */
     public function species() {
         return $this->belongsTo(Species::class, 'species_id');
+    }
+
+    /**
+     * Get features associated with this subtype.
+     */
+    public function features()
+    {
+        $query = $this->hasMany('App\Models\Feature\Feature', 'subtype_id');
+
+        return $query->orderByDesc('feature_category_id');
+    }
+
+    public function featureAssociations()
+    {
+        return $this->hasMany('App\Models\Feature\FeatureAssociation', 'object_id')->where('object_type',class_basename($this));
     }
 
     /**********************************************************************************************
