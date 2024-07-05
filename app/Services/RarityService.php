@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Feature\FeatureAssociation;
 use App\Models\Character\Character;
 use App\Models\Character\CharacterImage;
 use App\Models\Rarity;
@@ -178,5 +179,35 @@ class RarityService extends Service {
         }
 
         return $data;
+    }
+
+    /**
+     * Processes user input for creating/updating associations
+     */
+    public function editAssociations($object, $data)
+    {
+        DB::beginTransaction();
+
+        try {
+            // Clear the old associations...
+            $object->featureAssociations()->delete();
+
+            if (isset($data['association_type'])) {
+                foreach ($data['association_type'] as $key => $type) {
+                    FeatureAssociation::create([
+                        'object_id' => $object->id,
+                        'object_type' => class_basename($object),
+                        'association_type' => $type,
+                        'association_id' => $data['association_id'][$key],
+                        'association_summary' => $data['association_summary'][$key] ?? null,
+                    ]);
+                }
+            }
+            return $this->commitReturn(true);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
     }
 }

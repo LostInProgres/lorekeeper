@@ -21,5 +21,8 @@
         <div class="world-entry-text">
             {!! $description !!}
         </div>
+        @if ($rarity->featureAssociations()->count())
+            @include('widgets._feature_associations', ['object' => $rarity])
+        @endif
     </div>
 </div>

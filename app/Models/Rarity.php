@@ -141,4 +141,25 @@ class Rarity extends Model {
     public function getAdminPowerAttribute() {
         return 'edit_data';
     }
+
+    /**********************************************************************************************
+
+        RELATIONS
+
+    **********************************************************************************************/
+
+    /**
+     * Get features associated with this subtype.
+     */
+    public function features()
+    {
+        $query = $this->hasMany('App\Models\Feature\Feature', 'subtype_id');
+
+        return $query->orderByDesc('feature_category_id');
+    }
+
+    public function featureAssociations()
+    {
+        return $this->hasMany('App\Models\Feature\FeatureAssociation', 'object_id')->where('object_type',class_basename($this));
+    }
 }

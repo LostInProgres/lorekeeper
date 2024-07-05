@@ -139,4 +139,35 @@ class RarityController extends Controller {
 
         return redirect()->back();
     }
+
+    /**
+     * Edit associations
+     *
+     * @param  \Illuminate\Http\Request    $request
+     * @param  int|null                    $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function editAssociations(Request $request, FeatureService $service, $model, $id)
+    {
+        $decodedmodel = urldecode(base64_decode($model));
+        //check model + id combo exists
+        $object = $decodedmodel::find($id);
+        if (!$object) {
+            throw new \Exception('Invalid object.');
+        }
+
+        $data = $request->only([
+            'association_id', 'association_type', 'association_summary'
+        ]);
+
+        if ($service->editAssociations($object, $data)) {
+            flash('Associations edited successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+
+        }
+        return redirect()->back();
+    }
 }
