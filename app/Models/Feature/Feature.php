@@ -96,10 +96,10 @@ class Feature extends Model {
     public function characters()
     {
         $features = CharacterFeature::inRandomOrder()->where('character_type', '!=', 'Update')->where('feature_id', $this->id)->whereRelation('image', 'is_valid', 1)->get()->filter(function ($feature) {
-            return $feature->image->character->is_visible == true;
+            return $feature->image->character->is_visible && !$feature->image->character->is_myo_slot;
         });
 
-        return $features->take(3);
+        return $features->take(4);
     }
 
     public function featureAssociations()
