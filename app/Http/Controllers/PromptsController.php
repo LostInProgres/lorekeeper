@@ -6,6 +6,7 @@ use App\Models\Prompt\Prompt;
 use App\Models\Prompt\PromptCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Submission\Submission;
 
 class PromptsController extends Controller {
     /*
