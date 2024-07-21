@@ -172,12 +172,12 @@ class SubmissionController extends Controller {
             return response(404);
         }
 
-        $count['all'] = Submission::submitted($id, Auth::user()->id)->count();
-        $count['Hour'] = Submission::submitted($id, Auth::user()->id)->where('created_at', '>=', now()->startOfHour())->count();
-        $count['Day'] = Submission::submitted($id, Auth::user()->id)->where('created_at', '>=', now()->startOfDay())->count();
-        $count['Week'] = Submission::submitted($id, Auth::user()->id)->where('created_at', '>=', now()->startOfWeek())->count();
-        $count['Month'] = Submission::submitted($id, Auth::user()->id)->where('created_at', '>=', now()->startOfMonth())->count();
-        $count['Year'] = Submission::submitted($id, Auth::user()->id)->where('created_at', '>=', now()->startOfYear())->count();
+        $count['all'] = Submission::submitted($id, Auth::user()->id)->where('status', '=', 'Approved')->count();
+        $count['Hour'] = Submission::submitted($id, Auth::user()->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfHour())->count();
+        $count['Day'] = Submission::submitted($id, Auth::user()->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfDay())->count();
+        $count['Week'] = Submission::submitted($id, Auth::user()->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfWeek())->count();
+        $count['Month'] = Submission::submitted($id, Auth::user()->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfMonth())->count();
+        $count['Year'] = Submission::submitted($id, Auth::user()->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfYear())->count();
 
         if($prompt->limit_character) {
             $limit = $prompt->limit * Character::visible()->where('is_myo_slot', 0)->where('user_id', Auth::user()->id)->count();

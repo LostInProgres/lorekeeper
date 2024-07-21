@@ -66,12 +66,12 @@ class SubmissionManager extends Service {
                 if($prompt->limit) {
                     //check that the user hasn't hit the prompt submission limit
                     //filter the submissions by hour/day/week/etc and count
-                    $count['all'] = Submission::submitted($prompt->id, $user->id)->count();
-                    $count['Hour'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfHour())->count();
-                    $count['Day'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfDay())->count();
-                    $count['Week'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfWeek())->count();
-                    $count['Month'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfMonth())->count();
-                    $count['Year'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfYear())->count();
+                    $count['all'] = Submission::submitted($prompt->id, $user->id)->where('status', '=', 'Approved')->count();
+                    $count['Hour'] = Submission::submitted($prompt->id, $user->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfHour())->count();
+                    $count['Day'] = Submission::submitted($prompt->id, $user->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfDay())->count();
+                    $count['Week'] = Submission::submitted($prompt->id, $user->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfWeek())->count();
+                    $count['Month'] = Submission::submitted($prompt->id, $user->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfMonth())->count();
+                    $count['Year'] = Submission::submitted($prompt->id, $user->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfYear())->count();
 
                     //if limit by character is on... multiply by # of chars. otherwise, don't
                     if($prompt->limit_character) {
