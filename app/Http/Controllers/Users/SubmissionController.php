@@ -4,6 +4,12 @@ namespace App\Http\Controllers\Users;
 
 use App\Facades\Settings;
 use App\Http\Controllers\Controller;
+use DB;
+use Carbon\Carbon;
+use App\Models\Submission\SubmissionCharacter;
+
+use App\Services\SubmissionManager;
+
 use App\Models\Character\Character;
 use App\Models\Currency\Currency;
 use App\Models\Item\Item;
@@ -13,7 +19,6 @@ use App\Models\Raffle\Raffle;
 use App\Models\Submission\Submission;
 use App\Models\User\User;
 use App\Models\User\UserItem;
-use App\Services\SubmissionManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -167,9 +172,23 @@ class SubmissionController extends Controller {
             return response(404);
         }
 
+        $count['all'] = Submission::submitted($id, Auth::user()->id)->count();
+        $count['Hour'] = Submission::submitted($id, Auth::user()->id)->where('created_at', '>=', now()->startOfHour())->count();
+        $count['Day'] = Submission::submitted($id, Auth::user()->id)->where('created_at', '>=', now()->startOfDay())->count();
+        $count['Week'] = Submission::submitted($id, Auth::user()->id)->where('created_at', '>=', now()->startOfWeek())->count();
+        $count['Month'] = Submission::submitted($id, Auth::user()->id)->where('created_at', '>=', now()->startOfMonth())->count();
+        $count['Year'] = Submission::submitted($id, Auth::user()->id)->where('created_at', '>=', now()->startOfYear())->count();
+
+        if($prompt->limit_character) {
+            $limit = $prompt->limit * Character::visible()->where('is_myo_slot', 0)->where('user_id', Auth::user()->id)->count();
+        } else {
+            $limit = $prompt->limit;
+        }
+
         return view('home._prompt', [
             'prompt' => $prompt,
-            'count'  => Submission::where('prompt_id', $id)->where('status', 'Approved')->where('user_id', Auth::user()->id)->count(),
+            'count' => $count,
+            'limit' => $limit
         ]);
     }
 
