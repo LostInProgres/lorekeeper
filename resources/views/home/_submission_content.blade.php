@@ -165,6 +165,8 @@
     </div>
 </div>
 
+@include('home._prompt_limits')
+
 @if (isset($inventory['user_items']) && array_filter($inventory['user_items']))
     <div class="card mb-3">
         <div class="card-header h2">Add-Ons</div>

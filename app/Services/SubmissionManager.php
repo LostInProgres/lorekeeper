@@ -66,12 +66,14 @@ class SubmissionManager extends Service {
                 if($prompt->limit) {
                     //check that the user hasn't hit the prompt submission limit
                     //filter the submissions by hour/day/week/etc and count
-                    $count['all'] = Submission::submitted($prompt->id, $user->id)->where('status', '=', 'Approved')->count();
-                    $count['Hour'] = Submission::submitted($prompt->id, $user->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfHour())->count();
-                    $count['Day'] = Submission::submitted($prompt->id, $user->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfDay())->count();
-                    $count['Week'] = Submission::submitted($prompt->id, $user->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfWeek())->count();
-                    $count['Month'] = Submission::submitted($prompt->id, $user->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfMonth())->count();
-                    $count['Year'] = Submission::submitted($prompt->id, $user->id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfYear())->count();
+                    //count looks for any submission that is not declined. 
+                    //this means that a user cannot submit another prompt when there is still version of this prompt in drafts or pending approval.
+                    $count['all'] = Submission::submitted($prompt->id, $user->id)->whereNotIn('status', ['declined'])->count();
+                    $count['Hour'] = Submission::submitted($prompt->id, $user->id)->whereNotIn('status', ['declined'])->where('created_at', '>=', now()->startOfHour())->count();
+                    $count['Day'] = Submission::submitted($prompt->id, $user->id)->whereNotIn('status', ['declined'])->where('created_at', '>=', now()->startOfDay())->count();
+                    $count['Week'] = Submission::submitted($prompt->id, $user->id)->whereNotIn('status', ['declined'])->where('created_at', '>=', now()->startOfWeek())->count();
+                    $count['Month'] = Submission::submitted($prompt->id, $user->id)->whereNotIn('status', ['declined'])->where('created_at', '>=', now()->startOfMonth())->count();
+                    $count['Year'] = Submission::submitted($prompt->id, $user->id)->whereNotIn('status', ['declined'])->where('created_at', '>=', now()->startOfYear())->count();
 
                     //if limit by character is on... multiply by # of chars. otherwise, don't
                     if($prompt->limit_character) {
@@ -79,8 +81,8 @@ class SubmissionManager extends Service {
                     } else { $limit = $prompt->limit; }
                     //if limit by time period is on
                     if($prompt->limit_period) {
-                        if($count[$prompt->limit_period] >= $limit) throw new \Exception("You have already submitted to this prompt the maximum number of times.");
-                    } else if($count['all'] >= $limit) throw new \Exception("You have already submitted to this prompt the maximum number of times.");
+                        if($count[$prompt->limit_period] >= $limit) throw new \Exception("You have already submitted to this prompt the maximum number of times. If you still have submissions with this prompt pending or in drafts, these are counted against your total.");
+                    } else if($count['all'] >= $limit) throw new \Exception("You have already submitted to this prompt the maximum number of times. If you still have submissions with this prompt pending or in drafts, these are counted against your total.");
                 }
             } else {
                 $prompt = null;
