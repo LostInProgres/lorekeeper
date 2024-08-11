@@ -21,14 +21,16 @@
     $limit = $prompt->limit;
     $submission = Submission::whereNotNull('prompt_id')->where('id', $prompt->id)->where('status', '!=', 'Draft')->first();
     
-    $count['pending'] = Submission::submitted($prompt->id, $submission->user_id)->whereNotIn('status', ['approved', 'rejected'])->count();
+    if (isset($submission->user_id)) {
+        $count['pending'] = Submission::submitted($prompt->id, $submission->user_id)->whereNotIn('status', ['approved', 'rejected'])->count();
 
-    $count['all'] = Submission::submitted($prompt->id, $submission->user_id)->where('status', '=', 'Approved')->count();
-    $count['Hour'] = Submission::submitted($prompt->id, $submission->user_id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfHour())->count();
-    $count['Day'] = Submission::submitted($prompt->id, $submission->user_id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfDay())->count();
-    $count['Week'] = Submission::submitted($prompt->id, $submission->user_id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfWeek())->count();
-    $count['Month'] = Submission::submitted($prompt->id, $submission->user_id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfMonth())->count();
-    $count['Year'] = Submission::submitted($prompt->id, $submission->user_id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfYear())->count();
+        $count['all'] = Submission::submitted($prompt->id, $submission->user_id)->where('status', '=', 'Approved')->count();
+        $count['Hour'] = Submission::submitted($prompt->id, $submission->user_id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfHour())->count();
+        $count['Day'] = Submission::submitted($prompt->id, $submission->user_id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfDay())->count();
+        $count['Week'] = Submission::submitted($prompt->id, $submission->user_id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfWeek())->count();
+        $count['Month'] = Submission::submitted($prompt->id, $submission->user_id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfMonth())->count();
+        $count['Year'] = Submission::submitted($prompt->id, $submission->user_id)->where('status', '=', 'Approved')->where('created_at', '>=', now()->startOfYear())->count();
+    }
 @endphp
 
 <div class="card">
