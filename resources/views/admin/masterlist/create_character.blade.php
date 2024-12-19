@@ -238,6 +238,13 @@
     </div>
 
     <div class="form-group">
+        {!! Form::label('Character Sex (Optional)') !!} @if ($isMyo)
+            {!! add_help('This assign the character a biological sex. Leave it blank if you do not intend to use this.') !!}
+        @endif
+        {!! Form::select('sex', [null => 'Select Sex', 'Male' => 'Male', 'Female' => 'Female'], old('sex'), ['class' => 'form-control']) !!}
+    </div>
+
+    <div class="form-group">
         {!! Form::label('Traits') !!} @if($isMyo) {!! add_help('These traits will be listed as required traits for the slot. The user will still be able to add on more traits, but not be able to remove these. This is allowed to conflict with the rarity above; you may add traits above the character\'s specified rarity.') !!} @endif
         <div id="featureList">
         </div>
@@ -248,6 +255,40 @@
             <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
         </div>
     </div>
+
+    <h3>Lineage (Optional)</h3>
+        <div class="alert alert-info">
+            If you want to assign parents to the character, you can do so here. If you don't want to assign parents, leave these fields blank.
+            <br />If you want to assign parents, but they aren't in the system, you can enter their names here.
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group text-center pb-1 border-bottom">
+                    {!! Form::label('parent_1_id', 'Parent (Optional)', ['class' => 'font-weight-bold']) !!}
+                    <div class="row">
+                        <div class="col-sm-6 pr-sm-1">
+                            {!! Form::select('parent_1_id', $characterOptions, null, ['class' => 'form-control text-left character-select mb-1', 'placeholder' => 'None']) !!}
+                        </div>
+                        <div class="col-sm-6 pl-sm-1">
+                            {!! Form::text('fparent_1_name', old('parent_1_name'), ['class' => 'form-control mb-1', 'placeholder' => 'Parent\'s Name (Optional)']) !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group text-center pb-1 border-bottom">
+                    {!! Form::label('parent_2_id', 'Parent (Optional)', ['class' => 'font-weight-bold']) !!}
+                    <div class="row">
+                        <div class="col-sm-6 pr-sm-1">
+                            {!! Form::select('parent_2_id', $characterOptions, null, ['class' => 'form-control text-left character-select mb-1', 'placeholder' => 'None']) !!}
+                        </div>
+                        <div class="col-sm-6 pl-sm-1">
+                            {!! Form::text('parent_2_name', old('parent_2_name'), ['class' => 'form-control mb-1', 'placeholder' => 'Parents\'s Name (Optional)']) !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <div class="form-group">
         @php $dVis = Settings::get('genome_default_visibility'); @endphp
@@ -312,6 +353,13 @@
                 $("#subtypes").html(res);
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 alert("AJAX call failed: " + textStatus + ", " + errorThrown);
+            });
+        });
+
+        $(document).ready(function() {
+            $('.character-select').selectize();
+            $('#advanced_lineage').on('click', function(e) {
+                e.preventDefault();
             });
         });
     </script>
