@@ -225,3 +225,14 @@ Route::group(['prefix' => 'comments', 'namespace' => 'Comments'], function () {
     Route::post('/{id}/like/{action}', 'CommentController@like')->name('comments.like');
     Route::get('/liked', 'CommentController@getLikedComments');
 });
+
+/**************************************************************************************************
+    Higher or Lower
+**************************************************************************************************/
+
+Route::group(['prefix' => 'higher-or-lower'], function() {
+    Route::get('/', 'HolController@getIndex');
+
+    Route::get('play', 'HolController@playHol');
+    Route::post('play/guess', 'HolController@postGuess');
+});
