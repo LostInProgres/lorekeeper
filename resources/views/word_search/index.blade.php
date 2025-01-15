@@ -12,9 +12,9 @@
         <div id="words">
         </div>
         <div class="btn btn-primary" id="solve">Solve Puzzle</button>
-    </div>
-@endsection
-@section('scripts')
-    @include('word_search._word_search_js')
-    @parent
-@endsection
+        </div>
+    @endsection
+    @section('scripts')
+        @include('word_search._word_search_js')
+        @parent
+    @endsection
