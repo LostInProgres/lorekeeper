@@ -236,3 +236,11 @@ Route::group(['prefix' => 'higher-or-lower'], function() {
     Route::get('play', 'HolController@playHol');
     Route::post('play/guess', 'HolController@postGuess');
 });
+
+/**************************************************************************************************
+    Higher or Lower
+**************************************************************************************************/
+
+Route::group(['prefix' => 'wordsearch'], function() {
+    Route::get('/', 'WordsearchController@getIndex');
+});

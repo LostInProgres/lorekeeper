@@ -753,3 +753,13 @@ tr.accountbound {
 @media only screen and (max-width: 600px) {
     .comment_replies { padding-left:1rem;}
 }
+
+/* WORDSEARCH *************************************************************************************/
+/* style for each square in the puzzle */
+#puzzle .puzzleSquare {
+    height: 30px;
+    width: 30px;
+    text-transform: uppercase;
+    border: 0;
+    outline: none;
+}

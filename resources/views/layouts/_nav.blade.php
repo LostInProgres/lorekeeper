@@ -50,6 +50,9 @@
                             <a class="dropdown-item" href="{{ url('higher-or-lower') }}">
                                 Higher or Lower
                             </a>
+                            <a class="dropdown-item" href="{{ url('wordsearch') }}">
+                                Word search
+                            </a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
