@@ -12,8 +12,9 @@
         <div id="words">
         </div>
         <div class="btn btn-primary" id="solve">Solve Puzzle</button>
-    </div>
-
-@include('wordsearch._wordsearch')
-
-@endsection
+        </div>
+    @endsection
+    @section('scripts')
+        @include('word_search._word_search_js')
+        @parent
+    @endsection

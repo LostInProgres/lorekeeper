@@ -50,7 +50,7 @@
                             <a class="dropdown-item" href="{{ url('higher-or-lower') }}">
                                 Higher or Lower
                             </a>
-                            <a class="dropdown-item" href="{{ url('wordsearch') }}">
+                            <a class="dropdown-item" href="{{ url('word-search') }}">
                                 Word search
                             </a>
                         </div>

@@ -230,7 +230,7 @@ Route::group(['prefix' => 'comments', 'namespace' => 'Comments'], function () {
     Higher or Lower
 **************************************************************************************************/
 
-Route::group(['prefix' => 'higher-or-lower'], function() {
+Route::group(['prefix' => 'higher-or-lower'], function () {
     Route::get('/', 'HolController@getIndex');
 
     Route::get('play', 'HolController@playHol');
@@ -238,9 +238,8 @@ Route::group(['prefix' => 'higher-or-lower'], function() {
 });
 
 /**************************************************************************************************
-    Higher or Lower
+    Word Search
 **************************************************************************************************/
-
-Route::group(['prefix' => 'wordsearch'], function() {
-    Route::get('/', 'WordsearchController@getIndex');
+Route::group(['prefix' => 'word-search'], function () {
+    Route::get('/', 'WordSearchController@getIndex');
 });
