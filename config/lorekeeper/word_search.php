@@ -1,6 +1,6 @@
 <?php
 
-
+// assuming this will be customisable later on thru the admin panel?
 
 $generic = ['lorekeeper', 'species', 'ARPG', 'community', 'profile', 'collection', 'art', 
     'design', 'gallery', 'game', 'role', 'world', 'event', 
@@ -24,12 +24,15 @@ return [
     |
     */
 
-    //word list for Wordsearcch
-    'wordsearch_words' => array_rand(array_flip(array_merge($generic, $LKcoders)), 12),
+    //word list for word search
+    'word_search_words' => array_rand(array_flip(array_merge($generic, $LKcoders)), 12),
 
-    //daily plays for Wordsearcch
-    'wordsearch_plays' => 5, 
+    //daily plays for word search
+    'word_search_plays' => 5, 
 
+
+    // id let rewards be configurable on the admin panel
+    
     //TODO
     //amount to grant when guess is successful
     'currency_grant' => 1,

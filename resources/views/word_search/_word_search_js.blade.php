@@ -702,6 +702,14 @@
             $('.selected').addClass('found text-success');
             wordList.splice(i,1);
             $('.' + curWord).addClass('wordFound text-success');
+
+            var found = $('#words .word').filter(function() {
+                return $(this).hasClass('wordFound');
+            });
+
+            if (found.length === $('#words .word').length) {
+                $('#puzzle .puzzleSquare').addClass('complete text-success');
+            }
         }
 
         if (wordList.length === 0) {
@@ -791,32 +799,44 @@
         */
         solve: function(puzzle, words) {
 
-        var solution = wordfind.solve(puzzle, words).found;
+            var solution = wordfind.solve(puzzle, words).found;
 
-        for( var i = 0, len = solution.length; i < len; i++) {
-            var word = solution[i].word,
-                orientation = solution[i].orientation,
-                x = solution[i].x,
-                y = solution[i].y,
-                next = wordfind.orientations[orientation];
+            for( var i = 0, len = solution.length; i < len; i++) {
+                var word = solution[i].word,
+                    orientation = solution[i].orientation,
+                    x = solution[i].x,
+                    y = solution[i].y,
+                    next = wordfind.orientations[orientation];
 
-            if (!$('.' + word).hasClass('wordFound')) {
-            for (var j = 0, size = word.length; j < size; j++) {
-                var nextPos = next(x, y, j);
-                $('[x="' + nextPos.x + '"][y="' + nextPos.y + '"]').addClass('solved text-danger');
+                if (!$('.' + word).hasClass('wordFound')) {
+                    for (var j = 0, size = word.length; j < size; j++) {
+                        var nextPos = next(x, y, j);
+                        $('[x="' + nextPos.x + '"][y="' + nextPos.y + '"]').addClass('solved text-danger');
+                    }
+
+                    $('.' + word).addClass('text-danger');
+                }
             }
 
-            $('.' + word).addClass('wordFound text-danger');
+            // check if there's any words that weren't found
+            let found = $('#words .word').filter(function() {
+                return $(this).hasClass('wordFound');
+            });
+
+            if (found.length === $('#words .word').length) {
+                alert('Congratulations! You have found all the words.');
+
+                // do currency stuff here
+
+            } else {
+                alert('Sorry, you did not find all the words.');
+
+                // or here
+
+                
             }
-        }
 
-        var values = [];
-        $('.wordFound').each(function(){
-            values.push($(this).val());
-        });
-        
-        $('#solve').addClass('gameSolved'); 
-
+            // just use found variable and send that in your ajax the above doesnt need to beused
         }
     };
     };
@@ -830,26 +850,27 @@
     }(document, jQuery, wordfind));
 
     $(function () {
-    
-    var words = <?=json_encode($words)?>;
-    
-    // start a word find game
-    var gamePuzzle = wordfindgame.create(
-    words, 
-    '#puzzle', 
-    '#words', 
-    { height: 8, 
-        width:15, 
-        fillBlanks: true
-    });
-    $('#solve').click( function() {
-    wordfindgame.solve(gamePuzzle, words);
-    });
-    // create just a puzzle, without filling in the blanks and print to console
-    var puzzle = wordfind.newPuzzle(
-    words, 
-    {height: 5, width:15, fillBlanks: true}
-    );
-    wordfind.print(puzzle);
+        var words = @json($words);
+        
+        // start a word find game
+        var gamePuzzle = wordfindgame.create(
+            words, 
+            '#puzzle', 
+            '#words', 
+            {
+                height: 8, 
+                width:15, 
+                fillBlanks: true
+            }
+        );
+        $('#solve').click( function() {
+            wordfindgame.solve(gamePuzzle, words);
+        });
+        // create just a puzzle, without filling in the blanks and print to console
+        var puzzle = wordfind.newPuzzle(
+            words, 
+            {height: 5, width:15, fillBlanks: true}
+        );
+        wordfind.print(puzzle);
     });
 </script>

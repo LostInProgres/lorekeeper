@@ -7,24 +7,28 @@ use Auth;
 use Config;
 use Illuminate\Http\Request;
 
-class WordsearchController extends Controller
+class WordSearchController extends Controller
 {
     /**********************************************************************************************
 
-     Wordsearch
+     Word Search
 
-     **********************************************************************************************/
+    **********************************************************************************************/
 
     /**
-     * Shows the wordsearch index.
+     * Shows the word search index.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getIndex()
     {
-        return view('wordsearch.index', [
+        return view('word_search.index', [
             'user' => Auth::user(),
-            'words' => Config::get('lorekeeper.wordsearch.wordsearch_words')
+            'words' => Config::get('lorekeeper.word_search.word_search_words')
         ]);
     }
+
+    /**
+     * Ajax post for word search.
+     */
 }
