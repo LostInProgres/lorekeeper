@@ -4,15 +4,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddHigherOrLower extends Migration
-{
+class AddHigherOrLower extends Migration {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::table('user_settings', function (Blueprint $table) {
             $table->integer('hol_plays')->default(0);
         });
@@ -20,11 +16,8 @@ class AddHigherOrLower extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
-    {
+    public function down() {
         //
     }
 }

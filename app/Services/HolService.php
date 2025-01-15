@@ -1,13 +1,12 @@
-<?php namespace App\Services;
+<?php
+
+namespace App\Services;
 
 use App\Models\Currency\Currency;
-use App\Services\CurrencyManager;
-use App\Services\Service;
 use Config;
 use DB;
 
-class HolService extends Service
-{
+class HolService extends Service {
     /**********************************************************************************************
 
     PLAY HIGHER OR LOWER
@@ -15,16 +14,20 @@ class HolService extends Service
      **********************************************************************************************/
 
     /**
-     * make guess
+     * make guess.
+     *
+     * @param mixed $data
+     * @param mixed $user
      *
      * @return bool
      */
-    public function makeGuess($data, $user)
-    {
+    public function makeGuess($data, $user) {
         DB::beginTransaction();
 
         try {
-            if(!isset($data['guess'])) throw new \Exception('You must make a guess.');
+            if (!isset($data['guess'])) {
+                throw new \Exception('You must make a guess.');
+            }
 
             $number = $data['number'];
 
@@ -39,21 +42,19 @@ class HolService extends Service
             if ($guess == 'higher') {
                 //if $number is bigger than $secondnumber & user selected higher
                 if ($number > $secondnumber) {
-                    flash('Nice try, but the second number was ' . $secondnumber . '...')->error();
+                    flash('Nice try, but the second number was '.$secondnumber.'...')->error();
                 } elseif ($number < $secondnumber) {
                     //if $number is smaller than $secondnumber & user selected higher
-                    flash('You were right! ' . $secondnumber . ' is larger than ' . $number . '.')->success();
+                    flash('You were right! '.$secondnumber.' is larger than '.$number.'.')->success();
                     $this->creditReward($user);
-
                 }
             } else {
                 //if $number is smaller than $secondnumber & user selected smaller
                 if ($number > $secondnumber) {
-                    flash('You were right! ' . $secondnumber . ' is smaller than ' . $number . '.')->success();
+                    flash('You were right! '.$secondnumber.' is smaller than '.$number.'.')->success();
                     $this->creditReward($user);
-
                 } elseif ($number < $secondnumber) {
-                    flash('Nice try, but the second number was ' . $secondnumber . '...')->error();
+                    flash('Nice try, but the second number was '.$secondnumber.'...')->error();
                 }
             }
 
@@ -61,16 +62,18 @@ class HolService extends Service
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
+
         return $this->rollbackReturn(false);
     }
 
     /**
-     * make guess
+     * make guess.
+     *
+     * @param mixed $user
      *
      * @return bool
      */
-    public function creditReward($user)
-    {
+    public function creditReward($user) {
         DB::beginTransaction();
 
         try {
@@ -78,14 +81,16 @@ class HolService extends Service
             $grant = Config::get('lorekeeper.hol.currency_grant');
             if (!(new CurrencyManager())->creditCurrency(null, $user, 'HoL Grant', 'Won at Higher or Lower!', $currency, $grant)) {
                 flash('Could not grant currency.')->error();
+
                 return redirect()->back();
             }
-            flash('You earned ' . $currency->display($grant) . '!')->success();
+            flash('You earned '.$currency->display($grant).'!')->success();
 
             return $this->commitReturn(true);
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
+
         return $this->rollbackReturn(false);
     }
 }
