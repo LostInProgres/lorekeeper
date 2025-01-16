@@ -242,4 +242,5 @@ Route::group(['prefix' => 'higher-or-lower'], function () {
 **************************************************************************************************/
 Route::group(['prefix' => 'word-search'], function () {
     Route::get('/', 'WordSearchController@getIndex');
+    Route::post('/submit', 'WordSearchController@postSubmitWordSearch');
 });

@@ -11,7 +11,11 @@
         <div class="text-center mb-2" id="puzzle"></div>
         <div id="words">
         </div>
-        <div class="btn btn-primary" id="solve">Solve Puzzle</button>
+        {!! Form::open(['url' => 'word-search/submit']) !!}
+            <div class="form-group">
+                {!! Form::submit('submit', ['class' => 'btn btn-primary', 'id' => 'solve']) !!}
+            </div>
+        	{!! Form::close() !!}
         </div>
     @endsection
     @section('scripts')

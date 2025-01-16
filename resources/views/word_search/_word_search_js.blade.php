@@ -932,14 +932,34 @@
                     if (found.length === $('#words .word').length) {
                         alert('Congratulations! You have found all the words.');
 
-                        // do currency stuff here
+                        $.ajax({  
+                        type: 'GET',
+                        url: 'wordsearchController.php', 
+                        data: {found: found},
+                        success: function(response) {
+                            content.html(response);
+                        }
+                        }).done(function(res) {
+                            $("#subtypes").html(res);
+                        }).fail(function(jqXHR, textStatus, errorThrown) {
+                            alert("AJAX call failed: " + textStatus + ", " + errorThrown);
+                        });
 
                     } else {
                         alert('Sorry, you did not find all the words.');
 
-                        // or here
-
-
+                        $.ajax({  
+                        type: 'GET',
+                        url: 'wordSearchController.php', 
+                        data: {found: found},
+                        success: function(response) {
+                            content.html(response);
+                        }
+                        }).done(function(res) {
+                            $("#subtypes").html(res);
+                        }).fail(function(jqXHR, textStatus, errorThrown) {
+                            alert("AJAX call failed: " + textStatus + ", " + errorThrown);
+                        });
                     }
 
                     // just use found variable and send that in your ajax the above doesnt need to beused

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\WordSearchService;
 use Auth;
 use Config;
 
-class WordsearchController extends Controller {
+class WordSearchController extends Controller {
     /**********************************************************************************************
 
      Word Search
@@ -27,4 +28,17 @@ class WordsearchController extends Controller {
     /*
      * Ajax post for word search.
      */
+    public function postSubmitWordSearch(WordSearchService $service) {
+        dd($_GET);
+        $data = $_GET['found'];
+        if ($service->submitWordSearch($data, Auth::user())) {
+            return redirect()->to('word-search');
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
+
+        return redirect()->back();
+    }
 }
