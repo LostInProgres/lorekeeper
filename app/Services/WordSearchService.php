@@ -23,13 +23,19 @@ class WordSearchService extends Service {
      */
     public function submitWordSearch($data, $user) {
         DB::beginTransaction();
-
         try {
-            if (!isset($data['found'])) {
+            $wordMinimum = Config::get('lorekeeper.word_search.found_minimum');
+
+            if ($data == "0") {
                 throw new \Exception('Cannot submit empty word search');
+            } elseif ($data < $wordMinimum) {
+                throw new \Exception('Not enough words found to claim reward');
             } else {
-                flash('Word search completed! You found '.$data['found'].'words.')->success();
-                $this->creditReward($user);
+                flash('Word search completed! You found '.$data.' word(s).')->success();
+                //TODO check if user has plays remaining. 
+                // I want the game to be playable without plays for enrichtment,
+                // so this check should only prevent rewards from being distributed.
+                $this->creditReward($user, $data);
             }
 
             return $this->commitReturn(true);
@@ -47,19 +53,21 @@ class WordSearchService extends Service {
      *
      * @return bool
      */
-    public function creditReward($user) {
+    public function creditReward($user, $data) {
         DB::beginTransaction();
 
         try {
-            //TODO make the reward multiply per word found, and potentially add a bonus for finding all words.
+            $reward = Config::get('lorekeeper.word_search.currency_grant');
             $currency = Currency::find(Config::get('lorekeeper.word_search.currency_id'));
-            $grant = Config::get('lorekeeper.word_search.currency_grant');
-            if (!(new CurrencyManager())->creditCurrency(null, $user, 'Word Search Grant', 'Won at Word search!', $currency, $grant)) {
+
+            $prize = $reward * $data;
+
+            if (!(new CurrencyManager())->creditCurrency(null, $user, 'Word Search Grant', 'Won at Word search!', $currency, $prize)) {
                 flash('Could not grant currency.')->error();
 
                 return redirect()->back();
             }
-            flash('You earned '.$currency->display($grant).'!')->success();
+            flash('You earned '.$currency->display($prize).'!')->success();
 
             return $this->commitReturn(true);
         } catch (\Exception $e) {

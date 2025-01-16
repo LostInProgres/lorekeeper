@@ -6,5 +6,5 @@ return [
         'Lostinprogres' => 'https://github.com/LostInProgres',
         'bunkat'        => 'https://github.com/bunkat',
     ]),
-    'version'  => '0.0.0',
+    'version'  => '1.0.0',
 ];
