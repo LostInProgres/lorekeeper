@@ -198,3 +198,11 @@ Route::group(['prefix' => 'comments', 'namespace' => 'Comments'], function() {
     Route::post('/{comment}', 'CommentController@reply')->name('comments.reply');
     Route::post('/{id}/feature', 'CommentController@feature')->name('comments.feature');
 });
+
+/**************************************************************************************************
+    INSERTGAMENAME
+**************************************************************************************************/
+Route::group(['prefix' => 'gamename'], function () {
+    Route::get('/', 'gamenameController@getIndex');
+    Route::post('/submit', 'gamenamer@postSubmitgamename');
+});
