@@ -14,12 +14,16 @@
         </div>
     </div>
 
+    <div class="text-center">
     {!! Form::open(['url' => 'Sudoku/submit']) !!}
         <div class="form-group">
             {!! Form::hidden('count', 0, ['class' => 'count']) !!}
             {!! Form::submit('submit', ['class' => 'btn btn-primary', 'id' => 'solve']) !!}
         </div>
     {!! Form::close() !!}
+    </div>
+
+    <!-- TODO: GAME DESCRIPTION, including PRIZE MONEY and PLAY STAMINA. -->
 
     @include('Sudoku.style')
 
