@@ -241,7 +241,7 @@ Sudoku.prototype.drawBoard = function(){
     $('<div></div>').addClass('num note').text('?').appendTo(sudoku_console);
     
     //draw gameover
-    var sudoku_gameover = $('<div class="gameover_container"><div class="gameover">Congratulation! <button class="restart">Play Again</button></div></div>');
+    var sudoku_gameover = $('<div class="gameover_container"><div class="gameover">Congratulation!</div></div>');
     
     //add all to sudoku container
     sudoku_console_cotainer.appendTo('#'+ this.id).hide();
@@ -289,9 +289,6 @@ Sudoku.prototype.resizeWindow = function(){
     b_dim = { w: $('#'+ this.id +' .sudoku_board').width(),  h: $('#'+ this.id +' .sudoku_board').width() };
     b_pos = $('#'+ this.id +' .sudoku_board').offset();
     c_dim = { w: $('#'+ this.id +' .board_console').width(), h: $('#'+ this.id +' .board_console').height() };
-    
-    var c_pos_new = { left : ( b_dim.w/2 - c_dim.w/2 + b_pos.left ), top  : ( b_dim.h/2 - c_dim.h/2 + b_pos.top ) };    
-    $('#'+ this.id +' .board_console').css({'left': c_pos_new.left, 'top': c_pos_new.top});
     
     //adjust the gameover container
     var gameover_pos_new = { left : ( screen.w/20 ), top  : ( screen.w/20 + b_pos.top ) };    
@@ -353,17 +350,17 @@ Sudoku.prototype.cellSelect = function(cell){
         same_value_cells = $('#'+ this.id +' .sudoku_board .cell span:contains('+value+')');
     
     //remove all other selections
-    $('#'+ this.id +' .sudoku_board .cell').removeClass('selected current group');
-    $('#'+ this.id +' .sudoku_board .cell span').removeClass('samevalue');
+    $('#'+ this.id +' .sudoku_board .cell').removeClass('selected current group bg-danger');
+    $('#'+ this.id +' .sudoku_board .cell span').removeClass('samevalue text-danger');
     //select current cell
-    $(cell).addClass('selected current');
+    $(cell).addClass('selected current bg-danger');
     
     //highlight select cells
     if (this.highlight > 0) {        
         horizontal_cells.addClass('selected');
         vertical_cells.addClass('selected');
         group_cells.addClass('selected group');
-        same_value_cells.not( $(cell).find('span') ).addClass('samevalue');
+        same_value_cells.not( $(cell).find('span') ).addClass('samevalue text-danger');
     }
     
     if ($( this.cell ).hasClass('fix')) {
@@ -451,7 +448,7 @@ Sudoku.prototype.addNote = function(value) {
     note_width = Math.floor($(t.cell).width() / 2);
   
   //add note to cell
-  if (oldNotes.length < 4) {
+  if (oldNotes.length < 9) {
     $('<div></div>')
         .addClass('note')
         .css({'line-height' : note_width+'px', 'height': note_width -1, 'width': note_width -1})
@@ -483,6 +480,8 @@ Sudoku.prototype.gameOver = function(){
     this.status = this.END;   
   
     $('#'+ this.id +' .gameover_container').show();
+
+    $('.count').val(1);
 };
 
 /**
@@ -568,10 +567,6 @@ $(function() {
   
      //restart game
     $('#'+ game.id +' .restart').on('click', function(){
-        game.init().run();
-    });
-  
-    $('#restart').on('click', function(){
         game.init().run();
     });
     

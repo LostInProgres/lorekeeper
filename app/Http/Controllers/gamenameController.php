@@ -27,7 +27,7 @@ class gamenameController extends Controller {
     }
 
     /*
-     * Ajax post for game name.
+     * Submits the gamename for rewards.
      */
     public function postSubmitgamename(Request $request, gamenameService $service) {
         if ($service->submitgamename($request->get('count'), Auth::user())) {

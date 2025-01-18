@@ -204,5 +204,5 @@ Route::group(['prefix' => 'comments', 'namespace' => 'Comments'], function() {
 **************************************************************************************************/
 Route::group(['prefix' => 'gamename'], function () {
     Route::get('/', 'gamenameController@getIndex');
-    Route::post('/submit', 'gamenamer@postSubmitgamename');
+    Route::post('/submit', 'gamenameController@postSubmitgamename');
 });

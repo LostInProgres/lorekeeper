@@ -21,14 +21,13 @@ class gamenameService extends Service {
      *
      * @return bool
      */
-    public function submitWordSearch($data, $user) {
+    public function submitgamename($data, $user) {
         DB::beginTransaction();
         try {
-
             if ($data == "0") {
-                throw new \Exception('No score found');
+                throw new \Exception('No score found.');
             } else {
-                flash('GAME NAME completed! Total score: '.$data)->success();
+                flash('GAME NAME completed!')->success();
                 $this->creditReward($user, $data);
             }
 
@@ -51,8 +50,8 @@ class gamenameService extends Service {
         DB::beginTransaction();
 
         try {
-            $prize = //PRIZE AMOUNT
-            $currency = //CURRENCY ID
+            $prize = Config::get('lorekeeper.gamename.currency_grant');
+            $currency =  Currency::find(Config::get('lorekeeper.gamename.currency_id'));
 
             if (!(new CurrencyManager())->creditCurrency(null, $user, 'GAME NAME Grant', 'Won at GAME NAME!', $currency, $prize)) {
                 flash('Could not grant currency.')->error();

@@ -3,6 +3,8 @@
 .sudoku_board {
     margin:6px auto;
   
+    width: 100% !important;
+
     overflow: hidden;
     
     -webkit-user-select: none;  
@@ -52,9 +54,6 @@
 }
 
 .sudoku_board .cell.selected.current {
-    position:relative;
-    background: #3498db;
-    font-weight:bold;
     box-shadow: 0px 0px 3px 3px #bdc3c7;
 }
 
@@ -68,7 +67,6 @@
 
 .sudoku_board .cell span.samevalue, .sudoku_board .cell.fix span.samevalue {
     font-weight:bold;  
-    color:#3498db;
 }
 
 .sudoku_board .cell.notvalid, .sudoku_board .cell.selected.notvalid{
@@ -92,8 +90,9 @@
 
 .sudoku_board .cell .note {
     color:#bdc3c7;    
-    width:50%;    
-    height:50%;
+    width:30% !important;    
+    height:30% !important;
+    text-align: top !important;
     display: inline-block;    
     float:left;
     text-align:center;
@@ -133,7 +132,8 @@
 
 .board_console {
     display:block;
-    position:absolute;        
+    margin-left:25%;
+    margin-top:25%;  
     width:50%;        
     color:white;
     background-color: rgba(127, 140, 141, 0.7);
@@ -252,6 +252,8 @@
 #sidebar-toggle .bar:last-child{
      margin-bottom: 0;   
 }
+
+
 
 /*Responsive Stuff*/
 
