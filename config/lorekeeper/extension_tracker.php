@@ -12,5 +12,15 @@ return [
     //     'version' => '1.0.0',
     // ],
     
+    'extension_tracker' => [
+        'key' => 'Sudoku',
+        'wiki_key' => 'TODO',
+        'creators' => json_encode([
+            'Lostinprogres' => 'https://github.com/lostinprogres/',
+            'Cristian Canea' => 'https://codepen.io/cristiancanea',
+        ]),
+        'version' => '1.0.0',
+    ],
+    
 
 ];

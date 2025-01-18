@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Currency\Currency;
 use Illuminate\Http\Request;
-use App\Services\gamenameService;
+use App\Services\SudokuService;
 use Auth;
 use Config;
 
-class gamenameController extends Controller {
+class SudokuController extends Controller {
     /**********************************************************************************************
 
      Word Search
@@ -16,21 +16,21 @@ class gamenameController extends Controller {
     **********************************************************************************************/
 
     /**
-     * Shows the game name index.
+     * Shows the Sudoku index.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getIndex() {
-        return view('gamename.index', [
+        return view('Sudoku.index', [
             'user'  => Auth::user(),
         ]);
     }
 
     /*
-     * Submits the gamename for rewards.
+     * Submits the Sudoku for rewards.
      */
-    public function postSubmitgamename(Request $request, gamenameService $service) {
-        if ($service->submitgamename($request->get('count'), Auth::user())) {
+    public function postSubmitSudoku(Request $request, SudokuService $service) {
+        if ($service->submitSudoku($request->get('count'), Auth::user())) {
             return redirect()->to('word-search');
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {

@@ -1,11 +1,11 @@
 @extends('home.layout')
 
 @section('title')
-    GAME NAME
+    Sudoku
 @endsection
 
 @section('content')
-    {!! breadcrumbs(['gamename' => 'gamename']) !!}
+    {!! breadcrumbs(['Sudoku' => 'Sudoku']) !!}
 
     <h1 id="sudoku_title">SUDOKU</h1>
     <div class="row justify-content-center">
@@ -14,17 +14,17 @@
         </div>
     </div>
 
-    {!! Form::open(['url' => 'gamename/submit']) !!}
+    {!! Form::open(['url' => 'Sudoku/submit']) !!}
         <div class="form-group">
             {!! Form::hidden('count', 0, ['class' => 'count']) !!}
             {!! Form::submit('submit', ['class' => 'btn btn-primary', 'id' => 'solve']) !!}
         </div>
     {!! Form::close() !!}
 
-    @include('gamename.style')
+    @include('Sudoku.style')
 
     @endsection
     @section('scripts')
-        @include('gamename._game_js')
+        @include('Sudoku._game_js')
         @parent
     @endsection

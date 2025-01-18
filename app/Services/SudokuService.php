@@ -6,10 +6,10 @@ use App\Models\Currency\Currency;
 use Config;
 use DB;
 
-class gamenameService extends Service {
+class SudokuService extends Service {
     /**********************************************************************************************
 
-        PLAY GAME NAME
+        PLAY Sudoku
 
      **********************************************************************************************/
 
@@ -21,13 +21,13 @@ class gamenameService extends Service {
      *
      * @return bool
      */
-    public function submitgamename($data, $user) {
+    public function submitSudoku($data, $user) {
         DB::beginTransaction();
         try {
             if ($data == "0") {
                 throw new \Exception('No score found.');
             } else {
-                flash('GAME NAME completed!')->success();
+                flash('Sudoku completed!')->success();
                 $this->creditReward($user, $data);
             }
 
@@ -50,10 +50,10 @@ class gamenameService extends Service {
         DB::beginTransaction();
 
         try {
-            $prize = Config::get('lorekeeper.gamename.currency_grant');
-            $currency =  Currency::find(Config::get('lorekeeper.gamename.currency_id'));
+            $prize = Config::get('lorekeeper.Sudoku.currency_grant');
+            $currency =  Currency::find(Config::get('lorekeeper.Sudoku.currency_id'));
 
-            if (!(new CurrencyManager())->creditCurrency(null, $user, 'GAME NAME Grant', 'Won at GAME NAME!', $currency, $prize)) {
+            if (!(new CurrencyManager())->creditCurrency(null, $user, 'Sudoku Grant', 'Won at Sudoku!', $currency, $prize)) {
                 flash('Could not grant currency.')->error();
 
                 return redirect()->back();

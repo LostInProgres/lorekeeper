@@ -200,9 +200,9 @@ Route::group(['prefix' => 'comments', 'namespace' => 'Comments'], function() {
 });
 
 /**************************************************************************************************
-    INSERTGAMENAME
+    INSERTSudoku
 **************************************************************************************************/
-Route::group(['prefix' => 'gamename'], function () {
-    Route::get('/', 'gamenameController@getIndex');
-    Route::post('/submit', 'gamenameController@postSubmitgamename');
+Route::group(['prefix' => 'Sudoku'], function () {
+    Route::get('/', 'SudokuController@getIndex');
+    Route::post('/submit', 'SudokuController@postSubmitSudoku');
 });
