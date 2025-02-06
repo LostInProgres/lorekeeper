@@ -330,6 +330,11 @@ class CharacterManager extends Service {
                 $genome = $this->handleCharacterGenome($data, $character);
                 if(!$genome) throw new \Exception("Error happened while trying to create genome.");
             }
+            // Try create chimera genome if there's data for it.
+            if (isset($data['gene_id_chimera'])) {
+                $genome = $this->handleCharacterGenome($data, $character);
+                if(!$genome) throw new \Exception("Error happened while trying to create chimera genome.");
+            }
 
             // Add a log for the character
             // This logs all the updates made to the character

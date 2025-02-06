@@ -1,11 +1,13 @@
 <div class="container text-center">
-    @if ($character->children->count() && config('lorekeeper.lineage.show_children_on_tab'))
-        @include('character._lineage_children', [
-            'character' => $character,
-            'max_depth' => 0,
-            'title' => 'Children',
-            'tab' => true,
-        ])
+    @if ($character->children)
+        @if ($character->children->count() && config('lorekeeper.lineage.show_children_on_tab'))
+            @include('character._lineage_children', [
+                'character' => $character,
+                'max_depth' => 0,
+                'title' => 'Children',
+                'tab' => true,
+            ])
+        @endif
     @endif
     <h5>{{ $character->fullName }}'s Lineage</h5>
     <div class="row">

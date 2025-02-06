@@ -382,6 +382,7 @@ class PairingManager extends Service {
                 } else {
                     $palettes[] = $palette;
                 }
+                
             }
 
             return $this->commitReturn($palettes);
@@ -606,6 +607,34 @@ class PairingManager extends Service {
                 $rarity_id = $this->getRarityId($boosts, $chosen_features_ids);
                 $palette =  $this->createColourPalettes([$pairing->character_1->slug, $pairing->character_2->slug], $user, true);
 
+                $genome1 = [ $characters[0]->genomes->random()->breedWith($characters[1]->genomes->random())];
+                
+                foreach ($boosts as $boost) {
+                    if ($boost->tag('boost') && isset($boost->tag('boost')->getData()['setting'])) {
+                        if ($this->keys[$boost->tag('boost')->getData()['setting']] == 'chimera_chance') {
+                            $chimera_boost = $boost->tag('boost')->getData()['setting_chance'];
+                        }
+                    }
+                }
+
+                if (isset($chimera_boost)) {
+                    $chimera_chance = $chimera_boost;
+                } else {
+                    $chimera_chance = config('lorekeeper.character_pairing.chimera_chance');
+                }
+
+                //Chimera genome
+                if (mt_rand(1, 100) <= $chimera_chance) {
+                    $genome2 = $characters[0]->genomes->random()->breedWith($characters[1]->genomes->random());
+                }
+
+                if(isset($genome2)) {
+                    $chimera_genome = $genome2;
+                } else {
+                    $chimera_genome = null;
+                }
+
+
                 //create MYO
                 if (!$myo = $this->saveMyo(
                     $user,
@@ -617,6 +646,8 @@ class PairingManager extends Service {
                     $feature_data,
                     $characters,
                     $palette[0],
+                    $genome1,
+                    $chimera_genome,
                 )) {
                     throw new \Exception('Error creating pairing slot(s).');
                 }
@@ -1141,7 +1172,7 @@ class PairingManager extends Service {
      * @param mixed $feature_data
      * @param mixed $characters
      */
-    private function saveMyo($user, $sex, $species_id, $subtype_id, $rarity_id, $feature_ids, $feature_data, $characters, $palette = null) {
+    private function saveMyo($user, $sex, $species_id, $subtype_id, $rarity_id, $feature_ids, $feature_data, $characters, $palette = null, $genome, $chimera_genome) {
         DB::beginTransaction();
 
         try {
@@ -1186,6 +1217,19 @@ class PairingManager extends Service {
             $characterData['parent_1_id'] = $characters[0]->id;
             $characterData['parent_2_id'] = $characters[1]->id;
 
+            //genetics
+            $characterData['gene_id'] = $genome[0]['gene_id'];
+            $characterData['gene_allele_id'] = $genome[0]['gene_allele_id'];
+            $characterData['gene_gradient_data'] = $genome[0]['gene_gradient_data'];
+            $characterData['gene_numeric_data'] = $genome[0]['gene_numeric_data'];
+
+            if (isset($chimera_genome)) {
+                $characterData['gene_id_chimera'] = $chimera_genome['gene_id'];
+                $characterData['gene_allele_id_chimera'] = $chimera_genome['gene_allele_id'];
+                $characterData['gene_gradient_data_chimera'] = $chimera_genome['gene_gradient_data'];
+                $characterData['gene_numeric_data_chimera'] = $chimera_genome['gene_numeric_data'];
+            }
+            
             // create slot
             $charService = new CharacterManager;
             $character = $charService->createCharacter($characterData, $user, true);

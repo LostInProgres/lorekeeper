@@ -8,14 +8,19 @@ return [
     // 0: Disabled aka characters do not need a set sex. 1: Enabled aka characters must have a set sex
     'force_sex' => 0,
     // 0: Disabled, do not roll sex. 1-100: Chance to generate a male offspring. Must total 100 with the pairing_female_percentage setting.
-    'offspring_male_percentage' => 0,
+    'offspring_male_percentage' => 50,
     // 0: Disabled, do not roll sex. 1-100: Chance to generate a male offspring. Must total 100 with the pairing_male_percentage setting.
-    'offspring_female_percentage' => 0,
+    'offspring_female_percentage' => 50,
     // 0: Disabled. Number of days to wait between pairing a character.
     'cooldown' => 0,
     // 0: rarity is random between rarity options from features, with boosts affecting character rarity
     // 1: rarity is chosen by highest rarity of inherited traits (vanilla) (recommended)
     'rarity_inheritance' => 1,
+
+    /////////////////////////////////////
+    //  Lost's edits
+    /////////////////////////////////////
+    'chimera_chance' => 1,
 
     /////////////////////////////////////
     //  COLOURS

@@ -125,10 +125,10 @@ class CharacterGenome extends Model
             'gene_gradient_data' => [],
             'gene_numeric_data' => [],
         ];
+        
         foreach (Loci::query()->orderBy('sort', 'desc')->get() as $loci)
         {
-            if ($this->hasLocus($loci) || $sire->hasLocus($loci))
-            {
+            if ($this->hasLocus($loci) || $sire->hasLocus($loci)) {
                 $damGenes = $this->getGenes($loci);
                 $sireGenes = $sire->getGenes($loci);
                 $flag = true;

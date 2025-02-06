@@ -131,7 +131,7 @@ class CharacterController extends Controller
             'artist_id', 'artist_url',
             'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data',
             'genome_visibility',
-            'image', 'thumbnail', 'image_description'
+            'image', 'thumbnail', 'image_description',
             'sex', 'parent_1_id', 'parent_2_id',
             'gene_id', 'gene_allele_id', 'gene_numeric_data', 'gene_gradient_data',
         ]);
