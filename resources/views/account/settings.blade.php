@@ -187,25 +187,25 @@
         <div class="alert alert-info">Note that all the below settings are measured in .rem, which means they are relative to the site's font. Suggested values are added for each field, but setting these fields to higher numbers might make layouts break.
         </div>
         <div class="form-group row">
-            <label class="col-md-4 col-form-label">Change Font Size{!! add_help('Suggested value is between 1 and 1.8.') !!}</label>
+            <label class="col-md-4 col-form-label">Change Font Size{!! add_help('Change how big text appear on the site. Suggested value is between 1 and 1.8.') !!}</label>
             <div class="col-md-8">
                 {!! Form::number('font_size', Auth::user()->settings->font_size, ['class' => 'form-control', 'step' => 'any']) !!}
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-md-4 col-form-label">Change letter spacing{!! add_help('Suggested value is between 0 and 0.2') !!}</label>
+            <label class="col-md-4 col-form-label">Change letter spacing{!! add_help('Change how far apart each letter is. Suggested value is between 0 and 0.2') !!}</label>
             <div class="col-md-8">
                 {!! Form::number('letter_spacing', Auth::user()->settings->letter_spacing, ['class' => 'form-control', 'step' => 'any']) !!}
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-md-4 col-form-label">Change word spacing{!! add_help('Suggested value is between 0.1 and 0.3') !!}</label>
+            <label class="col-md-4 col-form-label">Change word spacing{!! add_help('Change how far apart each word is. Suggested value is between 0.1 and 0.3') !!}</label>
             <div class="col-md-8">
                 {!! Form::number('word_spacing', Auth::user()->settings->word_spacing, ['class' => 'form-control', 'step' => 'any']) !!}
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-md-4 col-form-label">Change line height{!! add_help('Suggested value is between 0 and 2') !!}</label>
+            <label class="col-md-4 col-form-label">Change line height{!! add_help('Change how far apart each line of text is.Suggested value is between 0 and 2') !!}</label>
             <div class="col-md-8">
                 {!! Form::number('line_height', Auth::user()->settings->line_height, ['class' => 'form-control', 'step' => 'any']) !!}
             </div>
