@@ -6,8 +6,8 @@ use App\Facades\Settings;
 use App\Http\Controllers\Controller;
 use App\Models\Character\Character;
 use App\Models\Currency\Currency;
+use App\Models\Gallery\GalleryCollaborator;
 use App\Models\Gallery\GallerySubmission;
-use App\Models\Gallery\GallerySubmissionCollaborator;
 use App\Models\Item\Item;
 use App\Models\Item\ItemCategory;
 use App\Models\Prompt\Prompt;
@@ -89,7 +89,7 @@ class SubmissionController extends Controller {
         $inventory = UserItem::with('item')->whereNull('deleted_at')->where('count', '>', '0')->where('user_id', Auth::user()->id)->get();
 
         if (config('lorekeeper.settings.allow_gallery_submissions_on_prompts')) {
-            $collaboratorIds = GallerySubmissionCollaborator::where('user_id', Auth::user()->id)->where('has_approved', 1)->pluck('gallery_submission_id')->toArray();
+            $collaboratorIds = GalleryCollaborator::where('user_id', Auth::user()->id)->where('has_approved', 1)->pluck('gallery_submission_id')->toArray();
 
             $gallerySubmissions = GallerySubmission::where('is_visible', true)->where('user_id', Auth::user()->id)->orWhereIn('id', $collaboratorIds)->orderBy('id', 'DESC')->get()->pluck('title', 'id');
 
@@ -195,6 +195,24 @@ class SubmissionController extends Controller {
         return view('home._prompt', [
             'prompt' => $prompt,
             'count'  => Submission::where('prompt_id', $id)->where('status', 'Approved')->where('user_id', Auth::user()->id)->count(),
+        ]);
+    }
+
+    /**
+     * Shows prompt requirement information.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getPromptRequirementInfo($id) {
+        $prompt = Prompt::active()->where('id', $id)->first();
+        if (!$prompt) {
+            return response(404);
+        }
+
+        return view('home._prompt_requirements', [
+            'prompt' => $prompt,
         ]);
     }
 

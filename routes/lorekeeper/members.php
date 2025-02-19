@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Member Routes
@@ -35,6 +37,8 @@ Route::group(['prefix' => 'account', 'namespace' => 'Users'], function () {
     Route::get('remove-alias/{id}', 'AccountController@getRemoveAlias');
     Route::post('remove-alias/{id}', 'AccountController@postRemoveAlias');
     Route::post('dob', 'AccountController@postBirthday');
+    Route::post('warning', 'AccountController@postWarningVisibility');
+    Route::post('comments', 'AccountController@postProfileComments');
     Route::post('font', 'AccountController@postFont');
 
     Route::get('two-factor/confirm', 'AccountController@getConfirmTwoFactor');
@@ -156,6 +160,7 @@ Route::group(['prefix' => 'submissions', 'namespace' => 'Users'], function () {
     Route::get('new', 'SubmissionController@getNewSubmission');
     Route::get('new/character/{slug}', 'SubmissionController@getCharacterInfo');
     Route::get('new/prompt/{id}', 'SubmissionController@getPromptInfo');
+    Route::get('new/prompt/{id}/requirements', 'SubmissionController@getPromptRequirementInfo');
     Route::post('new', 'SubmissionController@postNewSubmission');
     Route::post('new/{draft}', 'SubmissionController@postNewSubmission')->where('draft', 'draft');
     Route::get('draft/{id}', 'SubmissionController@getEditSubmission');
@@ -206,6 +211,9 @@ Route::group(['prefix' => 'designs', 'namespace' => 'Characters'], function () {
 
     Route::get('{id}/delete', 'DesignController@getDelete');
     Route::post('{id}/delete', 'DesignController@postDelete');
+
+    Route::get('{id}/cancel', 'DesignController@getCancel');
+    Route::post('{id}/cancel', 'DesignController@postCancel');
 });
 
 /**************************************************************************************************
@@ -222,10 +230,17 @@ Route::group(['prefix' => 'shops'], function () {
 **************************************************************************************************/
 Route::group(['prefix' => 'comments', 'namespace' => 'Comments'], function () {
     Route::post('make/{model}/{id}', 'CommentController@store');
-    Route::delete('/{comment}', 'CommentController@destroy')->name('comments.destroy');
+    Route::delete('{comment}', 'CommentController@destroy')->name('comments.destroy')->where('comment', '[0-9]+');
     Route::post('edit/{comment}', 'CommentController@update')->name('comments.update');
-    Route::post('/{comment}', 'CommentController@reply')->name('comments.reply');
-    Route::post('/{id}/feature', 'CommentController@feature')->name('comments.feature');
-    Route::post('/{id}/like/{action}', 'CommentController@like')->name('comments.like');
-    Route::get('/liked', 'CommentController@getLikedComments');
+    Route::post('{comment}', 'CommentController@reply')->name('comments.reply');
+    Route::post('{id}/feature', 'CommentController@feature')->name('comments.feature');
+    Route::post('{id}/like/{action}', 'CommentController@like')->name('comments.like');
+    Route::get('liked', 'CommentController@getLikedComments');
+});
+
+/**************************************************************************************************
+    Comments
+**************************************************************************************************/
+Route::group(['prefix' => 'limits'], function () {
+    Route::post('unlock/{id}', 'Admin\LimitController@postUnlockLimits');
 });
