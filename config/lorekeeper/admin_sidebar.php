@@ -176,6 +176,10 @@ return [
                 'name' => 'Items',
                 'url' => 'admin/data/items'
             ],
+            [
+                'name' => 'Minigames',
+                'url' => 'admin/data/minigames'
+            ],
         ]
     ],
     'Raffles' => [

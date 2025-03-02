@@ -226,6 +226,18 @@ Route::group(['prefix' => 'data', 'namespace' => 'Data', 'middleware' => 'power:
     Route::post('prompts/create', 'PromptController@postCreateEditPrompt');
     Route::post('prompts/edit/{id?}', 'PromptController@postCreateEditPrompt');
     Route::post('prompts/delete/{id}', 'PromptController@postDeletePrompt');
+
+        # Minigames
+        Route::get('minigames', 'MinigameController@getIndex');
+        Route::get('minigames/create', 'MinigameController@getCreateMinigame');
+        Route::get('minigames/edit/{id}', 'MinigameController@getEditMinigame');
+        Route::get('minigames/delete/{id}', 'MinigameController@getDeleteMinigame');
+        Route::post('minigames/create', 'MinigameController@postCreateEditMinigame');
+        Route::post('minigames/edit/{id?}', 'MinigameController@postCreateEditMinigame');
+        Route::post('minigames/games/{id}', 'MinigameController@postEditType');
+        Route::post('minigames/delete/{id}', 'MinigameController@postDeleteMinigame');
+        Route::post('minigames/sort', 'MinigameController@postSortMinigame');
+        Route::post('minigames/images/{id}', 'MinigameController@posEditMinigameImages');
 });
 
 

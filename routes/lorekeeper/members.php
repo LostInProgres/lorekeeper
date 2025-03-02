@@ -198,3 +198,12 @@ Route::group(['prefix' => 'comments', 'namespace' => 'Comments'], function() {
     Route::post('/{comment}', 'CommentController@reply')->name('comments.reply');
     Route::post('/{id}/feature', 'CommentController@feature')->name('comments.feature');
 });
+
+Route::group(['prefix' => 'minigames'], function () {
+    Route::get('/', 'MinigameController@getIndex');
+    Route::get('{id}', 'MinigameController@getMinigame')->where(['id' => '[0-9]+']);
+    Route::post('{id}/play', 'MinigameController@postPlay')->where(['id' => '[0-9]+']);
+    Route::get('{id}/play/ajax', 'MinigameController@getAjax')->where(['id' => '[0-9]+']);
+    Route::post('{id}/play/ajax', 'MinigameController@postAjax')->where(['id' => '[0-9]+']);
+    Route::get('{id}/ajax-info', 'MinigameController@getAjaxInfo')->where(['id' => '[0-9]+']);
+});
