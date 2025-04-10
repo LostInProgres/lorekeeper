@@ -1,13 +1,13 @@
 @extends('admin.layout')
 
-@section('admin-title') Species @endsection
+@section('admin-title') {{ ucfirst(__('lorekeeper.subtype')) }} @endsection
 
 @section('admin-content')
-{!! breadcrumbs(['Admin Panel' => 'admin', 'Subtypes' => 'admin/data/subtypes', ($subtype->id ? 'Edit' : 'Create').' Subtype' => $subtype->id ? 'admin/data/subtypes/edit/'.$subtype->id : 'admin/data/subtypes/create']) !!}
+{!! breadcrumbs(['Admin Panel' => 'admin', ucfirst(__('lorekeeper.subtypes')) => 'admin/data/subtypes', ($subtype->id ? 'Edit' : 'Create').' '.ucfirst(__('lorekeeper.subtype')) => $subtype->id ? 'admin/data/subtypes/edit/'.$subtype->id : 'admin/data/subtypes/create']) !!}
 
-<h1>{{ $subtype->id ? 'Edit' : 'Create' }} Subtype
+<h1>{{ $subtype->id ? 'Edit' : 'Create' }} {{ ucfirst(__('lorekeeper.subtype')) }}
     @if($subtype->id)
-        <a href="#" class="btn btn-danger float-right delete-subtype-button">Delete Subtype</a>
+        <a href="#" class="btn btn-danger float-right delete-subtype-button">Delete {{ ucfirst(__('lorekeeper.subtype')) }}</a>
     @endif
 </h1>
 
@@ -21,7 +21,7 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('Species') !!}
+    {!! Form::label(ucfirst(__('lorekeeper.species'))) !!}
     {!! Form::select('species_id', $specieses, $subtype->species_id, ['class' => 'form-control']) !!}
 </div>
 
@@ -62,12 +62,12 @@
 @section('scripts')
 @parent
 <script>
-$( document ).ready(function() {    
+$( document ).ready(function() {
     $('.delete-subtype-button').on('click', function(e) {
         e.preventDefault();
-        loadModal("{{ url('admin/data/subtypes/delete') }}/{{ $subtype->id }}", 'Delete Subtype');
+        loadModal("{{ url('admin/data/subtypes/delete') }}/{{ $subtype->id }}", 'Delete '.ucfirst(__('lorekeeper.subtype')));
     });
 });
-    
+
 </script>
 @endsection

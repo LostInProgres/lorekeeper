@@ -3,18 +3,16 @@
 @section('admin-title') Species @endsection
 
 @section('admin-content')
-{!! breadcrumbs(['Admin Panel' => 'admin', 'Species' => 'admin/data/species']) !!}
+{!! breadcrumbs(['Admin Panel' => 'admin', ucfirst(__('lorekeeper.species')) => 'admin/data/species']) !!}
 
-<h1>Species</h1>
+<h1>{{ ucfirst(__('lorekeeper.species')) }}</h1>
 
-<div class="text-right mb-3"><a class="btn btn-primary" href="{{ url('admin/data/species/create') }}"><i class="fas fa-plus"></i> Create New Species</a></div>
-@if(!count($specieses))
-    <p>No species found.</p>
-@else 
+<div class="text-right mb-3"><a class="btn btn-primary" href="{{ url('admin/data/species/create') }}"><i class="fas fa-plus"></i> Create New {{ ucfirst(__('lorekeeper.species')) }}</a></div>
+@if(count($specieses))
     <table class="table table-sm species-table">
     <thead>
             <tr>
-                <th>Species</th>
+                <th>{{ ucfirst(__('lorekeeper.species')) }}</th>
                 <th>Sub Masterlist</th>
                 <th></th>
             </tr>
@@ -43,6 +41,8 @@
         {!! Form::submit('Save Order', ['class' => 'btn btn-primary']) !!}
         {!! Form::close() !!}
     </div>
+
+    <div class="text-center mt-4 small text-muted">{{ count($specieses) }} {{ trans_choice('lorekeeper.specieses_', $specieses->count()) }} found.</div>
 @endif
 
 @endsection

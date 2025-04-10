@@ -3,7 +3,7 @@
 @section('admin-title') Species @endsection
 
 @section('admin-content')
-{!! breadcrumbs(['Admin Panel' => 'admin', 'Species' => 'admin/data/species', ($species->id ? 'Edit' : 'Create').' Species' => $species->id ? 'admin/data/species/edit/'.$species->id : 'admin/data/species/create']) !!}
+{!! breadcrumbs(['Admin Panel' => 'admin',  ucfirst(__('lorekeeper.species')) => 'admin/data/species', ($species->id ? 'Edit' : 'Create').' '.ucfirst(__('lorekeeper.species')) => $species->id ? 'admin/data/species/edit/'.$species->id : 'admin/data/species/create']) !!}
 
 <h1>{{ $species->id ? 'Edit' : 'Create' }} Species
     @if($species->id)
@@ -62,12 +62,12 @@
 @section('scripts')
 @parent
 <script>
-$( document ).ready(function() {    
+$( document ).ready(function() {
     $('.delete-species-button').on('click', function(e) {
         e.preventDefault();
-        loadModal("{{ url('admin/data/species/delete') }}/{{ $species->id }}", 'Delete Species');
+        loadModal("{{ url('admin/data/species/delete') }}/{{ $species->id }}", "{{'Delete '.ucfirst(__('lorekeeper.species'))}}");
     });
 });
-    
+
 </script>
 @endsection

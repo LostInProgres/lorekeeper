@@ -23,13 +23,13 @@ class FeatureController extends Controller
     | Admin / Feature Controller
     |--------------------------------------------------------------------------
     |
-    | Handles creation/editing of character feature categories and features 
+    | Handles creation/editing of character feature categories and features
     | (AKA traits, which is a reserved keyword in PHP and thus can't be used).
     |
     */
 
     /**********************************************************************************************
-    
+
         FEATURE CATEGORIES
 
     **********************************************************************************************/
@@ -45,7 +45,7 @@ class FeatureController extends Controller
             'categories' => FeatureCategory::orderBy('sort', 'DESC')->get()
         ]);
     }
-    
+
     /**
      * Shows the create feature category page.
      *
@@ -57,7 +57,7 @@ class FeatureController extends Controller
             'category' => new FeatureCategory
         ]);
     }
-    
+
     /**
      * Shows the edit feature category page.
      *
@@ -99,7 +99,7 @@ class FeatureController extends Controller
         }
         return redirect()->back();
     }
-    
+
     /**
      * Gets the feature category deletion modal.
      *
@@ -152,7 +152,7 @@ class FeatureController extends Controller
     }
 
     /**********************************************************************************************
-    
+
         FEATURES
 
     **********************************************************************************************/
@@ -167,25 +167,25 @@ class FeatureController extends Controller
     {
         $query = Feature::query();
         $data = $request->only(['rarity_id', 'feature_category_id', 'species_id', 'name']);
-        if(isset($data['rarity_id']) && $data['rarity_id'] != 'none') 
+        if(isset($data['rarity_id']) && $data['rarity_id'] != 'none')
             $query->where('rarity_id', $data['rarity_id']);
-        if(isset($data['feature_category_id']) && $data['feature_category_id'] != 'none') 
+        if(isset($data['feature_category_id']) && $data['feature_category_id'] != 'none')
             $query->where('feature_category_id', $data['feature_category_id']);
-        if(isset($data['species_id']) && $data['species_id'] != 'none') 
+        if(isset($data['species_id']) && $data['species_id'] != 'none')
             $query->where('species_id', $data['species_id']);
-        if(isset($data['subtype_id']) && $data['subtype_id'] != 'none') 
+        if(isset($data['subtype_id']) && $data['subtype_id'] != 'none')
             $query->where('subtype_id', $data['subtype_id']);
-        if(isset($data['name'])) 
+        if(isset($data['name']))
             $query->where('name', 'LIKE', '%'.$data['name'].'%');
         return view('admin.features.features', [
             'features' => $query->paginate(20)->appends($request->query()),
             'rarities' => ['none' => 'Any Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'specieses' => ['none' => 'Any Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'subtypes' => ['none' => 'Any Subtype'] + Subtype::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'specieses' => ['none' => 'Any '.ucfirst(__('lorekeeper.species'))] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'subtypes' => ['none' => 'Any '.ucfirst('lorekeeper.subtype')] + Subtype::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'categories' => ['none' => 'Any Category'] + FeatureCategory::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray()
         ]);
     }
-    
+
     /**
      * Shows the create feature page.
      *
@@ -197,11 +197,11 @@ class FeatureController extends Controller
             'feature' => new Feature,
             'rarities' => ['none' => 'Select a Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'specieses' => ['none' => 'No restriction'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'subtypes' => ['none' => 'No subtype'] + Subtype::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'subtypes' => ['none' => 'No '.__('lorekeeper.subtype')] + Subtype::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'categories' => ['none' => 'No category'] + FeatureCategory::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray()
         ]);
     }
-    
+
     /**
      * Shows the edit feature page.
      *
@@ -216,7 +216,7 @@ class FeatureController extends Controller
             'feature' => $feature,
             'rarities' => ['none' => 'Select a Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'specieses' => ['none' => 'No restriction'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'subtypes' => ['none' => 'No subtype'] + Subtype::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'subtypes' => ['none' => 'No '.__('lorekeeper.subtype')] + Subtype::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'categories' => ['none' => 'No category'] + FeatureCategory::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray()
         ]);
     }
@@ -247,7 +247,7 @@ class FeatureController extends Controller
         }
         return redirect()->back();
     }
-    
+
     /**
      * Gets the feature deletion modal.
      *

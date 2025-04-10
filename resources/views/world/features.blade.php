@@ -30,9 +30,9 @@
                     'category'       => 'Sort by Category',
                     'rarity-reverse' => 'Sort by Rarity (Common to Rare)',
                     'rarity'         => 'Sort by Rarity (Rare to Common)',
-                    'species'        => 'Sort by Species',
+                    'species'        => 'Sort by '.ucfirst(__('lorekeeper.species')),
                     'newest'         => 'Newest First',
-                    'oldest'         => 'Oldest First'    
+                    'oldest'         => 'Oldest First'
                 ], Request::get('sort') ? : 'category', ['class' => 'form-control']) !!}
             </div>
             <div class="form-group ml-3 mb-3">

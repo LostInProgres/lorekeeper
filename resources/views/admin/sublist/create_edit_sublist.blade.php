@@ -39,7 +39,7 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('species[]', 'Species') !!}
+    {!! Form::label('species[]',  ucfirst(__('lorekeeper.species'))) !!}
     {!! Form::select('species[]', $species, $subSpecies, ['id' => 'speciesList', 'class' => 'form-control', 'multiple']) !!}
 </div>
 
@@ -59,7 +59,7 @@
 @section('scripts')
 @parent
 <script>
-    $( document ).ready(function() {    
+    $( document ).ready(function() {
         $('.delete-sublist-button').on('click', function(e) {
             e.preventDefault();
             loadModal("{{ url('admin/data/sublists/delete') }}/{{ $sublist->id }}", 'Delete Sub Masterlist');

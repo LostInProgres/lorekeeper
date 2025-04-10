@@ -5,6 +5,9 @@
 @section('meta-img') {{ $character->image->thumbnailUrl }} @endsection
 
 @section('profile-content')
+
+@include('widgets._awardcase_feature', ['target' => $character, 'count' => Config::get('lorekeeper.extensions.awards.character_featured'), 'float' => true])
+
 @if($character->is_myo_slot)
 {!! breadcrumbs(['MYO Slot Masterlist' => 'myos', $character->fullName => $character->url]) !!}
 @else
@@ -14,7 +17,7 @@
 @include('character._header', ['character' => $character])
 
 {{-- Main Image --}}
-<div class="row mb-3">
+<div class="row mb-3" style="clear:both;">
     <div class="col-md-7">
         <div class="text-center">
             <a href="{{ $character->image->canViewFull(Auth::check() ? Auth::user() : null) && file_exists( public_path($character->image->imageDirectory.'/'.$character->image->fullsizeFileName)) ? $character->image->fullsizeUrl : $character->image->imageUrl }}" data-lightbox="entry" data-title="{{ $character->fullName }}">

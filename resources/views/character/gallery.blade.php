@@ -13,7 +13,7 @@
 
 @include('character._header', ['character' => $character])
 
-<p>These images are user-submitted and should not be confused with the official record of the character's design and history visible <a href="{{ url($character->url . '/images') }}">here</a>.</p>
+<p>These images are user-submitted and should not be confused with the official record of the {{__('lorekeeper.character')}}'s design and history visible <a href="{{ url($character->url . '/images') }}">here</a>.</p>
 
 @if($character->gallerySubmissions->count())
     {!! $submissions->render() !!}

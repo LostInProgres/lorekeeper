@@ -47,7 +47,7 @@
           <div class="col-6 col-md-2 font-weight-bold">Rarity</div>
           <div class="col-6 col-md-2 font-weight-bold">Category</div>
           <div class="col-6 col-md-2 font-weight-bold">Species</div>
-          <div class="col-6 col-md-2 font-weight-bold">Subtype</div>
+          <div class="col-6 col-md-2 font-weight-bold">{{ ucfirst(__('lorekeeper.subtype')) }}</div>
         </div>
         @foreach($features as $feature)
         <div class="d-flex row flex-wrap col-12 mt-1 pt-1 px-0 ubt-top">

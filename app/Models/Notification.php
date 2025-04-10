@@ -32,21 +32,21 @@ class Notification extends Model
 
 
     /**********************************************************************************************
-    
+
         RELATIONS
 
     **********************************************************************************************/
-    
+
     /**
      * Get the user who owns notification.
      */
-    public function user() 
+    public function user()
     {
         return $this->belongsTo('App\Models\User\User');
     }
 
     /**********************************************************************************************
-    
+
         ACCESSORS
 
     **********************************************************************************************/
@@ -72,10 +72,10 @@ class Notification extends Model
 
         $message = $notification['message'];
 
-        // Replace the URL... 
+        // Replace the URL...
         $message = str_replace('{url}', url($notification['url']), $message);
 
-        // Replace any variables in data... 
+        // Replace any variables in data...
         $data = $this->data;
         if($data && count($data)) {
             foreach($data as $key => $value) {
@@ -97,7 +97,7 @@ class Notification extends Model
     }
 
     /**********************************************************************************************
-    
+
         CONSTANTS
 
     **********************************************************************************************/
@@ -146,6 +146,12 @@ class Notification extends Model
     const REPORT_CLOSED                     = 221;
     const COMMENT_MADE                      = 239;
     const COMMENT_REPLY                     = 240;
+    const AWARD_GRANT                       = 341;
+    const AWARD_REMOVAL                     = 342;
+    const AWARD_TRANSFER                    = 343;
+    const FORCED_AWARD_TRANSFER             = 344;
+    const CHARACTER_AWARD_GRANT             = 345;
+    const CHARACTER_AWARD_REMOVAL           = 346;
     const CHARACTER_ITEM_GRANT              = 501;
     const CHARACTER_ITEM_REMOVAL            = 502;
     const GALLERY_SUBMISSION_COLLABORATOR   = 505;

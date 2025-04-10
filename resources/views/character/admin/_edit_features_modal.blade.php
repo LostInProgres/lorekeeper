@@ -1,16 +1,16 @@
 {!! Form::open(['url' => 'admin/character/image/'.$image->id.'/traits']) !!}
     <div class="form-group">
-        {!! Form::label('Species') !!}
+        {!! Form::label( ucfirst(__('lorekeeper.species'))) !!}
         {!! Form::select('species_id', $specieses, $image->species_id, ['class' => 'form-control', 'id' => 'species']) !!}
     </div>
 
     <div class="form-group" id="subtypes">
-        {!! Form::label('Subtype (Optional)') !!}
+        {!! Form::label(ucfirst(__('lorekeeper.subtype')).' (Optional)') !!}
         {!! Form::select('subtype_id', $subtypes, $image->subtype_id, ['class' => 'form-control', 'id' => 'subtype']) !!}
     </div>
 
     <div class="form-group">
-        {!! Form::label('Character Rarity') !!}
+        {!! Form::label(ucfirst(__('lorekeeper.character')).' Rarity') !!}
         {!! Form::select('rarity_id', $rarities, $image->rarity_id, ['class' => 'form-control']) !!}
     </div>
 

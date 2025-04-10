@@ -2,7 +2,7 @@
     {!! Form::open(['method' => 'GET']) !!}
         <div class="form-inline justify-content-end">
             <div class="form-group mr-3 mb-3">
-                {!! Form::label('name', 'Character Name/Code: ', ['class' => 'mr-2']) !!}
+                {!! Form::label('name', ucfirst(__('lorekeeper.character')).' Name/Code: ', ['class' => 'mr-2']) !!}
                 {!! Form::text('name', Request::get('name'), ['class' => 'form-control']) !!}
             </div>
             <div class="form-group mb-3">
@@ -21,7 +21,7 @@
                         {!! Form::select('character_category_id', $categories, Request::get('character_category_id'), ['class' => 'form-control']) !!}
                     </div>
                     <div class="masterlist-search-field">
-                        {!! Form::label('subtype_id', 'Species Subtype: ') !!}
+                        {!! Form::label('subtype_id', ucfirst(__('lorekeeper.species')).' '.ucfirst(__('lorekeeper.subtype')).':'    ) !!}
                         {!! Form::select('subtype_id', $subtypes, Request::get('subtype_id'), ['class' => 'form-control']) !!}
                     </div>
                 @endif
@@ -104,7 +104,7 @@
                 <hr />
                 <div class="masterlist-search-field">
                     {!! Form::checkbox('search_images', 1, Request::get('search_images'), ['class' => 'form-check-input mr-3',  'data-toggle' => 'toggle']) !!}
-                    <span class="ml-2">Include all character images in search {!! add_help('Each character can have multiple images for each updated version of the character, which captures the traits on that character at that point in time. By default the search will only search on the most up-to-date image, but this option will retrieve characters that match the criteria on older images - you may get results that are outdated.') !!}</span>
+                    <span class="ml-2">Include all {{ __('lorekeeper.character') }} images in search {!! add_help('Each character can have multiple images for each updated version of the character, which captures the traits on that character at that point in time. By default the search will only search on the most up-to-date image, but this option will retrieve characters that match the criteria on older images - you may get results that are outdated.') !!}</span>
                 </div>
 
             </div>
@@ -149,7 +149,7 @@
                     <a href="{{ $character->url }}" class="h5 mb-0">@if(!$character->is_visible) <i class="fas fa-eye-slash"></i> @endif {{ $character->fullName }}</a>
                 </div>
                 <div class="small">
-                    {!! $character->image->species_id ? $character->image->species->displayName : 'No Species' !!} ・ {!! $character->image->rarity_id ? $character->image->rarity->displayName : 'No Rarity' !!} ・ {!! $character->displayOwner !!}
+                    {!! $character->image->species_id ? $character->image->species->displayName : 'No '.ucfirst(__('lorekeeper.species')) !!} ・ {!! $character->image->rarity_id ? $character->image->rarity->displayName : 'No Rarity' !!} ・ {!! $character->displayOwner !!}
                 </div>
             </div>
             @endforeach
@@ -163,7 +163,7 @@
                 <th>Owner</th>
                 <th>Name</th>
                 <th>Rarity</th>
-                <th>Species</th>
+                <th>{{ ucfirst(__('lorekeeper.species')) }}</th>
                 <th>Created</th>
             </tr>
         </thead>

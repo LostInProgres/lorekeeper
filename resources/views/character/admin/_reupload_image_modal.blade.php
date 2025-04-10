@@ -1,6 +1,6 @@
 {!! Form::open(['url' => 'admin/character/image/'.$image->id.'/reupload', 'files' => true]) !!}
 <div class="form-group">
-        {!! Form::label('Character Image') !!} {!! add_help('This is the full masterlist image. Note that the image is not protected in any way, so take precautions to avoid art/design theft.') !!}
+        {!! Form::label(ucfirst(__('lorekeeper.character')).' Image') !!} {!! add_help('This is the full masterlist image. Note that the image is not protected in any way, so take precautions to avoid art/design theft.') !!}
         <div>{!! Form::file('image', ['id' => 'mainImage']) !!}</div>
     </div>
 @if (Config::get('lorekeeper.settings.masterlist_image_automation') === 1)

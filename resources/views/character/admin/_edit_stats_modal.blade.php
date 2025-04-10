@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::label('Character Category') !!}
+                    {!! Form::label(ucfirst(__('lorekeeper.character')).' Category') !!}
                     {!! Form::select('character_category_id', $categories, $character->category->id, ['class' => 'form-control']) !!}
                 </div>
             </div>
@@ -20,16 +20,16 @@
             </div>
         </div>
         <div class="form-group">
-            {!! Form::label('Character Code') !!} {!! add_help('This code identifies the character itself. This must be unique among all characters (as it\'s used to generate the character\'s page URL).') !!}
+            {!! Form::label(ucfirst(__('lorekeeper.character')).' Code') !!} {!! add_help('This code identifies the character itself. This must be unique among all characters (as it\'s used to generate the character\'s page URL).') !!}
             {!! Form::text('slug', $character->slug, ['class' => 'form-control', 'id' => 'code']) !!}
         </div>
     @endif
 
     <div class="alert alert-info">
-        These are displayed on the character's profile, but don't have any effect on site functionality except for the following: 
+        These are displayed on the {{__('lorekeeper.character')}}'s profile, but don't have any effect on site functionality except for the following:
         <ul>
-            <li>If all switches are off, the character cannot be transferred by the user (directly or through trades).</li>
-            <li>If a transfer cooldown is set, the character also cannot be transferred by the user (directly or through trades) until the cooldown is up.</li>
+            <li>If all switches are off, the {{__('lorekeeper.character')}} cannot be transferred by the user (directly or through trades).</li>
+            <li>If a transfer cooldown is set, the {{__('lorekeeper.character')}} also cannot be transferred by the user (directly or through trades) until the cooldown is up.</li>
         </ul>
     </div>
     <div class="form-group">
@@ -51,7 +51,7 @@
         </div>
     </div>
     <div class="form-group">
-        {!! Form::label('On Transfer Cooldown Until (Optional)') !!} 
+        {!! Form::label('On Transfer Cooldown Until (Optional)') !!}
         {!! Form::text('transferrable_at', $character->transferrable_at, ['class' => 'form-control', 'id' => 'datepicker']) !!}
     </div>
 

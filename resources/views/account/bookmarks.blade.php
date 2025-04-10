@@ -13,7 +13,7 @@
         <div class="form-inline justify-content-end mb-3">
             <div class="form-group mr-3">
                 {!! Form::label('sort', 'Sort: ', ['class' => 'mr-2']) !!}
-                {!! Form::select('sort', ['number_desc' => 'Number Descending', 'number_asc' => 'Number Ascending', 'id_desc' => 'Newest Characters First', 'id_asc' => 'Oldest Characters First', 'sale_value_desc' => 'Highest Sale Value', 'sale_value_asc' => 'Lowest Sale Value', 'species_asc' => 'Species', 'species_desc' => 'Species (Reverse)', 'trade_asc' => 'Trade Status', 'trade_desc' => 'Trade Status (Reverse)', 'gift_art_asc' => 'Gift Art Status', 'gift_art_desc' => 'Gift Art Status (Reverse)', 'gift_write_asc' => 'Gift Writing Status', 'gift_write_desc' => 'Gift Writing Status (Reverse)'], Request::get('sort'), ['class' => 'form-control']) !!}
+                {!! Form::select('sort', ['number_desc' => 'Number Descending', 'number_asc' => 'Number Ascending', 'id_desc' => 'Newest Characters First', 'id_asc' => 'Oldest Characters First', 'sale_value_desc' => 'Highest Sale Value', 'sale_value_asc' => 'Lowest Sale Value', 'species_asc' =>  ucfirst(__('lorekeeper.species')), 'species_desc' => 'Species (Reverse)', 'trade_asc' => 'Trade Status', 'trade_desc' => 'Trade Status (Reverse)', 'gift_art_asc' => 'Gift Art Status', 'gift_art_desc' => 'Gift Art Status (Reverse)', 'gift_write_asc' => 'Gift Writing Status', 'gift_write_desc' => 'Gift Writing Status (Reverse)'], Request::get('sort'), ['class' => 'form-control']) !!}
             </div>
             {!! Form::submit('Search', ['class' => 'btn btn-primary']) !!}
         </div>
@@ -48,7 +48,7 @@
                     </td>
                     <td>
                         <h5 class="mb-0">{!! $bookmark->character->displayName !!}</h5>
-                        {!! $bookmark->character->image->species_id ? $bookmark->character->image->species->displayName : 'No Species' !!} ・ {!! $bookmark->character->image->rarity_id ? $bookmark->character->image->rarity->displayName : 'No Rarity' !!} ・ {!! $bookmark->character->displayOwner !!}
+                        {!! $bookmark->character->image->species_id ? $bookmark->character->image->species->displayName : 'No '.ucfirst(__('lorekeeper.species')) !!} ・ {!! $bookmark->character->image->rarity_id ? $bookmark->character->image->rarity->displayName : 'No Rarity' !!} ・ {!! $bookmark->character->displayOwner !!}
 
                         @if($bookmark->character->is_gift_art_allowed > 0 && !$bookmark->character->is_myo_slot)
                             <div><i class="{{$bookmark->character->is_gift_art_allowed == 1 ? 'text-success' : 'text-warning'}} far fa-circle fa-fw mr-2"></i> {{$bookmark->character->is_gift_art_allowed == 1 ? 'Gift art is allowed' : 'Ask First before gift art'}}</div>

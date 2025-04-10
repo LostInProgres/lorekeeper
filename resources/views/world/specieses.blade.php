@@ -3,7 +3,7 @@
 @section('title') Species @endsection
 
 @section('content')
-{!! breadcrumbs(['World' => 'world', 'Species' => 'world/species']) !!}
+{!! breadcrumbs(['World' => 'world',  ucfirst(__('lorekeeper.species')) => 'world/species']) !!}
 <h1>Species</h1>
 
 <div>

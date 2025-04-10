@@ -14,8 +14,8 @@
                 <h5 class="card-title">Characters</h5>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><a href="{{ url('world/species') }}">Species</a></li>
-				<li class="list-group-item"><a href="{{ url('world/subtypes') }}">Subtypes</a></li>
+                <li class="list-group-item"><a href="{{ url('world/'.__('lorekeeper.specieses')) }}">{{ ucfirst(__('lorekeeper.specieses')) }}</a></li>
+				<li class="list-group-item"><a href="{{ url('world/'.__('lorekeeper.subtypes')) }}">{{ ucfirst(__('lorekeeper.subtypes')) }}</a></li>
                 <li class="list-group-item"><a href="{{ url('world/rarities') }}">Rarities</a></li>
                 <li class="list-group-item"><a href="{{ url('world/trait-categories') }}">Trait Categories</a></li>
                 <li class="list-group-item"><a href="{{ url('world/traits') }}">All Traits</a></li>
@@ -26,15 +26,18 @@
     <div class="col-md-6">
         <div class="card mb-4">
             <div class="card-body text-center">
-                <img src="{{ asset('images/inventory.png') }}" alt="Items" />
-                <h5 class="card-title">Items</h5>
+                <img src="{{ asset('images/inventory.png') }}" alt="Items and {{ ucfirst(__('awards.awards')) }}" />
+                <h5 class="card-title">Items & {{ ucfirst(__('awards.awards')) }}</h5>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><a href="{{ url('world/item-categories') }}">Item Categories</a></li>
                 <li class="list-group-item"><a href="{{ url('world/items') }}">All Items</a></li>
+                <li class="list-group-item"><a href="{{ url('world/'.__('awards.award').'-categories') }}">{{ ucfirst(__('awards.award')) }} Categories</a></li>
+                <li class="list-group-item"><a href="{{ url('world/'.__('awards.awards')) }}">All {{ ucfirst(__('awards.awards')) }}</a></li>
                 <li class="list-group-item"><a href="{{ url('world/currencies') }}">Currencies</a></li>
             </ul>
         </div>
     </div>
 </div>
+
 @endsection
