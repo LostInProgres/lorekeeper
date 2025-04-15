@@ -10,6 +10,8 @@
 </h1>
 
 <p>These are the {{ __('awards.awards') }} you've earned for participating on this site.</p>
+<div class="text-right mb-3">
+<a class="btn btn-primary" href="{{ url('awardcase/edit/sort') }}"><i class="fas fa-plus"></i> Sort {{ __('awards.awards') }}</a>
 @foreach($awards as $categoryId=>$categoryAwards)
     <div class="card mb-3 awardcase-category">
         <h5 class="card-header awardcase-header">

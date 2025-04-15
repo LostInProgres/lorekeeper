@@ -40,14 +40,12 @@ class AwardCaseController extends Controller
             Auth::user()->awards()
                 ->where('count', '>', 0)
                 ->orderByRaw('FIELD(award_category_id,'.implode(',', $categories->pluck('id')->toArray()).')')
-                ->orderBy('name')
-                ->orderBy('updated_at')
+                ->orderBy('sort', 'DESC')
                 ->get()
                 ->groupBy(['award_category_id', 'id']) :
             Auth::user()->awards()
                 ->where('count', '>', 0)
-                ->orderBy('name')
-                ->orderBy('updated_at')
+                ->orderBy('sort', 'DESC')
                 ->get()
                 ->groupBy(['award_category_id', 'id']);
         return view('home.awardcase', [
@@ -79,6 +77,18 @@ class AwardCaseController extends Controller
             'userOptions' => ['' => 'Select User'] + User::visible()->where('id', '!=', $first_instance ? $first_instance->user_id : 0)->orderBy('name')->get()->pluck('verified_name', 'id')->toArray(),
             'characterOptions' => ['' => 'Select Character'] + Character::visible()->myo(0)->where('user_id', optional(Auth::user())->id)->orderBy('sort','DESC')->get()->pluck('fullName','id')->toArray(),
             'readOnly' => $readOnly
+        ]);
+    }
+
+    /**
+     * Shows the user's awardcase sort page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getUserSort()
+    {
+        return view('home._awardcase_sort', [
+            'UserAwards' => UserAward::where([['user_id', Auth::user()->id], ['count', '>', 0]])->orderBy('sort', 'DESC')->get(),
         ]);
     }
 
@@ -246,6 +256,31 @@ class AwardCaseController extends Controller
         $award = Award::find($id);
         if($service->claimAward($award, Auth::user())) {
             flash(ucfirst(__('awards.award')).' claimed successfully.')->success();
+        }
+        else {
+            foreach($service->errors()->getMessages()['error'] as $error) flash($error)->error();
+        }
+        return redirect()->back();
+    }
+
+     /*****************************************************************************
+     *
+     * Sorting STUFF
+     *
+     *****************************************************************************/
+
+    /**
+     * Sorts feature categories.
+     *
+     * @param  \Illuminate\Http\Request     $request
+     * @param  App\Services\FeatureService  $service
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postSortUserAwards(Request $request, AwardCaseManager $service)
+    {
+        dd($request);
+        if($service->sortUserAwards($request->get('sort, is_visible'))) {
+            flash('Award order updated successfully.')->success();
         }
         else {
             foreach($service->errors()->getMessages()['error'] as $error) flash($error)->error();

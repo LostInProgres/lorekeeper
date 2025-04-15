@@ -598,4 +598,29 @@ class AwardCaseManager extends Service
             }
         }
     }
+
+    /**
+     * Sorts award order.
+     *
+     * @param  array  $data
+     * @return bool
+     */
+    public function sortUserAwards($data)
+    {
+        DB::beginTransaction();
+
+        try {
+            // explode the sort array and reverse it since the order is inverted
+            $sort = array_reverse(explode(',', $data));
+
+            foreach($sort as $key => $s) {
+                UserAward::where('id', $s)->update(['sort' => $key]);
+            }
+
+            return $this->commitReturn(true);
+        } catch(\Exception $e) { 
+            $this->setError('error', $e->getMessage());
+        }
+        return $this->rollbackReturn(false);
+    }
 }

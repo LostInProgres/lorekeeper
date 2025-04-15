@@ -15,7 +15,7 @@ class UserAward extends Model
      * @var array
      */
     protected $fillable = [
-        'data', 'award_id', 'user_id'
+        'data', 'award_id', 'user_id', 'is_visible',
     ];
 
     /**

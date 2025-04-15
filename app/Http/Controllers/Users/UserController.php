@@ -75,7 +75,7 @@ class UserController extends Controller
         return view('user.profile', [
             'user' => $this->user,
             'items' => $this->user->items()->where('count', '>', 0)->orderBy('user_items.updated_at', 'DESC')->take(4)->get(),
-            'awards' => $this->user->awards()->orderBy('user_awards.updated_at', 'DESC')->whereNull('deleted_at')->where('count','>',0)->take(4)->get(),
+            'awards' => $this->user->awards()->orderBy('sort', 'DESC')->whereNull('deleted_at')->where('count','>',0)->take(4)->get(),
             'sublists' => Sublist::orderBy('sort', 'DESC')->get(),
             'characters' => $characters,
         ]);
@@ -228,14 +228,12 @@ class UserController extends Controller
             $this->user->awards()
                 ->where('count', '>', 0)
                 ->orderByRaw('FIELD(award_category_id,'.implode(',', $categories->pluck('id')->toArray()).')')
-                ->orderBy('name')
-                ->orderBy('updated_at')
+                ->orderBy('sort', 'DESC')
                 ->get()
                 ->groupBy(['award_category_id', 'id']) :
             $this->user->awards()
                 ->where('count', '>', 0)
-                ->orderBy('name')
-                ->orderBy('updated_at')
+                ->orderBy('sort', 'DESC')
                 ->get()
                 ->groupBy(['award_category_id', 'id']);
         return view('user.awardcase', [
