@@ -95,7 +95,7 @@ class LootService extends Service
                     $array = [];
                     $loot_tables = [];
 
-                    $loot_tables[1] = $stack->item->tag('loot')->data;
+                    $loot_tables[$stack->item->tag('loot')->data] = 1;
 
                     $array["loot_tables"] = $loot_tables;
 
