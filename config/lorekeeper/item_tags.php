@@ -24,4 +24,10 @@ return [
         'text_color' => '#ffffff',
         'background_color' => '#1fd1a7'
     ],
+
+    'loot' => [
+        'name' => 'Loot',
+        'text_color' => '#ffffff',
+        'background_color' => '#f6993f'
+    ],
 ];
