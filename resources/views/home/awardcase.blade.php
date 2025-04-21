@@ -26,6 +26,7 @@
                                 <a href="#" class="awardcase-stack {{ $stack->first()->is_featured ? 'alert alert-success' : '' }}"><img src="{{ $stack->first()->imageUrl }}" alt="{{ $stack->first()->name }}" class="mw-100"/></a>
                             </div>
                             <div>
+                            @if(!$stack->first()->pivot->is_visible) <i class="fas fa-eye-slash" data-toggle="tooltip" title="This award is hidden from public view."></i> @endif
                                 <a href="#" class="awardcase-stack awardcase-stack-name">{{ $stack->first()->name }}
                                 </a>
                             </div>

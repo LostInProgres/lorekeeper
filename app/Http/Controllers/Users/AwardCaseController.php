@@ -278,7 +278,7 @@ class AwardCaseController extends Controller
      */
     public function postSortUserAwards(Request $request, AwardCaseManager $service)
     {
-        if($service->sortUserAwards($request->get('sort'))) {
+        if($service->sortUserAwards($request->get('sort'), $request->get('visibility'))) {
             flash('Award order updated successfully.')->success();
         }
         else {

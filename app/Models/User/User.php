@@ -175,7 +175,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function awards()
     {
-        return $this->belongsToMany('App\Models\Award\Award', 'user_awards')->withPivot('count', 'data', 'updated_at', 'id')->whereNull('user_awards.deleted_at');
+        return $this->belongsToMany('App\Models\Award\Award', 'user_awards')->withPivot('count', 'data', 'updated_at', 'id', 'is_visible')->whereNull('user_awards.deleted_at');
     }
 
     /**

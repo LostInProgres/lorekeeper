@@ -605,15 +605,22 @@ class AwardCaseManager extends Service
      * @param  array  $data
      * @return bool
      */
-    public function sortUserAwards($data)
+    public function sortUserAwards($sort, $visible)
     {
         DB::beginTransaction();
 
         try {
             // explode the sort array and reverse it since the order is inverted
-            $sort = array_reverse(explode(',', $data));
+            $sort = array_reverse(explode(',', $sort));
 
             foreach($sort as $key => $s) {
+                // Check wether the ID is in the list of visible awards.
+                if (in_array($s, $visible)) {
+                    UserAward::where('id', $s)->update(['is_visible' => 1]);
+                } else {
+                    UserAward::where('id', $s)->update(['is_visible' => 0]);
+                }
+
                 UserAward::where('id', $s)->update(['sort' => $key]);
             }
 

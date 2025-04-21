@@ -1,15 +1,16 @@
-@extends('admin.layout')
+@extends('home.layout')
 
-@section('admin-title') Awards @endsection
+@section('home-title') {{ ucfirst(__('awards.awards')) }} @endsection
 
-@section('admin-content')
-{!! breadcrumbs(['Admin Panel' => 'admin', 'Rarities' => 'admin/data/rarities']) !!}
+@section('home-content')
+{!! breadcrumbs([ ucfirst(__('awards.awardcase'))  => __('awards.awardcase'), 'Awards Sort' => 'awardcase/edit/sort']) !!}
 
 <h1>Awards sort</h1>
 
 @if(!isset($UserAwards))
     <p>No awards found.</p>
 @else 
+{!! Form::open(['url' => 'awardcase/edit/sort/post']) !!}
     <table class="table table-sm award-table">
         <tbody id="sortable" class="sortable">
             @foreach($UserAwards as $UserAward)
@@ -22,10 +23,12 @@
                         {!! $UserAward->award->displayName !!}
                     </td>
                     <td class="text-right">
-                        {!! Form::checkbox('is_visible['.$UserAward->id.']', 1, $UserAward->is_visible ?? 1, [
-                        'class' => 'form-check-input',
-                        'data-toggle' => 'toggle',
-                    ]) !!}
+                        @if (isset($UserAward->is_visible) && $UserAward->is_visible == 1)
+                            <input type="checkbox" name="visibility[]" value="{{ $UserAward->id }}" checked>
+                        @else
+                            <input type="checkbox" name="visibility[]" value="{{ $UserAward->id }}">
+                        @endif
+                        Is visible?
                     </td>
                 </tr>
             @endforeach
@@ -33,7 +36,7 @@
 
     </table>
     <div class="mb-4">
-        {!! Form::open(['url' => 'awardcase/edit/sort/post']) !!}
+
         {!! Form::hidden('sort', '', ['id' => 'sortableOrder']) !!}
         {!! Form::submit('Save Order', ['class' => 'btn btn-primary']) !!}
         {!! Form::close() !!}
@@ -50,6 +53,7 @@ $( document ).ready(function() {
     $('.handle').on('click', function(e) {
         e.preventDefault();
     });
+
     $( "#sortable" ).sortable({
         items: '.sort-item',
         handle: ".handle",
@@ -62,6 +66,7 @@ $( document ).ready(function() {
         }
     });
     $( "#sortable" ).disableSelection();
+
 });
 </script>
 @endsection

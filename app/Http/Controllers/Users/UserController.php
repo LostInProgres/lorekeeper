@@ -75,7 +75,7 @@ class UserController extends Controller
         return view('user.profile', [
             'user' => $this->user,
             'items' => $this->user->items()->where('count', '>', 0)->orderBy('user_items.updated_at', 'DESC')->take(4)->get(),
-            'awards' => $this->user->awards()->orderBy('sort', 'DESC')->whereNull('deleted_at')->where('count','>',0)->take(4)->get(),
+            'awards' => $this->user->awards()->orderBy('sort', 'DESC')->whereNull('deleted_at')->where('count','>',0)->where('is_visible','=',1)->take(4)->get(),
             'sublists' => Sublist::orderBy('sort', 'DESC')->get(),
             'characters' => $characters,
         ]);
