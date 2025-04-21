@@ -116,14 +116,8 @@ class LootService extends Service
         return $this->rollbackReturn(false);
     }
 
-    ///***
-    // LostTODO
-    // the following is unedited! Lost, don't leave this in or i swear to god-
-    // 
-    //  */
-
     /**
-     * Acts upon the item when used from the inventory.
+     * Makes the reward string.
      *
      * @param  array                  $rewards
      * @return string
