@@ -78,3 +78,19 @@
         </div>
     </div>
 </div>
+@if(isset($LootSources) && $LootSources->count() && $item->category->show_loot_sources == 1)
+    <h5>Looted from...</h5>
+    <div class="row">
+        @foreach ($LootSources as $LootSource)
+        <div class="col-3 text-center">
+            @if($LootSource->imageUrl)
+                <div><a href="{{ $LootSource->imageUrl }}" data-lightbox="entry" data-title="{{ $LootSource->name }}"><img src="{{ $LootSource->imageUrl }}" alt="{{ $LootSource->name }}" class="img-fluid"/></a></div>
+            @endif
+            <strong>{!! $LootSource->name !!} @if(isset($LootSource->idUrl) && $LootSource->idUrl) <a href="{{ $LootSource->idUrl }}" class="world-entry-search text-muted"><i class="fas fa-search"></i></a> @endif</strong>
+        </div>
+        @endforeach
+    </div>
+    @if (isset($SourceMaxExceeded) && $SourceMaxExceeded > 0)
+        <strong>And {!! $SourceMaxExceeded !!} more.</strong>
+    @endif
+@endif

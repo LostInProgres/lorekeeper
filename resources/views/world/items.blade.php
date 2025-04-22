@@ -44,8 +44,14 @@
         <div class="card-body">
         <?php
         $shops = App\Models\Shop\Shop::whereIn('id', App\Models\Shop\ShopStock::where('item_id', $item->id)->pluck('shop_id')->toArray())->orderBy('sort', 'DESC')->get();
+
+        $LootTableIds = App\Models\Loot\Loot::where('rewardable_type', 'item')->where('rewardable_id', $item->id)->pluck('loot_table_id')->unique()->toArray();
+        $ItemIdsWithLootTable = App\Models\Item\ItemTag::where('tag', 'loot')->whereIn('data', $LootTableIds)->pluck('item_id')->unique()->toArray();
+        $LootSources = App\Models\Item\Item::whereIn('id', $ItemIdsWithLootTable)->take(Config::get('lorekeeper.loottag.source_max'))->get();
+
+        $SourceMaxExceeded = App\Models\Item\Item::whereIn('id', $ItemIdsWithLootTable)->get()->count() - Config::get('lorekeeper.loottag.source_max');
         ?>
-        @include('world._item_entry', ['imageUrl' => $item->imageUrl, 'name' => $item->displayName, 'description' => $item->parsed_description, 'idUrl' => $item->idUrl, 'shops' => $shops])
+        @include('world._item_entry', ['imageUrl' => $item->imageUrl, 'name' => $item->displayName, 'description' => $item->parsed_description, 'idUrl' => $item->idUrl, 'shops' => $shops, 'lootSources' => $LootSources, 'SourceMaxExceeded' => $SourceMaxExceeded])
         </div>
     </div>
 @endforeach

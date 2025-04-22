@@ -33,6 +33,11 @@
 </div>
 
 <div class="form-group">
+    {!! Form::checkbox('show_loot_sources', 1, $category->show_loot_sources, ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'On', 'data-off' => 'Off']) !!}
+    {!! Form::label('show_loot_sources', 'Show Loot Sources', ['class' => 'form-check-label ml-3']) !!} {!! add_help('This will show which loot-tagged item something can be obtained from.') !!}
+</div>
+
+<div class="form-group">
     {!! Form::label('Description (Optional)') !!}
     {!! Form::textarea('description', $category->description, ['class' => 'form-control wysiwyg']) !!}
 </div>

@@ -10,15 +10,18 @@ use App\Models\Rarity;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use App\Models\Item\ItemCategory;
+use App\Models\Item\ItemTag;
 use App\Models\Item\Item;
 use App\Models\Feature\FeatureCategory;
 use App\Models\Feature\Feature;
 use App\Models\Character\CharacterCategory;
+use App\Models\Loot\Loot;
 use App\Models\Prompt\PromptCategory;
 use App\Models\Prompt\Prompt;
 use App\Models\Shop\Shop;
 use App\Models\Shop\ShopStock;
 use App\Models\User\User;
+
 
 class WorldController extends Controller
 {
@@ -278,7 +281,7 @@ class WorldController extends Controller
             'items' => $query->paginate(20)->appends($request->query()),
             'categories' => ['none' => 'Any Category'] + ItemCategory::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'shops' => Shop::orderBy('sort', 'DESC')->get(),
-            'artists' => ['none' => 'Any Artist'] + User::whereIn('id', Item::whereNotNull('artist_id')->pluck('artist_id')->toArray())->pluck('name', 'id')->toArray()
+            'artists' => ['none' => 'Any Artist'] + User::whereIn('id', Item::whereNotNull('artist_id')->pluck('artist_id')->toArray())->pluck('name', 'id')->toArray(),
         ]);
     }
 
@@ -294,13 +297,17 @@ class WorldController extends Controller
         $item = Item::where('id', $id)->released()->first();
         if(!$item) abort(404);
 
+        $LootTableIds = Loot::where('rewardable_type', 'item')->where('rewardable_id', $item->id)->pluck('loot_table_id')->unique()->toArray();
+        $ItemIdsWithLootTable = ItemTag::where('tag', 'loot')->whereIn('data', $LootTableIds)->pluck('item_id')->unique()->toArray();
+
         return view('world.item_page', [
             'item' => $item,
             'imageUrl' => $item->imageUrl,
             'name' => $item->displayName,
             'description' => $item->parsed_description,
             'categories' => $categories->keyBy('id'),
-            'shops' => Shop::whereIn('id', ShopStock::where('item_id', $item->id)->pluck('shop_id')->unique()->toArray())->orderBy('sort', 'DESC')->get()
+            'shops' => Shop::whereIn('id', ShopStock::where('item_id', $item->id)->pluck('shop_id')->unique()->toArray())->orderBy('sort', 'DESC')->get(),
+            'LootSources' => Item::whereIn('id', $ItemIdsWithLootTable)->get()
         ]);
     }
 
