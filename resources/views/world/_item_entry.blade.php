@@ -78,7 +78,7 @@
         </div>
     </div>
 </div>
-@if(isset($LootSources) && $LootSources->count() && $item->category->show_loot_sources == 1)
+@if(isset($LootSources) && $LootSources->count() && $item->category?->show_loot_sources == 1)
     <h5>Looted from...</h5>
     <div class="row">
         @foreach ($LootSources as $LootSource)
