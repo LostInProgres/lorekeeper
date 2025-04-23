@@ -125,6 +125,22 @@ class WorldController extends Controller
     }
 
     /**
+     * Shows the page for a specific item category.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getItemCategory(Request $request, $id)
+    {
+        $query = Item::where('item_category_id', $id)->released();
+
+        return view('world.item_category', [
+            'category' => ItemCategory::where('id', $id)->first(),
+            'items' => $query->paginate(20)->appends($request->query()),
+        ]);
+    }
+
+    /**
      * Shows the trait categories page.
      *
      * @param  \Illuminate\Http\Request  $request
