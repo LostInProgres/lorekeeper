@@ -582,7 +582,7 @@
                     value_solution = (this.boardSolution[index] > 0 ? this.boardSolution[index] : ''),
                     cell = $('<div></div>')
                     .addClass('cell')
-                    addClass(function( value ) { return "number-panel-" + value; })
+                    .addClass(function() { return "number-panel-" + value; })
                     .attr('x', position.x)
                     .attr('y', position.y)
                     .attr('gr', group_position.x + '' + group_position.y)
@@ -616,7 +616,8 @@
         var sudoku_console = $('<div></div>').addClass('board_console');
 
         for (i = 1; i <= this.nn; i++) {
-            $('<div></div>').addClass('num').addClass(function( i ) { return "number-panel-" + i; }).text(i).appendTo(sudoku_console);
+            var numberpnl = i;
+            $('<div></div>').addClass('num').addClass(function() { return "number-panel-" + numberpnl; }).text(i).appendTo(sudoku_console);
         }
 
         $('<div></div>').addClass('num remove').text('X').appendTo(sudoku_console);
@@ -817,7 +818,7 @@
         }
 
         //delete value or write it in cell
-        $(this.cell).find('span').removeClass( "number-panel-1 number-panel-2 number-panel-3 number-panel-4 number-panel-5 number-panel-6 number-panel-7 number-panel-8 number-panel-9" ).addClass(function( i ) {return (value === 0) ? '' : "number-panel-" + i;}).text((value === 0) ? '' : value);
+        $(this.cell).find('span').removeClass( "number-panel-1 number-panel-2 number-panel-3 number-panel-4 number-panel-5 number-panel-6 number-panel-7 number-panel-8 number-panel-9" ).addClass(function() {return (value === 0) ? '' : "number-panel-" + value;}).text((value === 0) ? '' : value);
 
         if (this.cell !== null && (horizontal_cells_exists.length || vertical_cells_exists.length || group_cells_exists.length)) {
             if (old_value !== value) {
