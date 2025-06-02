@@ -561,6 +561,8 @@
                     y: Math.floor((position.y - 1) / this.n)
                 };
 
+                // LOSTODO: here, we want to set the value to the corresponding image, so that the image displays instead of the number where needed.
+
                 var value = (this.board[index] > 0 ? this.board[index] : ''),
                     value_solution = (this.boardSolution[index] > 0 ? this.boardSolution[index] : ''),
                     cell = $('<div></div>')
@@ -597,9 +599,36 @@
         var sudoku_console_cotainer = $('<div></div>').addClass('board_console_container');
         var sudoku_console = $('<div></div>').addClass('board_console');
 
+        @for ($t = 0; $t < 10; $t++)
+            @php $key = 'number_' . $t; @endphp
+            @if ($minigame->customImageExists($key))
+                let img_{{ $t }} = '<div><img class="w-100 h-100" src="{{ $minigame->customImageUrl($key) }}"></div>'
+            @else
+                let img_{{ $t }} = '<div>{{ $t }}</div>'
+            @endif
+        @endfor
+
         for (i = 1; i <= this.nn; i++) {
-            $('<div></div>').addClass('num').text(i).appendTo(sudoku_console);
+            if (i == 1)
+                $(img_1).addClass('num').appendTo(sudoku_console);
+            else if (i == 2)
+                $(img_2).addClass('num').appendTo(sudoku_console);
+            else if (i == 3)
+                $(img_3).addClass('num').appendTo(sudoku_console);
+            else if (i == 4)
+                $(img_4).addClass('num').appendTo(sudoku_console);
+            else if (i == 5)
+                $(img_5).addClass('num').appendTo(sudoku_console);
+            else if (i == 6)
+                $(img_6).addClass('num').appendTo(sudoku_console);
+            else if (i == 7)
+                $(img_7).addClass('num').appendTo(sudoku_console);
+            else if (i == 8)
+                $(img_8).addClass('num').appendTo(sudoku_console);
+            else
+                $(img_9).addClass('num').appendTo(sudoku_console);
         }
+
         $('<div></div>').addClass('num remove').text('X').appendTo(sudoku_console);
         $('<div></div>').addClass('num note').text('?').appendTo(sudoku_console);
 
@@ -892,9 +921,10 @@
         });
 
         //click on console num
+        //LOSTTODO: Make images not paste "NaN". What even is NaN? Not a number??? I think images can be numbers if they want to be.
         $('#' + this.id + ' .board_console .num').on('click', function(e) {
             var
-                value = $.isNumeric($(this).text()) ? parseInt($(this).text()) : 0,
+                value = parseInt($(this).text());
                 clickMarkNotes = $(this).hasClass('note'),
                 clickRemove = $(this).hasClass('remove'),
                 numSelected = $(this).hasClass('selected');
