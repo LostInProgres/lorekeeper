@@ -61,11 +61,6 @@
         box-shadow: 0px 0px 0px 1px #bdc3c7, inset -2px 0 0 black, inset 0px -2px 0 black;
     }
 
-    .sudoku_board .cell span {
-        color: #2c3e50;
-        text-align: middle;
-    }
-
     .sudoku_board .cell.selected,
     .sudoku_board .cell.selected.fix {
         background: #FFE;
@@ -73,10 +68,6 @@
 
     .sudoku_board .cell.selected.current {
         box-shadow: 0px 0px 3px 3px #bdc3c7;
-    }
-
-    .sudoku_board .cell.selected.current span {
-        color: white;
     }
 
     .sudoku_board .cell.selected.group {
@@ -99,14 +90,6 @@
     .sudoku_board .cell.fix {
         background: #ecf0f1;
         cursor: not-allowed;
-    }
-
-    .sudoku_board .cell.fix span {
-        color: #7f8c8d;
-    }
-
-    .sudoku_board .cell .solution {
-        color: #d35400;
     }
 
     .sudoku_board .cell .note {
@@ -164,8 +147,7 @@
 
     .board_console .num {
         width: 33.33%;
-        color: #2c3e50;
-        padding: 1px;
+        padding: 0px;
         display: inline-block;
         font-weight: bold;
         text-align: center;
@@ -352,6 +334,42 @@
             font-size: 10px;
         }
     }
+
+    @for ($t = 0; $t < 10; $t++)
+        @php $key = 'number_' . $t; @endphp
+        @if ($minigame->customImageUrl($key))
+            .number-panel-{{ $t }} {
+                background-image: url("{{ $minigame->customImageUrl($key) }}") !important;
+                background-size: cover !important;
+                color: transparent !important;
+            }
+            .text-danger {
+                color: transparent !important;
+            }
+            
+        @else
+            .number-panel-{{ $t }} {
+                <!-- No image found -->
+            }
+
+            .sudoku_board .cell.selected.current span {
+                color: white;
+            }
+
+            .sudoku_board .cell.fix span {
+                color: #7f8c8d;
+            }
+
+            .sudoku_board .cell .solution {
+                color: #d35400;
+            }
+
+            .sudoku_board .cell span {
+                color: #2c3e50;
+                text-align: middle;
+            }
+        @endif
+    @endfor
 </style>
 
 
@@ -567,6 +585,7 @@
                     value_solution = (this.boardSolution[index] > 0 ? this.boardSolution[index] : ''),
                     cell = $('<div></div>')
                     .addClass('cell')
+                    .addClass(function() { return "number-panel-" + value; })
                     .attr('x', position.x)
                     .attr('y', position.y)
                     .attr('gr', group_position.x + '' + group_position.y)
@@ -599,34 +618,9 @@
         var sudoku_console_cotainer = $('<div></div>').addClass('board_console_container');
         var sudoku_console = $('<div></div>').addClass('board_console');
 
-        @for ($t = 0; $t < 10; $t++)
-            @php $key = 'number_' . $t; @endphp
-            @if ($minigame->customImageExists($key))
-                let img_{{ $t }} = '<div><img class="w-100 h-100" src="{{ $minigame->customImageUrl($key) }}"></div>'
-            @else
-                let img_{{ $t }} = '<div>{{ $t }}</div>'
-            @endif
-        @endfor
-
         for (i = 1; i <= this.nn; i++) {
-            if (i == 1)
-                $(img_1).addClass('num').appendTo(sudoku_console);
-            else if (i == 2)
-                $(img_2).addClass('num').appendTo(sudoku_console);
-            else if (i == 3)
-                $(img_3).addClass('num').appendTo(sudoku_console);
-            else if (i == 4)
-                $(img_4).addClass('num').appendTo(sudoku_console);
-            else if (i == 5)
-                $(img_5).addClass('num').appendTo(sudoku_console);
-            else if (i == 6)
-                $(img_6).addClass('num').appendTo(sudoku_console);
-            else if (i == 7)
-                $(img_7).addClass('num').appendTo(sudoku_console);
-            else if (i == 8)
-                $(img_8).addClass('num').appendTo(sudoku_console);
-            else
-                $(img_9).addClass('num').appendTo(sudoku_console);
+            var numberpnl = i;
+            $('<div></div>').addClass('num').addClass(function() { return "number-panel-" + numberpnl; }).text(i).appendTo(sudoku_console);
         }
 
         $('<div></div>').addClass('num remove').text('X').appendTo(sudoku_console);
@@ -827,7 +821,7 @@
         }
 
         //delete value or write it in cell
-        $(this.cell).find('span').text((value === 0) ? '' : value);
+        $(this.cell).find('span').removeClass( "number-panel-1 number-panel-2 number-panel-3 number-panel-4 number-panel-5 number-panel-6 number-panel-7 number-panel-8 number-panel-9" ).addClass(function() {return (value === 0) ? '' : "number-panel-" + value;}).text((value === 0) ? '' : value);
 
         if (this.cell !== null && (horizontal_cells_exists.length || vertical_cells_exists.length || group_cells_exists.length)) {
             if (old_value !== value) {
