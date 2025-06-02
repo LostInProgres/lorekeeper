@@ -61,11 +61,6 @@
         box-shadow: 0px 0px 0px 1px #bdc3c7, inset -2px 0 0 black, inset 0px -2px 0 black;
     }
 
-    .sudoku_board .cell span {
-        color: #2c3e50;
-        text-align: middle;
-    }
-
     .sudoku_board .cell.selected,
     .sudoku_board .cell.selected.fix {
         background: #FFE;
@@ -73,10 +68,6 @@
 
     .sudoku_board .cell.selected.current {
         box-shadow: 0px 0px 3px 3px #bdc3c7;
-    }
-
-    .sudoku_board .cell.selected.current span {
-        color: white;
     }
 
     .sudoku_board .cell.selected.group {
@@ -99,14 +90,6 @@
     .sudoku_board .cell.fix {
         background: #ecf0f1;
         cursor: not-allowed;
-    }
-
-    .sudoku_board .cell.fix span {
-        color: #7f8c8d;
-    }
-
-    .sudoku_board .cell .solution {
-        color: #d35400;
     }
 
     .sudoku_board .cell .note {
@@ -164,8 +147,7 @@
 
     .board_console .num {
         width: 33.33%;
-        color: #2c3e50;
-        padding: 1px;
+        padding: 0px;
         display: inline-block;
         font-weight: bold;
         text-align: center;
@@ -357,13 +339,33 @@
         @php $key = 'number_' . $t; @endphp
         @if ($minigame->customImageUrl($key))
             .number-panel-{{ $t }} {
-                background-image: url("{{ $minigame->customImageUrl($key) }}");
-                color: rgba(0,0,0,1);
+                background-image: url("{{ $minigame->customImageUrl($key) }}") !important;
+                background-size: cover !important;
+                color: transparent !important;
+            }
+            .text-danger {
+                color: transparent !important;
             }
             
         @else
             .number-panel-{{ $t }} {
                 <!-- No image found -->
+            }
+            .sudoku_board .cell.selected.current span {
+                color: white;
+            }
+
+            .sudoku_board .cell.fix span {
+                color: #7f8c8d;
+            }
+
+            .sudoku_board .cell .solution {
+                color: #d35400;
+            }
+
+            .sudoku_board .cell span {
+                color: #2c3e50;
+                text-align: middle;
             }
         @endif
     @endfor
