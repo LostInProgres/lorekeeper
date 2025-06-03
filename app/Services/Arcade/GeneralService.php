@@ -1,8 +1,8 @@
 <?php
 namespace App\Services\Arcade;
 
-use App\Models\Currency\Currency;
 use App\Models\Arcade\ArcadeLog;
+use App\Models\Currency\Currency;
 use App\Services\CurrencyManager;
 use App\Services\Service;
 use Auth;
@@ -39,10 +39,10 @@ class GeneralService extends Service
 
             $log = ArcadeLog::create([
                 'arcade_id' => $arcade->id,
-                'user_id'     => Auth::user()->id,
+                'user_id'   => Auth::user()->id,
             ]);
 
-            if(!$log){
+            if (! $log) {
                 throw new \Exception('Failed to create arcade log.');
             }
 
@@ -69,8 +69,8 @@ class GeneralService extends Service
         return $this->rollbackReturn(false);
     }
 
-     /**
-     * Update a arcade log if the user won
+    /**
+     * Grant game rewards
      */
     public function grantRewards($arcade, $user)
     {
@@ -79,11 +79,14 @@ class GeneralService extends Service
         try {
             $gameName = isset($arcade->flavor_data['log_name']) ? $arcade->flavor_data['log_name'] : $arcade->configInfo['name'];
             if (
-                !($rewards = fillUserAssets($arcade->rewardItems, null, $user, $gameName.' Reward', [
-                    'data' => $gameName.' reward: ' . $arcade->displayName,
+                ! ($rewards = fillUserAssets($arcade->rewardItems, null, $user, $gameName . ' Reward', [
+                    'data' => $gameName . ' reward: ' . $arcade->displayName,
                 ]))
             ) {
                 throw new \Exception('Failed to distribute rewards to user.');
+            }
+            if (isset($arcade->flavor_data['win_message'])) {
+                flash($arcade->flavor_data['win_message'])->success();
             }
             flash('You have received: ' . createRewardsString($rewards));
 

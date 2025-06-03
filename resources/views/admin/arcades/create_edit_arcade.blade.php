@@ -40,11 +40,6 @@
         {!! Form::textarea('description', $arcade->description, ['class' => 'form-control wysiwyg']) !!}
     </div>
 
-    <div class="form-group">
-        {!! Form::checkbox('is_visible', 1, $arcade->id ? $arcade->is_visible : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
-        {!! Form::label('is_visible', 'Set Active', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned off, the game will not be visible to regular users.') !!}
-    </div>
-
     <h3>Play Limits (Optional)</h3>
     <p>You can limit the amount of times a user can play this game.</p>
     <p>Set a number into number of plays. This will be applied for all time if you leave period blank, or per time period (ex: once a month, twice a week) if selected.</p>
@@ -74,6 +69,7 @@
 
     <h5>Custom Text (Optional)</h5>
     <p>You can change the default messages for the game here, further messages may be editable from the specific game's settings.</p>
+    <p>This is still a bit of a WIP!!!!</p>
     <h5>Win/Loss Messages</h5>
     <div class="row">
         <div class="col-md-4 form-group">
@@ -106,6 +102,7 @@
     <h3>Game Type</h3>
     <p>Game types are the different types of games, which all have their own settings. You can edit the specific game's settings after you've chosen the type of game.
     </p>
+    <p>After you select a game type and add info, you can set it to active or inactive.</p>
 
     <div class="form-group">
         {!! Form::select('arcade_type', [null => 'Select a Type'] + $types, $arcade->arcade_type ?? null, ['class' => 'form-control']) !!}
@@ -121,12 +118,18 @@
 
     @if ($arcade->arcade_type)
         {!! Form::open(['url' => 'admin/data/arcade/games/' . $arcade->id]) !!}
+
+        <div class="form-group">
+            {!! Form::checkbox('is_visible', 1, $arcade->id ? $arcade->is_visible : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
+            {!! Form::label('is_visible', 'Set Active', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned off, the game will not be visible to regular users.') !!}
+        </div>
+
         @if (View::exists('admin.arcades.games.' . $arcade->arcade_type))
             @include('admin.arcades.games.' . $arcade->arcade_type, ['data' => $arcade->data])
         @endif
 
         <div class="text-right">
-            {!! Form::submit('Edit', ['class' => 'btn btn-primary']) !!}
+            {!! Form::submit('Edit Game Settings', ['class' => 'btn btn-primary']) !!}
         </div>
         {!! Form::close() !!}
         @if (View::exists('admin.arcades.games.' . $arcade->arcade_type . '_post'))

@@ -26,15 +26,19 @@ class RpsService extends Service
      */
     public function getActData($arcade)
     {
-        $gameData = $arcade->data;
-        $options  = ['rock' => $gameData['rock_name'], 'paper' => $gameData['paper_name'], 'scissors' => $gameData['scissors_name']];
-        if ($gameData['use_7']) {
-            $options = $options + ['sponge' => $gameData['sponge_name'], 'fire' => $gameData['fire_name'], 'air' => $gameData['air_name'], 'water' => $gameData['water_name']];
+        $gameData  = $arcade->data;
+        $options   = $arcade->service->rpsOptions($arcade);
+        $allimages = true;
+        foreach ($options as $key => $name) {
+            if (! $arcade->customImageExists($key)) {
+                $allimages = false;
+            }
         }
 
         return [
-            'options' => $options,
-            'use_7'   => $gameData['use_7'],
+            'options'   => $options,
+            'use_7'     => $gameData['use_7'],
+            'allimages' => $allimages,
         ];
     }
 
@@ -114,57 +118,60 @@ class RpsService extends Service
                 throw new \Exception('No option selected');
             }
 
-            $options = ['rock' => $gameData['rock_name'], 'paper' => $gameData['paper_name'], 'scissors' => $gameData['scissors_name']];
-
-            if ($gameData['use_7']) {
-                $options = $options + ['sponge' => $gameData['sponge_name'], 'fire' => $gameData['fire_name'], 'air' => $gameData['air_name'], 'water' => $gameData['water_name']];
-            }
+            $options = $arcade->service->rpsOptions($arcade);
 
             //this. is probably an extremely clunky way to do it but i'm not if elseifing for every single combination lmao.
 
             switch ($data['option']) {
                 case 'rock':
-                    $wins =  ['scissors','fire','sponge'];
-                    $losses =  ['paper','air','water'];
+                    $wins   = ['scissors', 'fire', 'sponge'];
+                    $losses = ['paper', 'air', 'water'];
                     break;
                 case 'paper':
-                    $wins = ['rock','air','paper'];
-                    $losses =  ['scissors','fire','sponge'];
+                    $wins   = ['rock', 'air', 'paper'];
+                    $losses = ['scissors', 'fire', 'sponge'];
                     break;
                 case 'scissors':
-                    $wins = ['paper','air','sponge'];
-                    $losses =  ['fire','water','rock'];
+                    $wins   = ['paper', 'air', 'sponge'];
+                    $losses = ['fire', 'water', 'rock'];
                     break;
                 case 'sponge':
-                    $wins = ['paper','air','water'];
-                    $losses =  ['rock','fire','scissors'];
+                    $wins   = ['paper', 'air', 'water'];
+                    $losses = ['rock', 'fire', 'scissors'];
                     break;
                 case 'fire':
-                    $wins = ['scissors','paper','sponge'];
-                    $losses =  ['rock','air','water'];
+                    $wins   = ['scissors', 'paper', 'sponge'];
+                    $losses = ['rock', 'air', 'water'];
                     break;
                 case 'air':
-                    $wins = ['fire','rock','water'];
-                    $losses =  ['paper','scissors','sponge'];
+                    $wins   = ['fire', 'rock', 'water'];
+                    $losses = ['paper', 'scissors', 'sponge'];
                     break;
                 case 'water':
-                    $wins = ['rock','fire','scissors'];
-                    $losses =  ['sponge','air','paper'];
+                    $wins   = ['rock', 'fire', 'scissors'];
+                    $losses = ['sponge', 'air', 'paper'];
                     break;
             }
 
             $cpu = array_rand($options, 1);
 
             //win
-            if(in_array($cpu, $wins)){
+            if (in_array($cpu, $wins)) {
                 flash('The battle was valiant, and in the end, your ' . $data['option'] . ' triumphed over your opponent\'s ' . $cpu . '.')->success();
 
                 $arcade->generalService->grantRewards($arcade, $user);
                 $arcade->generalService->updateLog($arcade, $user);
-            }elseif(in_array($cpu, $losses)){
+            } elseif (in_array($cpu, $losses)) {
                 flash('Your opponent counters your ' . $data['option'] . ' with ' . $cpu . '!! Unfortunate...')->error();
-            }else{
+
+                if (isset($arcade->flavor_data['lose_message'])) {
+                    flash($arcade->flavor_data['lose_message'])->error();
+                }
+            } else {
                 flash('Alas, ' . $data['option'] . ' and ' . $cpu . ' lead to an anticlimatic tie...');
+                if (isset($arcade->flavor_data['neutral_message'])) {
+                    flash($arcade->flavor_data['neutral_message']);
+                }
             }
 
             return $this->commitReturn(true);
@@ -172,6 +179,24 @@ class RpsService extends Service
             $this->setError('error', $e->getMessage());
         }
         return $this->rollbackReturn(false);
+    }
+
+    /**
+     * Processes the data attribute of the arcade and returns it in the preferred format.
+     *
+     * @param  string  $tag
+     * @return mixed
+     */
+    public function rpsOptions($arcade)
+    {
+        $gameData = $arcade->data;
+
+        $options = ['rock' => $gameData['rock_name'], 'paper' => $gameData['paper_name'], 'scissors' => $gameData['scissors_name']];
+        if ($gameData['use_7']) {
+            $options = $options + ['sponge' => $gameData['sponge_name'], 'fire' => $gameData['fire_name'], 'air' => $gameData['air_name'], 'water' => $gameData['water_name']];
+        }
+
+        return $options;
     }
 
 }

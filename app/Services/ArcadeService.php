@@ -137,8 +137,6 @@ class ArcadeService extends Service
             $data['parsed_description'] = parse($data['description']);
         }
 
-        $data['is_visible'] = isset($data['is_visible']);
-
         if (isset($data['remove_image'])) {
             if ($arcade && $arcade->has_image && $data['remove_image']) {
                 $data['has_image'] = 0;
@@ -216,6 +214,7 @@ class ArcadeService extends Service
         DB::beginTransaction();
 
         try {
+            $arcade->is_visible = isset($data['is_visible']);
             $arcade->data = $arcade->service->updateData($arcade, $data);
             $arcade->save();
 
