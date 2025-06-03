@@ -10,6 +10,16 @@
     <h1>
         {{ $minigame->name }}
     </h1>
+    <p class="mb-0 col-md-4">
+        by
+        @if ($minigame->configInfo['creators'])
+            @foreach ($minigame->configInfo['creators'] as $name => $url)
+                <a href="{{ $url }}">{{ $name }}</a>{{ !$loop->last ? ',' : '' }}
+            @endforeach
+        @else
+            no credit listed
+        @endif
+    </p>
 
     <div class="text-center">
         <p>{!! $minigame->parsed_description !!}</p>
@@ -35,6 +45,8 @@
             You have already played this minigame the maximum number of times{{ $minigame->limit_period ? ' per ' . strtolower($minigame->limit_period) : '' }}.
         </div>
     @endif
+
+
 
 @endsection
 
