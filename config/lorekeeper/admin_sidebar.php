@@ -177,8 +177,8 @@ return [
                 'url' => 'admin/data/items'
             ],
             [
-                'name' => 'Minigames',
-                'url' => 'admin/data/minigames'
+                'name' => 'Arcade',
+                'url' => 'admin/data/arcade'
             ],
         ]
     ],

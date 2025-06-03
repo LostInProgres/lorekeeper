@@ -69,8 +69,8 @@
                             <a class="dropdown-item" href="{{ url('trades/open') }}">
                                 Trades
                             </a>
-                            <a class="dropdown-item" href="{{ url('minigames') }}">
-                                Minigames
+                            <a class="dropdown-item" href="{{ url('arcade') }}">
+                                Arcade
                             </a>
                         </div>
                     </li>

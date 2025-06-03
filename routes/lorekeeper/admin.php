@@ -227,17 +227,17 @@ Route::group(['prefix' => 'data', 'namespace' => 'Data', 'middleware' => 'power:
     Route::post('prompts/edit/{id?}', 'PromptController@postCreateEditPrompt');
     Route::post('prompts/delete/{id}', 'PromptController@postDeletePrompt');
 
-        # Minigames
-        Route::get('minigames', 'MinigameController@getIndex');
-        Route::get('minigames/create', 'MinigameController@getCreateMinigame');
-        Route::get('minigames/edit/{id}', 'MinigameController@getEditMinigame');
-        Route::get('minigames/delete/{id}', 'MinigameController@getDeleteMinigame');
-        Route::post('minigames/create', 'MinigameController@postCreateEditMinigame');
-        Route::post('minigames/edit/{id?}', 'MinigameController@postCreateEditMinigame');
-        Route::post('minigames/games/{id}', 'MinigameController@postEditType');
-        Route::post('minigames/delete/{id}', 'MinigameController@postDeleteMinigame');
-        Route::post('minigames/sort', 'MinigameController@postSortMinigame');
-        Route::post('minigames/images/{id}', 'MinigameController@posEditMinigameImages');
+        # Arcade
+        Route::get('arcade', 'ArcadeController@getIndex');
+        Route::get('arcade/create', 'ArcadeController@getCreateArcade');
+        Route::get('arcade/edit/{id}', 'ArcadeController@getEditArcade');
+        Route::get('arcade/delete/{id}', 'ArcadeController@getDeleteArcade');
+        Route::post('arcade/create', 'ArcadeController@postCreateEditArcade');
+        Route::post('arcade/edit/{id?}', 'ArcadeController@postCreateEditArcade');
+        Route::post('arcade/games/{id}', 'ArcadeController@postEditType');
+        Route::post('arcade/delete/{id}', 'ArcadeController@postDeleteArcade');
+        Route::post('arcade/sort', 'ArcadeController@postSortArcade');
+        Route::post('arcade/images/{id}', 'ArcadeController@posEditArcadeImages');
 });
 
 

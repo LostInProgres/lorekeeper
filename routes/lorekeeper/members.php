@@ -199,11 +199,11 @@ Route::group(['prefix' => 'comments', 'namespace' => 'Comments'], function() {
     Route::post('/{id}/feature', 'CommentController@feature')->name('comments.feature');
 });
 
-Route::group(['prefix' => 'minigames'], function () {
-    Route::get('/', 'MinigameController@getIndex');
-    Route::get('{id}', 'MinigameController@getMinigame')->where(['id' => '[0-9]+']);
-    Route::post('{id}/play', 'MinigameController@postPlay')->where(['id' => '[0-9]+']);
-    Route::get('{id}/play/ajax', 'MinigameController@getAjax')->where(['id' => '[0-9]+']);
-    Route::post('{id}/play/ajax', 'MinigameController@postAjax')->where(['id' => '[0-9]+']);
-    Route::get('{id}/ajax-info', 'MinigameController@getAjaxInfo')->where(['id' => '[0-9]+']);
+Route::group(['prefix' => 'arcade'], function () {
+    Route::get('/', 'ArcadeController@getIndex');
+    Route::get('{id}', 'ArcadeController@getArcade')->where(['id' => '[0-9]+']);
+    Route::post('{id}/play', 'ArcadeController@postPlay')->where(['id' => '[0-9]+']);
+    Route::get('{id}/play/ajax', 'ArcadeController@getAjax')->where(['id' => '[0-9]+']);
+    Route::post('{id}/play/ajax', 'ArcadeController@postAjax')->where(['id' => '[0-9]+']);
+    Route::get('{id}/ajax-info', 'ArcadeController@getAjaxInfo')->where(['id' => '[0-9]+']);
 });
