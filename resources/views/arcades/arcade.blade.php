@@ -9,6 +9,10 @@
 
     <h1>
         {{ $arcade->name }}
+        @if ($arcade->configInfo['rules'])
+            <i class="fas fa-question-circle text-info" data-toggle="collapse" href="#collapseRules" role="button" aria-expanded="false" aria-controls="collapseRules">
+            </i>
+        @endif
     </h1>
     <p class="mb-0 col-md-4">
         by
@@ -21,6 +25,15 @@
         @endif
     </p>
 
+    @if ($arcade->configInfo['rules'])
+        <div class="collapse" id="collapseRules">
+            <div class="alert alert-info" role="alert">
+                <h4 class="alert-heading">Rules</h4>
+                {!!$arcade->configInfo['rules']!!}
+            </div>
+        </div>
+    @endif
+<hr class="w-75">
     <div class="text-center">
         <p>{!! $arcade->parsed_description !!}</p>
     </div>

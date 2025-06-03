@@ -1,6 +1,4 @@
 <div>
-    <p>The objective of this puzzle is to find and mark all the words hidden inside the box. The words may be placed horizontally, vertically, or diagonally, and can be backwards too. </p>
-    <p>Click and drag starting at the word's first letter, and ending at the last, to select a correct word. If the page is failing to recognize your input, try to slow down your movement and drag in a more straight line.</p>
     <p>
         @if ($award_per_word)
             You will receive rewards <strong>per word found</strong>, even if you do not complete the full word search.

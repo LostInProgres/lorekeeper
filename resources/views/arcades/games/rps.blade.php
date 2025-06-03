@@ -1,4 +1,4 @@
-<p>You are challenged by a mighty foe... to rock, paper, scissors! What will you choose!?</p>
+
 @if ($use_7)
 <p>RPS-7 is enabled...</p>
 @endif

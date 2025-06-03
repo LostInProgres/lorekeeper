@@ -1,4 +1,4 @@
-<h1 id="sudoku_title">SUDOKU</h1>
+
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div id="sudoku_container"></div>
@@ -31,7 +31,6 @@
         this.id = params.id || 'sudoku_container';
         this.displaySolution = params.displaySolution || 0;
         this.displaySolutionOnly = params.displaySolutionOnly || 0;
-        this.displayTitle = params.displayTitle || 0;
         this.highlight = params.highlight || 0;
         this.fixCellsNr = params.fixCellsNr || 32;
         this.n = 3;
@@ -58,10 +57,6 @@
         this.cell = null;
         this.markNotes = 0;
         this.secondsElapsed = 0;
-
-        if (this.displayTitle == 0) {
-            $('#sudoku_title').hide();
-        }
 
         this.board = this.boardGenerator(this.n, this.fixCellsNr);
 

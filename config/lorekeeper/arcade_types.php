@@ -25,6 +25,7 @@ return [
         'creators'       => [
             'CH3RVB' => 'https://github.com/CH3RVB',
         ],
+        'rules'          => '<p>You will be given a number, you must guess whether you think it will be <strong>higher</strong> or <strong>lower</strong> than a second, randomly generated number that you cannot see. </p>',
     ],
 
     'luckypull'  => [
@@ -52,6 +53,8 @@ return [
             'Bunkat (Original code)'       => 'https://github.com/bunkat',
             'LostInProgres (Edits for LK)' => 'https://github.com/LostInProgres',
         ],
+        'rules'          => '<p>The objective of this puzzle is to find and mark all the words hidden inside the box. The words may be placed horizontally, vertically, or diagonally, and can be backwards too. </p>
+        <p>Click and drag starting at the word\'s first letter, and ending at the last, to select a correct word. If the page is failing to recognize your input, try to slow down your movement and drag in a more straight line.</p>',
     ],
 
     'rps'        => [
@@ -61,6 +64,7 @@ return [
         'creators'       => [
             'CH3RVB' => 'https://github.com/CH3RVB',
         ],
+        'rules'          => '<p>Standard RPS rules. If noted, then <a href="https://www.umop.com/rps7.htm">RPS-7</a> may also be enabled. Note that the names of the symbols to select may be different compared to default if the site has decided to rename them.</p>',
     ],
     'sudoku'     => [
         'name'           => 'Sudoku',
@@ -69,8 +73,9 @@ return [
         'creators'       => [
             'Cristian Canea (Original code)' => 'https://codepen.io/cristiancanea',
             'LostInProgres (Edits for LK)'   => 'https://github.com/LostInProgres',
-            'SpeedyD'                  => 'https://github.com/SpeedyD',
+            'SpeedyD'                        => 'https://github.com/SpeedyD',
         ],
+        'rules'          => '<p>Standard sudoku rules. <a href="https://www.learn-sudoku.com/sudoku-rules.html">This page</a> has a good amount of info on sudoku.</p>',
     ],
     'well'       => [
         'name'           => 'Wishing Well',
@@ -79,14 +84,6 @@ return [
         'creators'       => [
             '8BitBaker (Original idea/code)' => 'https://toyhou.se/8BitBaker/',
             'CH3RVB (Edits for Arcade)'      => 'https://github.com/CH3RVB',
-        ],
-    ],
-    'race'       => [
-        'name'           => 'Race',
-        'require_reward' => true,
-        'ajax'           => true,
-        'creators'       => [
-            'CH3RVB' => 'https://github.com/CH3RVB',
         ],
     ],
 
