@@ -125,10 +125,11 @@ class ArcadeService extends Service
             }
         }
 
+
         if (isset($data['rewardable_type'])) {
             $data['output'] = encodeForDataColumn($data, false);
-        } elseif ($arcade->configInfo['require_reward']) {
-            throw new \Exception("You must add rewards for this type of arcade.");
+        } elseif (!$arcade && config('lorekeeper.arcade_types.' . $data['arcade_type'])['require_reward'] || $arcade && isset($arcade->configInfo['require_reward'])) {
+            throw new \Exception("You must add rewards for this type of game.");
         } else {
             $data['output'] = null;
         }

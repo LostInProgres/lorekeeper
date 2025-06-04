@@ -9,14 +9,14 @@
 
     <h1>
         {{ $arcade->name }}
-        @if ($arcade->configInfo['rules'])
+        @if (isset($arcade->configInfo['rules']))
             <i class="fas fa-question-circle text-info" data-toggle="collapse" href="#collapseRules" role="button" aria-expanded="false" aria-controls="collapseRules">
             </i>
         @endif
     </h1>
     <p class="mb-0 col-md-4">
         by
-        @if ($arcade->configInfo['creators'])
+        @if (isset($arcade->configInfo['creators']))
             @foreach ($arcade->configInfo['creators'] as $name => $url)
                 <a href="{{ $url }}">{{ $name }}</a>{{ !$loop->last ? ',' : '' }}
             @endforeach
@@ -25,7 +25,7 @@
         @endif
     </p>
 
-    @if ($arcade->configInfo['rules'])
+   @if (isset($arcade->configInfo['rules']))
         <div class="collapse" id="collapseRules">
             <div class="alert alert-info" role="alert">
                 <h4 class="alert-heading">Rules</h4>
