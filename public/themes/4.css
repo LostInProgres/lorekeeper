@@ -1,0 +1,301 @@
+:root {
+	--blue: #5476b3;
+	--blue-100: #e1e7f2;
+	--blue-200: #becbe2;
+	--blue-300: #9bafd2;
+	--blue-400: #7792c3;
+	--blue-500: #5476b3;
+	--blue-600: #415e93;
+	--blue-700: #32486f;
+	--blue-800: #22314c;
+	--blue-900: #121a29;
+
+	--indigo: #5a4c72;
+	--indigo-100: #f8f7f9;
+	--indigo-200: #ddd8e5;
+	--indigo-300: #c2b9d1;
+	--indigo-400: #a79bbc;
+	--indigo-500: #8c7ca8;
+	--indigo-600: #726091;
+	--indigo-700: #423853;
+	--indigo-800: #2a2335;
+	--indigo-900: #120f16;
+
+	--purple: #655485;
+	--purple-100: #ebe8f0;
+	--purple-200: #cfc8dd;
+	--purple-300: #b4a9c9;
+	--purple-400: #998ab5;
+	--purple-500: #7e6ba1;
+	--purple-600: #4d4066;
+	--purple-700: #362c46;
+	--purple-800: #1e1927;
+	--purple-900: #060508;
+
+	--pink: #a71e5c;
+	--pink-100: #fef9fb;
+	--pink-200: #f6cee0;
+	--pink-300: #eea3c5;
+	--pink-400: #e777aa;
+	--pink-500: #df4c8f;
+	--pink-600: #d22674;
+	--pink-700: #a71e5c;
+	--pink-800: #7c1644;
+	--pink-900: #500e2c;
+
+	--red: #cc3b4b;
+	--red-100: #f6dde0;
+	--red-200: #ecb4ba;
+	--red-300: #e18c95;
+	--red-400: #d76370;
+	--red-500: #cc3b4b;
+	--red-600: #a82c39;
+	--red-700: #80212c;
+	--red-800: #57171e;
+	--red-900: #2f0c10;
+
+	--orange: #e26600;
+	--orange-100: #ffefe2;
+	--orange-200: #ffd3af;
+	--orange-300: #ffb77c;
+	--orange-400: #ff9b49;
+	--orange-500: #ff7f16;
+	--orange-600: #e26600;
+	--orange-700: #af4f00;
+	--orange-800: #7c3800;
+	--orange-900: #492100;
+
+	--yellow: #da771b;
+	--yellow-100: #fefaf6;
+	--yellow-200: #f8e0c9;
+	--yellow-300: #f3c59b;
+	--yellow-400: #edab6e;
+	--yellow-500: #e79141;
+	--yellow-600: #da771b;
+	--yellow-700: #ad5e15;
+	--yellow-800: #7f4510;
+	--yellow-900: #522d0a;
+
+	--green: #1e9139;
+	--green-100: #e7faeb;
+	--green-200: #bdf1c9;
+	--green-300: #92e9a7;
+	--green-400: #68e084;
+	--green-500: #3ed762;
+	--green-600: #1e9139;
+	--green-700: #156728;
+	--green-800: #0d3c18;
+	--green-900: #041207;
+
+	--teal: #15ac7e;
+	--teal-100: #f5fefb;
+	--teal-200: #c8f8e9;
+	--teal-300: #9af3d8;
+	--teal-400: #6dedc6;
+	--teal-500: #3fe8b4;
+	--teal-600: #1bd99f;
+	--teal-700: #0f7f5d;
+	--teal-800: #0a513b;
+	--teal-900: #04241a;
+
+	--cyan: #1996aa;
+	--cyan-100: #f7fdfe;
+	--cyan-200: #cbf1f7;
+	--cyan-300: #9ee5f1;
+	--cyan-400: #72daea;
+	--cyan-500: #45cee4;
+	--cyan-600: #20bdd6;
+	--cyan-700: #126f7e;
+	--cyan-800: #0c4851;
+	--cyan-900: #052025;
+
+	--white: #fff;
+	--gray-100: #f8f9fa;
+	--gray-200: #e9ecef;
+	--gray-300: #dee2e6;
+	--gray-400: #ced4da;
+	--gray-500: #adb5bd;
+	--gray-600: #6c757d;
+	--gray-700: #495057;
+	--gray-800: #343a40;
+	--gray-900: #212529;
+	--black: #000;
+
+    --whistlerblue: rgba(255,217,141,1);
+    --whistlergreen: rgb(190, 121, 30);
+
+	--primary: var(--blue);
+	--secondary: var(--gray-500);
+	--success: var(--green);
+	--info: var(--cyan);
+	--warning: var(--yellow);
+	--danger: var(--red);
+	--light: var(--gray-500);
+	--dark: #151618;
+	--breakpoint-xs: 0;
+	--breakpoint-sm: 576px;
+	--breakpoint-md: 768px;
+	--breakpoint-lg: 992px;
+	--breakpoint-xl: 1200px;
+}
+
+@font-face {
+    font-family: manuscript whistler;
+    src: url(../webfonts/manuscript.regular.ttf)
+}
+
+*:not(.fas,.far,.fad,.fal) { 
+    font-family: 'manuscript whistler' !important; 
+} 
+
+html:not(.nav) {
+	font-size: 1.1rem;
+}
+
+div#footer{
+    background-color: rgba(255, 255, 255, 0);
+    height: 20em;
+}
+
+.main-content {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    background-color: white;
+    box-shadow: 0px 0px 6px 3px rgba(0,0,0,0.1);
+}
+
+#app {
+    background: 
+    url(https://www.whistlercrest.com/files/CSSstuff/House_Placeholder) fixed bottom no-repeat,
+    linear-gradient(180deg, rgba(166,237,255,0) 0%, rgba(147,187,221,0) 41%, rgba(255,217,141,1) 65%, rgb(219, 173, 80) 95%, rgb(190, 121, 30) 100%),
+    url(https://i.etsystatic.com/42629141/r/il/06a1f0/5082693749/il_570xN.5082693749_vzdf.jpg) fixed;
+}
+
+/* Mobile navbar */
+@media (max-width: 767px) {
+	a#queueDropdown, a#inventoryDropdown, a#browseDropdown, a#loreDropdown, a.nav-top-link {
+		background-color: #1E1E1E;
+		color:white !important;
+		width:100%;
+	}
+	
+	.dropdown-menu.show {
+		background-color: rgba(147,187,221,0);
+		border: 0;
+		justify-content: center;
+	}
+	
+	a.dropdown-item {
+		background-size: cover;
+		background-color: #1E1E1E;
+		color:white !important;
+		  width:100%;
+	}
+
+	nav#headerNav {
+		background: #1E1E1E !important;
+	}
+}
+
+/* NAVBAR */
+@media (min-width: 768px) {
+	.site-header-image {
+		min-height: 400px !important;
+		max-height: 400px !important;
+		margin-left:10%;
+		margin-right:10%;
+		background-size: cover;
+		position: relative;
+		text-align: center;
+		padding: 10em;
+	}
+
+	nav#headerNav {
+		margin-left: 5%;
+		margin-right: 5%;
+		background: transparent !important;
+	}
+
+	li.nav-top-item {
+		border: solid;
+		border-width: 10px;
+		border-radius: 50%;
+		padding:5px;
+		font-size: 150%;
+		line-height: 1;
+		border-color: #A0152A;
+		background-color: #FFEACD;
+	}
+
+	a#queueDropdown, a#inventoryDropdown, a#browseDropdown, a#loreDropdown, a.nav-top-link {
+		color:#A0152A;
+		width:100%;
+	}
+
+	.dropdown-menu.show {
+		background-color: rgba(147,187,221,0);
+		border: 0;
+		justify-content: center;
+	}
+
+	a.dropdown-item {
+		background-size: cover;
+		background-color: #1E1E1E;
+		color:white !important;
+		width:100%;
+	}
+}
+
+/* sidebar */
+.sidebar {
+    text-align: center;
+    border-radius: 1em 1em 0 0;
+}
+
+.sidebar ul {
+    padding-top: 0em;
+    list-style-type: none;
+    display: block;
+    padding: 2em;
+}
+li.sidebar-section {
+	border: solid .5em transparent;
+	border-radius: 2em !important;
+	background-image: 
+		linear-gradient(white, white), 
+		linear-gradient(var(--whistlerblue),var(--whistlergreen));
+	background-origin: border-box;
+	background-clip: padding-box, border-box;
+}
+
+/* Comments */
+.comment {
+	background-color: white;
+}
+
+/* uhhh something */
+
+  .site-logo {
+    max-width: 500px;
+  }
+  @media (max-width: 768px) {
+    .site-logo {
+      max-width: 300px;
+    }
+  }
+  @media (max-width: 992px) {
+    #headerNav {
+      position: static;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .site-mobile-header {
+      max-height: 3rem;
+      position: static;
+    }
+
+    .main-content {
+      border-radius: 0;
+      height: 100%;
+    }
+  }

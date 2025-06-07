@@ -199,6 +199,7 @@ Route::group(['prefix' => 'comments', 'namespace' => 'Comments'], function() {
     Route::post('/{id}/feature', 'CommentController@feature')->name('comments.feature');
 });
 
+<<<<<<< Updated upstream
 Route::group(['prefix' => 'arcade'], function () {
     Route::get('/', 'ArcadeController@getIndex');
     Route::get('{id}', 'ArcadeController@getArcade')->where(['id' => '[0-9]+']);
@@ -206,3 +207,12 @@ Route::group(['prefix' => 'arcade'], function () {
     Route::get('{id}/play/ajax', 'ArcadeController@getAjax')->where(['id' => '[0-9]+']);
     Route::post('{id}/play/ajax', 'ArcadeController@postAjax')->where(['id' => '[0-9]+']);
 });
+=======
+/**************************************************************************************************
+    INSERTGAMENAME
+**************************************************************************************************/
+Route::group(['prefix' => 'bubblepop'], function () {
+    Route::get('/', 'bubblepopController@getIndex');
+    Route::post('/submit', 'bubblepop@postSubmitbubblepop');
+});
+>>>>>>> Stashed changes

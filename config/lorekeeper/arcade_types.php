@@ -86,5 +86,14 @@ return [
             'CH3RVB (Edits for Arcade)'      => 'https://github.com/CH3RVB',
         ],
     ],
+    'blockfall'       => [
+        'name'           => 'BlockFall',
+        'require_reward' => false,
+        'ajax'           => true,
+        'creators'       => [
+            'some guy' => 'https://toyhou.se/8BitBaker/',
+            'CH3RVB (Edits for Arcade)'      => 'https://github.com/CH3RVB',
+        ],
+    ],
 
 ];
