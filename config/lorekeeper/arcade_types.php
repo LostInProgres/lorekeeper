@@ -19,12 +19,15 @@
 return [
 
     'hol'        => [
-        'name'           => 'Higher or Lower',
-        'require_reward' => true,
-        'ajax'           => true,
+        'name'           => 'Higher or Lower', // Game name, can have spaces
+        'require_reward' => true,       //If set to true the game MUST have a reward attached
+        'ajax'           => true,       //If set to true the game have an ajax. AJAX games have slightly different files, as well as confirmation before playing.
+        'scored'         => false,     //If set to true the game rewards rewards based on the total score reached.
         'creators'       => [
+            //All people who have contributed to the game.
             'CH3RVB' => 'https://github.com/CH3RVB',
         ],
+        //The rules of the game. This displays over the ? tooltip.
         'rules'          => '<p>You will be given a number, you must guess whether you think it will be <strong>higher</strong> or <strong>lower</strong> than a second, randomly generated number that you cannot see. </p>',
     ],
 
@@ -32,6 +35,7 @@ return [
         'name'           => 'Lucky Pull',
         'require_reward' => false,
         'ajax'           => false,
+        'scored'         => false,
         'creators'       => [
             'CH3RVB' => 'https://github.com/CH3RVB',
         ],
@@ -41,6 +45,7 @@ return [
         'name'           => 'Guess The Number',
         'require_reward' => true,
         'ajax'           => false,
+        'scored'         => false,
         'creators'       => [
             'CH3RVB' => 'https://github.com/CH3RVB',
         ],
@@ -49,6 +54,7 @@ return [
         'name'           => 'Word Search',
         'require_reward' => true,
         'ajax'           => true,
+        'scored'         => false,
         'creators'       => [
             'Bunkat (Original code)'       => 'https://github.com/bunkat',
             'LostInProgres (Edits for LK)' => 'https://github.com/LostInProgres',
@@ -61,6 +67,7 @@ return [
         'name'           => 'Rock, Paper, Scissors',
         'require_reward' => true,
         'ajax'           => false,
+        'scored'         => false,
         'creators'       => [
             'CH3RVB' => 'https://github.com/CH3RVB',
         ],
@@ -70,6 +77,7 @@ return [
         'name'           => 'Sudoku',
         'require_reward' => true,
         'ajax'           => true,
+        'scored'         => false,
         'creators'       => [
             'Cristian Canea (Original code)' => 'https://codepen.io/cristiancanea',
             'LostInProgres (Edits for LK)'   => 'https://github.com/LostInProgres',
@@ -81,6 +89,7 @@ return [
         'name'           => 'Wishing Well',
         'require_reward' => true,
         'ajax'           => false,
+        'scored'         => false,
         'creators'       => [
             '8BitBaker (Original idea/code)' => 'https://toyhou.se/8BitBaker/',
             'CH3RVB (Edits for Arcade)'      => 'https://github.com/CH3RVB',
@@ -90,6 +99,7 @@ return [
         'name'           => 'BlockFall',
         'require_reward' => false,
         'ajax'           => true,
+        'scored'         => true,
         'creators'       => [
             'LostInProgres'      => 'https://github.com/LostInProgres',
         ],
@@ -98,6 +108,7 @@ return [
         'name'           => 'Solitaire',
         'require_reward' => false,
         'ajax'           => true,
+        'scored'         => false,
         'creators'       => [
             'Brent Alexander (Original code)'      => 'https://codepen.io/bfa',
             'Lostinprogres (Edits for LK)'      => 'https://github.com/LostInProgres',
@@ -107,6 +118,7 @@ return [
         'name'           => 'twentyfourtyeight',
         'require_reward' => false,
         'ajax'           => true,
+        'scored'         => true,
         'creators'       => [
             'Antoine Neff (Original code)'      => 'https://codepen.io/antoineneff',
             'Lostinprogres (Edits for LK)'      => 'https://github.com/LostInProgres',
@@ -116,6 +128,7 @@ return [
         'name'           => 'MatchThree',
         'require_reward' => false,
         'ajax'           => true,
+        'scored'         => true,
         'creators'       => [
             'kubowania (Original code)'      => 'https://github.com/kubowania/candy-crush',
             'Lostinprogres (Edits for LK)'      => 'https://github.com/LostInProgres',
@@ -125,8 +138,9 @@ return [
         'name'           => 'Bubble Pop',
         'require_reward' => false,
         'ajax'           => true,
+        'scored'         => true,
         'creators'       => [
-            'N-Cristina (Original code)'         => 'https://codepen.io/N-Cristina/pen/jOWOYpK',
+            'rembound (Original code)'         => 'https://github.com/rembound/Bubble-Shooter-HTML5',
             'Lostinprogres (Edits for LK)'      => 'https://github.com/LostInProgres',
         ],
     ],

@@ -208,13 +208,29 @@ class ArcadeService extends Service
      * @param  string  $data
      * @return bool
      */
+    public function updateScoreData($data)
+    {
+        return [
+            'score_min' => $data['score_min'],
+            'milestone' => $data['milestone'],
+            'score_max' => $data['score_max'],
+        ];
+    }
+
+    /**
+     * Update the arcade's game data.
+     *
+     * @param  string  $data
+     * @return bool
+     */
     public function updateType($arcade, $data)
     {
         DB::beginTransaction();
 
         try {
             $arcade->is_visible = isset($data['is_visible']);
-            $arcade->data = $arcade->service->updateData($arcade, $data);
+            $arcade->data = $arcade->service->updateData($arcade, $data) + $this->updateScoreData($data);
+
             $arcade->save();
 
             return $this->commitReturn(true);

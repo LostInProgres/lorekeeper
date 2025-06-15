@@ -1,7 +1,7 @@
 <h1>2048</h1>
 <p>A simple game of 2048. Merge tiles. Use your arrow keys to move the tiles. When two tiles slide into each other, they merge into one!</p>
 
-<!-- LOSTTODO:
+<!-- LOSTODO:
  1. add score rewards per X points
  2. add score rewars per highest
 

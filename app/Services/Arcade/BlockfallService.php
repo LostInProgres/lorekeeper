@@ -85,9 +85,9 @@ class BlockfallService extends Service
             $gameData = $arcade->data;
 
             if ($data['count'] == "0") {
-                throw new \Exception('Cannot submit an unfinished sudoku.');
+                throw new \Exception('Cannot submit an unfinished game.');
             } else {
-                $arcade->generalService->grantRewards($arcade, $user);
+                $arcade->generalService->calculateRewards($arcade, $user, $data['count']);
                 $arcade->generalService->updateLog($arcade, $user);
             }
 

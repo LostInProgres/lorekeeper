@@ -102,7 +102,7 @@
     <h3>Game Type</h3>
     <p>Game types are the different types of games, which all have their own settings. You can edit the specific game's settings after you've chosen the type of game.
     </p>
-    <p>After you select a game type and add info, you can set it to active or inactive.</p>
+    <p>Please note that depending on the arcade type, there might be additional options. Because of this, an arcade can only be set to active after you've selected a type.</p>
 
     <div class="form-group">
         {!! Form::select('arcade_type', [null => 'Select a Type'] + $types, $arcade->arcade_type ?? null, ['class' => 'form-control']) !!}
@@ -123,6 +123,11 @@
             {!! Form::checkbox('is_visible', 1, $arcade->id ? $arcade->is_visible : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
             {!! Form::label('is_visible', 'Set Active', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned off, the game will not be visible to regular users.') !!}
         </div>
+
+        @if (isset($arcade->configInfo['scored']) && $arcade->configInfo['scored'] == true)
+            @include('admin.arcades.scored', ['data' => $arcade->data])
+        @endif
+
 
         @if (View::exists('admin.arcades.games.' . $arcade->arcade_type))
             @include('admin.arcades.games.' . $arcade->arcade_type, ['data' => $arcade->data])

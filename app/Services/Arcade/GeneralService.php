@@ -72,6 +72,41 @@ class GeneralService extends Service
     /**
      * Grant game rewards
      */
+    public function calculateRewards($arcade, $user, $score)
+    {
+        $gameData = $arcade->data;
+
+        //If min score is set, substract score_min from the score.
+        if ($gameData['score_min']) {
+            $basescore = $score - $gameData['score_min'];
+        } else {
+            $basescore = $score;
+        }
+
+        //If max score is set, reduce score the the maximum score
+        if ($gameData['score_max'] && $basescore > $gameData['score_max'] && $basescore > 0) {
+            $maxedscore = $gameData['score_max'];
+        } else {
+            $maxedscore = $basescore;
+        }
+
+        //If milestone is set, divide the remaining score by the milestone amount.
+        if ($gameData['milestone'] && $maxedscore > 0) {
+            $totalrewards = $maxedscore / $gameData['milestone'];
+        } elseif (!$gameData['milestone'] && $maxedscore > 0) {
+            $totalrewards = 1;
+        } else {
+            throw new \Exception('You did not earn enough points to get a reward.');
+        }
+
+        for ($i = 0; $i < $totalrewards; $i++) {
+            $this->grantRewards($arcade, $user);
+        }
+    }
+
+    /**
+     * Grant game rewards
+     */
     public function grantRewards($arcade, $user)
     {
         DB::beginTransaction();

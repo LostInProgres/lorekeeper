@@ -8,15 +8,10 @@
 		margin: auto;
 		border-radius: 5px;
 	}
-
-	div{
-		width: 100%;
-		text-align: center;
-	}
 </style>
 
 <script>
-    window.onload = function() {
+    $( document ).ready(function() {
     // Get the canvas and context
     var canvas = document.getElementById("viewport");
     var context = canvas.getContext("2d");
@@ -149,7 +144,7 @@
     // Initialize the game
     function init() {
         // Load images
-        images = loadImages(["https://github.com/NCristina/Bubble-shooter-game/blob/master/bubble-sprites3.png?raw=true"]);
+        images = loadImages(["https://f2.toyhou.se/file/f2-toyhou-se/images/101986593_l19ZTOvt3EeYQYl.png?1750024977"]);
         bubbleimage = images[0];
 
         // Add mouse events
@@ -1057,6 +1052,6 @@
 
     // Call init to start the game
     init();
-};
+});
 
 </script>
