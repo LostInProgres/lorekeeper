@@ -1,3 +1,4 @@
+
 <div class="w-100 text-center">
 <canvas id="viewport" width="628" height="628"></canvas>
 </div>
@@ -15,7 +16,7 @@
 </style>
 
 <script>
-    function initializeGame() {
+    window.onload = function() {
     // Get the canvas and context
     var canvas = document.getElementById("viewport");
     var context = canvas.getContext("2d");
