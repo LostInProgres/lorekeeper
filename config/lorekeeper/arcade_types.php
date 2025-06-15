@@ -91,8 +91,43 @@ return [
         'require_reward' => false,
         'ajax'           => true,
         'creators'       => [
-            'some guy' => 'https://toyhou.se/8BitBaker/',
-            'CH3RVB (Edits for Arcade)'      => 'https://github.com/CH3RVB',
+            'LostInProgres'      => 'https://github.com/LostInProgres',
+        ],
+    ],
+    'solitaire'       => [
+        'name'           => 'Solitaire',
+        'require_reward' => false,
+        'ajax'           => true,
+        'creators'       => [
+            'Brent Alexander (Original code)'      => 'https://codepen.io/bfa',
+            'Lostinprogres (Edits for LK)'      => 'https://github.com/LostInProgres',
+        ],
+    ],
+    'twentyfourtyeight'       => [
+        'name'           => 'twentyfourtyeight',
+        'require_reward' => false,
+        'ajax'           => true,
+        'creators'       => [
+            'Antoine Neff (Original code)'      => 'https://codepen.io/antoineneff',
+            'Lostinprogres (Edits for LK)'      => 'https://github.com/LostInProgres',
+        ],
+    ],
+    'matchthree'       => [
+        'name'           => 'MatchThree',
+        'require_reward' => false,
+        'ajax'           => true,
+        'creators'       => [
+            'kubowania (Original code)'      => 'https://github.com/kubowania/candy-crush',
+            'Lostinprogres (Edits for LK)'      => 'https://github.com/LostInProgres',
+        ],
+    ],
+    'bubblepop'       => [
+        'name'           => 'Bubble Pop',
+        'require_reward' => false,
+        'ajax'           => true,
+        'creators'       => [
+            'N-Cristina (Original code)'         => 'https://codepen.io/N-Cristina/pen/jOWOYpK',
+            'Lostinprogres (Edits for LK)'      => 'https://github.com/LostInProgres',
         ],
     ],
 

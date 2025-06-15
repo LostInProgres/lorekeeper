@@ -3,12 +3,12 @@
 </div>
 
 <div class="text-center game">
-    <a href="#" class="btn btn-primary play-blockfall"><i class="fas fa-gamepad"></i> Play!</a>
+    <a href="#" class="btn btn-primary play-solitaire"><i class="fas fa-gamepad"></i> Play!</a>
     <hr>
 </div>
 <script>
     $(document).ready(function() {
-        $('.play-blockfall').on('click', function(e) {
+        $('.play-solitaire').on('click', function(e) {
             $.ajax({
                 type: "GET",
                 url: "{{ url('arcade/' . $arcade->id . '/play/ajax') }}",
