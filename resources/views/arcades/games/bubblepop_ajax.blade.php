@@ -78,7 +78,7 @@
                             [[1, 0], [1, 1], [0, 1], [-1, 0], [0, -1], [1, -1]]];  // Odd row tiles
 
     // Number of different colors
-    var bubblecolors = 7;
+    var bubblecolors = {{isset($arcade->data['bubble_colour_amount']) ? $arcade->data['bubble_colour_amount'] : "7" }};
 
     // Game states
     var gamestates = { init: 0, ready: 1, shootbubble: 2, removecluster: 3, gameover: 4 };
@@ -470,7 +470,7 @@
 
         // No clusters found
         turncounter++;
-        if (turncounter >= 5) {
+        if (turncounter >= {{isset($arcade->data['turn_speed']) ? $arcade->data['turn_speed'] : "5" }}) {
             // Add a row of bubbles
             addBubbles();
             turncounter = 0;
@@ -874,6 +874,9 @@
     function drawBubble(x, y, index) {
         if (index < 0 || index >= bubblecolors)
             return;
+        //  LOSTODO: get a random image based on the index
+
+
 
         // Draw the bubble sprite
         context.drawImage(bubbleimage, index * 40, 0, 40, 40, x, y, level.tilewidth, level.tileheight);

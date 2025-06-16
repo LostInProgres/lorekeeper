@@ -64,7 +64,8 @@ class BubblepopService extends Service
     { //this is placeholder data for now because the data cannot be null
 
         return [
-            'word_min' => "1",
+            'bubble_colour_amount'      => $data['bubble_colour_amount'],
+            'turn_speed'                => $data['turn_speed'],
         ];
     }
 
