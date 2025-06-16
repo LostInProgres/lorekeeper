@@ -17,25 +17,51 @@
         </div>
 
     <style>
+
+    @php if ($arcade->customImageExists("container")) { @endphp
         #tetris {
-        width: 360px;
-        border: 1px solid black;
-        padding: 20px;
-    }
-    #canvas {
-        width: 200px;
-        height: 440px;
-        background-color: #000;
-        position: relative;
-        color: #fff;
-    }
-    #canvas h1 {
-        margin: 0;
-        padding: 0;
-        text-align: center;
-        font-size: 30px;
-        padding-top: 200px;
+            background-image: url("{{ $arcade->customImageUrl("container") }}") !important;
+            background-size: cover !important;
+            width: 450px;
+            border: 
+                {{isset($arcade->data['container_outline_width']) ? $arcade->data['container_outline_width'] : "1" }}px 
+                solid 
+                {{isset($arcade->data['container_outline_colour']) ? $arcade->data['container_outline_colour'] : "#FFF" }} ;
+            padding: 20px;
+            background-color: {{isset($arcade->data['container_colour']) ? $arcade->data['container_colour'] : "#FFF" }} ;
         }
+    @php } else { @endphp
+        #tetris {
+            width: 450px;
+            border: 
+                {{isset($arcade->data['container_outline_width']) ? $arcade->data['container_outline_width'] : "1" }}px 
+                solid 
+                {{isset($arcade->data['container_outline_colour']) ? $arcade->data['container_outline_colour'] : "#FFF" }} ;
+            padding: 20px;
+            background-color: {{isset($arcade->data['container_colour']) ? $arcade->data['container_colour'] : "#FFF" }} ;
+        }
+    @php } @endphp
+
+    @php if ($arcade->customImageExists("board")) { @endphp
+        #canvas {
+            background-image: url("{{ $arcade->customImageUrl("board") }}") !important;
+            background-size: cover !important;
+            width: 200px;
+            height: 440px;
+            background-color: {{isset($arcade->data['board_colour']) ? $arcade->data['board_colour'] : "#000" }} ;
+            position: relative;
+            color: #fff;
+        }
+    @php } else { @endphp
+        #canvas {
+            width: 200px;
+            height: 440px;
+            background-color: {{isset($arcade->data['board_colour']) ? $arcade->data['board_colour'] : "#000" }} ;
+            position: relative;
+            color: #fff;
+        }
+    @php } @endphp
+
     .piece {
         border: 1px solid white;
         position: absolute;
@@ -44,32 +70,139 @@
         position: absolute;
         width: 19px;
         height: 19px;
-        border: 1px solid white;
+        border: {{ $arcade->data['board_outline_width']}} solid {{ $arcade->data['board_outline_colour'] }};
         }
-    .type0 { background-color: #A000F0;}    
-    .type1 { background-color: #00F0F0;}     
-    .type2 { background-color: #F0A000;} 
-    .type3 { background-color: #0000F0;} 
-    .type4 { background-color: #00F000;} 
-    .type5 { background-color: #F00000;} 
-    .type6 { background-color: #F0F000;}
-    #next_shape {
-        position: relative;
-        background-color: #000;
-        border: 1px solid white;
-        width: 110px;
-        height: 110px;
+
+    @php if ($arcade->customImageExists("Freddy")) { @endphp
+        .type0 {
+            background-image: url("{{ $arcade->customImageUrl("Freddy") }}") !important;
+            background-size: cover !important;
+            background-color: {{ $arcade->data['freddy_colour']}};
         }
-    #info {
-        background-color: #000;
-        color: #fff;
-        float: right;
-        width: 110px;
-        height: 420px;
-        padding: 10px;
-    }
+    @php } else { @endphp
+        .type0 { background-color: {{ $arcade->data['freddy_colour']}};}
+
+    @php } @endphp
+
+    @php if ($arcade->customImageExists("Steward")) { @endphp
+        .type1 {
+            background-image: url("{{ $arcade->customImageUrl("Steward") }}") !important;
+            background-size: cover !important;
+            background-color: {{ $arcade->data['steward_colour']}};
+        }
+    @php } else { @endphp
+            .type1 { background-color:{{ $arcade->data['steward_colour']}};}
+
+    @php } @endphp
     
- 
+
+    @php if ($arcade->customImageExists("Evil_Gerald")) { @endphp
+        .type2 {
+            background-image: url("{{ $arcade->customImageUrl("Evil_Gerald") }}") !important;
+            background-size: cover !important;
+            background-color:   {{ $arcade->data['evil_gerald_colour']}};
+        }
+    @php } else { @endphp
+            .type2 { background-color: {{ $arcade->data['evil_gerald_colour']}};}
+    @php } @endphp
+
+    @php if ($arcade->customImageExists("Gerald")) { @endphp
+        .type3 {
+            background-image: url("{{ $arcade->customImageUrl("Gerald") }}") !important;
+            background-size: cover !important;
+            background-color: {{ $arcade->data['gerald_colour']}};
+        }
+    @php } else { @endphp
+        .type3 {
+            background-color: {{ $arcade->data['gerald_colour']}};
+        }
+
+    @php } @endphp
+
+    @php if ($arcade->customImageExists("Vanessa")) { @endphp
+        .type4 {
+            background-image: url("{{ $arcade->customImageUrl("Vanessa") }}") !important;
+            background-size: cover !important;
+            background-color: {{ $arcade->data['vanessa_colour']}};
+        }
+    @php } else { @endphp
+        .type4 {
+            background-color: {{ $arcade->data['vanessa_colour']}};
+        }
+    @php } @endphp
+
+    @php if ($arcade->customImageExists("Amber")) { @endphp
+        .type5 {
+            background-image: url("{{ $arcade->customImageUrl("Amber") }}") !important;
+            background-size: cover !important;
+            background-color: {{ $arcade->data['amber_colour']}};
+        }
+    @php } else { @endphp
+        .type5 {
+            background-color: {{ $arcade->data['amber_colour']}};
+        }
+    @php } @endphp
+
+    @php if ($arcade->customImageExists("Arnold")) { @endphp
+        .type6 {
+            background-image: url("{{ $arcade->customImageUrl("Arnold") }}") !important;
+            background-size: cover !important;
+            background-color: {{ $arcade->data['arnold_colour']}};
+        }
+    @php } else { @endphp
+        .type6 {
+            background-color: {{ $arcade->data['arnold_colour']}};
+        }
+    @php } @endphp
+
+
+    @php if ($arcade->customImageExists("next")) { @endphp
+        #next_shape {
+            background-image: url("{{ $arcade->customImageUrl("next") }}") !important;
+            background-size: cover !important;
+            position: relative;
+            background-color: {{isset($arcade->data['next_colour']) ? $arcade->data['next_colour'] : "#000" }};
+            border: 
+                {{isset($arcade->data['next_outline_width']) ? $arcade->data['next_outline_width'] : "1" }}px 
+                solid 
+                {{isset($arcade->data['next_outline_colour']) ? $arcade->data['next_outline_colour'] : "#fff" }};
+            width: 110px;
+            height: 110px;
+        }
+    @php } else { @endphp
+        #next_shape {
+            position: relative;
+            background-color: {{isset($arcade->data['next_colour']) ? $arcade->data['next_colour'] : "#000" }};
+            border: 
+                {{isset($arcade->data['next_outline_width']) ? $arcade->data['next_outline_width'] : "1" }}px 
+                solid 
+                {{isset($arcade->data['next_outline_colour']) ? $arcade->data['next_outline_colour'] : "#fff" }};
+            width: 110px;
+            height: 110px;
+        }
+    @php } @endphp
+
+    @php if ($arcade->customImageExists("score")) { @endphp
+        #info {
+            background-image: url("{{ $arcade->customImageUrl("score") }}") !important;
+            background-size: cover !important;
+            background-color: {{isset($arcade->data['score_colour']) ? $arcade->data['score_colour'] : "#000" }};
+            color:{{isset($arcade->data['score_text_colour']) ? $arcade->data['score_text_colour'] : "#fff" }};
+            float: right;
+            width: 127px;
+            height: 420px;
+            padding: 10px;
+    @php } else { @endphp
+        #info {
+            background-color: {{isset($arcade->data['score_colour']) ? $arcade->data['score_colour'] : "#000" }};
+            color:{{isset($arcade->data['score_text_colour']) ? $arcade->data['score_text_colour'] : "#fff" }};
+            float: right;
+            width: 127px;
+            height: 420px;
+            padding: 10px;
+        }
+    @php } @endphp
+    
     </style>
 
 <script>

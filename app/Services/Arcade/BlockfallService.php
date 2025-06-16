@@ -64,7 +64,25 @@ class BlockfallService extends Service
     { //this is placeholder data for now because the data cannot be null
 
         return [
-            'word_min' => "1",
+            'steward_colour'                        => $data['steward_colour'],
+            'arnold_colour'                         => $data['arnold_colour'],
+            'freddy_colour'                         => $data['freddy_colour'],
+            'gerald_colour'                         => $data['gerald_colour'],
+            'evil_gerald_colour'                    => $data['evil_gerald_colour'],
+            'vanessa_colour'                        => $data['vanessa_colour'],
+            'amber_colour'                          => $data['amber_colour'],
+            'board_outline_width'                   => $data['board_outline_width'],
+            'board_outline_colour'                  => $data['board_outline_colour'],
+            'board_colour'                          => $data['board_colour'],
+            'container_colour'                      => $data['container_colour'],
+            'container_outline_width'               => $data['container_outline_width'],
+            'container_outline_colour'          	=> $data['container_outline_colour'],
+            'score_colour'                          => $data['score_colour'],
+            'score_text_colour'                     => $data['score_text_colour'],
+            'next_colour'                           => $data['next_colour'],
+            'next_outline_width'                    => $data['next_outline_width'],
+            'next_outline_colour'          	        => $data['next_outline_colour'],
+
         ];
     }
 
