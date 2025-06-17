@@ -1,7 +1,12 @@
-
 <div class="w-100 text-center">
-<canvas id="viewport" width="628" height="628"></canvas>
+    <canvas id="viewport" class="mw-100" width="{{ (($arcade->data['game_columns'] ?? 14) * ($arcade->data['bubble_size'] ?? 40)) + 28 }}" height="{{ (($arcade->data['game_rows'] ?? 14) * ($arcade->data['bubble_size'] ?? 40)) + 68 }}"></canvas>
 </div>
+{!! Form::open(['url' => 'arcade/' . $arcade->id . '/play']) !!}
+    <div class="form-group">
+        {!! Form::hidden('count', 0, ['class' => 'count']) !!}
+        {!! Form::submit('submit', ['class' => 'btn btn-primary', 'id' => 'solve']) !!}
+    </div>
+{!! Form::close() !!}
 
 <style>
 #viewport{
@@ -30,12 +35,12 @@
         y: 83,          // Y position
         width: 0,       // Width, gets calculated
         height: 0,      // Height, gets calculated
-        columns: 15,    // Number of tile columns
-        rows: 14,       // Number of tile rows
-        tilewidth: 40,  // Visual width of a tile
-        tileheight: 40, // Visual height of a tile
-        rowheight: 34,  // Height of a row
-        radius: 20,     // Bubble collision radius
+        columns: {{ $arcade->data['game_columns'] ?? 15 }},    // Number of tile columns
+        rows: {{ $arcade->data['game_rows'] ?? 14 }},       // Number of tile rows
+        tilewidth: {{ $arcade->data['bubble_size'] ?? 40 }},  // Visual width of a tile
+        tileheight: {{ $arcade->data['bubble_size'] ?? 40 }}, // Visual height of a tile
+        rowheight: {{ isset($arcade->data['bubble_size']) ? ($arcade->data['bubble_size']*.85) : 34 }},  // Height of a row
+        radius: {{ isset($arcade->data['bubble_size']) ? ($arcade->data['bubble_size']*.5) : 20 }},     // Bubble collision radius
         tiles: []       // The two-dimensional tile array
     };
 
@@ -78,7 +83,7 @@
                             [[1, 0], [1, 1], [0, 1], [-1, 0], [0, -1], [1, -1]]];  // Odd row tiles
 
     // Number of different colors
-    var bubblecolors = {{isset($arcade->data['bubble_colour_amount']) ? $arcade->data['bubble_colour_amount'] : "7" }};
+    var bubblecolors = {{ $arcade->data['bubble_colour_amount'] ?? 7 }};
 
     // Game states
     var gamestates = { init: 0, ready: 1, shootbubble: 2, removecluster: 3, gameover: 4 };
@@ -144,8 +149,23 @@
     // Initialize the game
     function init() {
         // Load images
-        images = loadImages(["https://f2.toyhou.se/file/f2-toyhou-se/images/101986593_l19ZTOvt3EeYQYl.png?1750024977"]);
-        bubbleimage = images[0];
+        const images = loadImages([
+
+            @php $max_bubble_color = $arcade->data['bubble_colour_amount'] ?? 7; @endphp
+            @for ($t = 0; $t < $max_bubble_color; $t++)
+                @php $key = 'number_' . $t+1; @endphp
+                @if ($arcade->customImageExists($key))
+                    "{{ $arcade->customImageUrl($key) }}"
+                @else
+                    "https://picsum.photos/40" //REPLACE THIS WITH A PROPER PLACEHOLDER IMMEDIATELY
+                @endif
+                @if ($t != $max_bubble_color)
+                    ,
+                @endif
+            @endfor
+        ]);
+
+        bubbleimage = images;
 
         // Add mouse events
         canvas.addEventListener("mousemove", onMouseMove);
@@ -308,7 +328,7 @@
             }
 
             // Add cluster score
-            score += cluster.length * 100;
+            score += cluster.length * {{ isset($arcade->data['points_per_pop']) ? ($arcade->data['points_per_pop']) : 100 }};
 
             // Find floating clusters
             floatingclusters = findFloatingClusters();
@@ -461,7 +481,7 @@
             // Find clusters
             cluster = findCluster(gridpos.x, gridpos.y, true, true, false);
 
-            if (cluster.length >= 3) {
+            if (cluster.length >= {{ $arcade->data['cluster_size'] ?? "3" }}) {
                 // Remove the cluster
                 setGameState(gamestates.removecluster);
                 return;
@@ -738,13 +758,15 @@
 
         // Game Over overlay
         if (gamestate == gamestates.gameover) {
+            $('.count').val(score);
+
             context.fillStyle = "rgba(0, 0, 0, 0.8)";
             context.fillRect(level.x - 4, level.y - 4, level.width + 8, level.height + 2 * level.tileheight + 8 - yoffset);
 
             context.fillStyle = "#ffffff";
             context.font = "24px Verdana";
             drawCenterText("Game Over!", level.x, level.y + level.height / 2 + 10, level.width);
-            drawCenterText("Click to start", level.x, level.y + level.height / 2 + 40, level.width);
+            drawCenterText("Submit your score below!", level.x, level.y + level.height / 2 + 40, level.width);
         }
     }
 
@@ -761,7 +783,7 @@
         // Draw title
         context.fillStyle = "#ffffff";
         context.font = "24px Verdana";
-        context.fillText("Bubble Shooter", 10, 37);
+        context.fillText("Bubble Shooter :3c", 10, 37);
 
         // Display fps
         context.fillStyle = "#ffffff";
@@ -872,14 +894,12 @@
 
     // Draw the bubble
     function drawBubble(x, y, index) {
-        if (index < 0 || index >= bubblecolors)
+        if (index < 0 || index >= bubblecolors) {
             return;
-        //  LOSTODO: get a random image based on the index
-
-
+        }
 
         // Draw the bubble sprite
-        context.drawImage(bubbleimage, index * 40, 0, 40, 40, x, y, level.tilewidth, level.tileheight);
+        context.drawImage(bubbleimage[index], x, y, level.tilewidth, level.tileheight);
     }
 
     // Start a new game
@@ -1039,8 +1059,6 @@
 
         if (gamestate == gamestates.ready) {
             shootBubble();
-        } else if (gamestate == gamestates.gameover) {
-            newGame();
         }
     }
 

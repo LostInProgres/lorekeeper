@@ -338,7 +338,7 @@
             }
         @php } @endphp
 
-    @for ($t = 0; $t < 10; $t++)
+    @for ($t = 1; $t < 10; $t++)
         @php $key = 'number_' . $t; @endphp
         @if ($arcade->customImageExists($key))
             .number-panel-{{ $t }} {

@@ -64,8 +64,13 @@ class BubblepopService extends Service
     { //this is placeholder data for now because the data cannot be null
 
         return [
-            'bubble_colour_amount'      => $data['bubble_colour_amount'],
-            'turn_speed'                => $data['turn_speed'],
+            'bubble_colour_amount'          => $data['bubble_colour_amount'],
+            'turn_speed'                    => $data['turn_speed'],
+            'cluster_size'                  => $data['cluster_size'],
+            'points_per_pop'                => $data['points_per_pop'],
+            'game_columns'                  => $data['game_columns'],
+            'game_rows'                     => $data['game_rows'],
+            'bubble_size'                   => $data['bubble_size'],
         ];
     }
 
@@ -88,7 +93,7 @@ class BubblepopService extends Service
             if ($data['count'] == "0") {
                 throw new \Exception('Cannot submit an unfinished sudoku.');
             } else {
-                $arcade->generalService->grantRewards($arcade, $user);
+                $arcade->generalService->calculateRewards($arcade, $user, $data['count']);
                 $arcade->generalService->updateLog($arcade, $user);
             }
 
