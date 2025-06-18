@@ -66,7 +66,7 @@
                     x: 0,
                     y: 0,
                     angle: 0,
-                    speed: 1000,
+                    speed: {{ isset($arcade->data['bubble_speed']) ? ($arcade->data['bubble_speed']) : 1000 }},
                     dropspeed: 900,
                     tiletype: 0,
                     visible: false
@@ -150,7 +150,6 @@
     function init() {
         // Load images
         const images = loadImages([
-
             @php $max_bubble_color = $arcade->data['bubble_colour_amount'] ?? 7; @endphp
             @for ($t = 0; $t < $max_bubble_color; $t++)
                 @php $key = 'number_' . $t+1; @endphp
@@ -166,6 +165,33 @@
         ]);
 
         bubbleimage = images;
+
+        //load background image, if present
+        @if ($arcade->customImageExists("background"))
+        const background = loadImages([
+            "{{ $arcade->customImageUrl("background") }}"
+        ]);
+        @endif
+
+        backgroundImage = background;
+
+        //load header image, if present
+        @if ($arcade->customImageExists("header"))
+        const header = loadImages([
+            "{{ $arcade->customImageUrl("header") }}"
+        ]);
+        @endif
+
+        headerImage = header;
+
+        //load footer image, if present
+        @if ($arcade->customImageExists("footer"))
+        const footer = loadImages([
+            "{{ $arcade->customImageUrl("footer") }}"
+        ]);
+        @endif
+
+        footerImage = footer;
 
         // Add mouse events
         canvas.addEventListener("mousemove", onMouseMove);
@@ -184,8 +210,10 @@
         level.height = (level.rows-1) * level.rowheight + level.tileheight;
 
         // Init the player
+        const footerHeight = 2 * level.tileheight + 3;
+
         player.x = level.x + level.width/2 - level.tilewidth/2;
-        player.y = level.y + level.height;
+        player.y = canvas.height - footerHeight * 0.75;
         player.angle = 90;
         player.tiletype = 0;
 
@@ -328,7 +356,7 @@
             }
 
             // Add cluster score
-            score += cluster.length * {{ isset($arcade->data['points_per_pop']) ? ($arcade->data['points_per_pop']) : 100 }};
+            score += cluster.length * {{ ($arcade->data['points_per_pop']) ?? 100 }};
 
             // Find floating clusters
             floatingclusters = findFloatingClusters();
@@ -342,7 +370,7 @@
                         tile.shift = 1;
                         tile.velocity = player.bubble.dropspeed;
 
-                        score += 100;
+                        score += {{ ($arcade->data['points_per_pop']) ?? 100 }};
                     }
                 }
             }
@@ -723,21 +751,40 @@
         var yoffset =  level.tileheight/2;
 
         // Draw level background
-        context.fillStyle = "#dbdbdb";
+        context.fillStyle = '{{$arcade->data['background_colour'] ?? " #e8eaec" }}';
         context.fillRect(level.x - 4, level.y - 4, level.width + 8, level.height + 4 - yoffset);
+
+        // Draw background image on top if it's loaded
+        @if ($arcade->customImageExists("background"))
+        if (backgroundImage[0].complete) {
+            context.drawImage(backgroundImage[0], level.x - 4, level.y - 4, level.width + 8, level.height + 4 - yoffset);
+        }
+        @endif
 
         // Render tiles
         renderTiles();
 
-        // Draw level bottom
-        context.fillStyle = "#c4c4c4";
-        context.fillRect(level.x - 4, level.y - 4 + level.height + 4 - yoffset, level.width + 8, 2*level.tileheight + 3);
+        // Calculate the height of the footer
+        // We will use this to calculate where to place it
+        // NOTE: old calculation: level.y - 4 + level.height + 4 - yoffset
+        const footerHeight = 2 * level.tileheight + 3;
+
+        // Draw level footer
+        context.fillStyle = '{{$arcade->data['footer_colour'] ?? " #c4c4c4" }}';
+        context.fillRect(level.x - 4, canvas.height - footerHeight, level.width + 8, footerHeight);
+
+        // Draw footer image on top if it's loaded
+        @if ($arcade->customImageExists("footer"))
+        if (footerImage[0].complete) {
+            context.drawImage(footerImage[0], level.x - 4, canvas.height - footerHeight, level.width + 8, footerHeight);
+        }
+        @endif
 
         // Draw score
-        context.fillStyle = "#ffffff";
+        context.fillStyle = '{{$arcade->data['footer_text_colour'] ?? " #ffffff" }}';
         context.font = "18px Verdana";
         var scorex = level.x + level.width - 150;
-        var scorey = level.y+level.height + level.tileheight - yoffset - 8;
+        var scorey = player.y + level.tileheight/2.5;
         drawCenterText("Score:", scorex, scorey, 150);
         context.font = "24px Verdana";
         drawCenterText(score, scorex, scorey+30, 150);
@@ -751,7 +798,6 @@
                 renderCluster(floatingclusters[i], col, col, col);
             }
         }
-
 
         // Render player bubble
         renderPlayer();
@@ -773,17 +819,31 @@
     // Draw a frame around the game
     function drawFrame() {
         // Draw background
-        context.fillStyle = "#e8eaec";
-        context.fillRect(0, 0, canvas.width, canvas.height);
+            context.fillStyle = '{{$arcade->data['background_colour'] ?? " #e8eaec" }}';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw background image on top if it's loaded
+        @if ($arcade->customImageExists("background"))
+        if (backgroundImage[0].complete) {
+            context.drawImage(backgroundImage[0], 0, 0, canvas.width, canvas.height);
+        }
+        @endif
 
         // Draw header
-        context.fillStyle = "#01121c";
+        context.fillStyle = '{{ $arcade->data['header_colour'] ?? "#01121c" }}';
         context.fillRect(0, 0, canvas.width, 79);
 
+        // Draw header image on top if it's loaded
+        @if ($arcade->customImageExists("header"))
+        if (headerImage[0].complete) {
+            context.drawImage(headerImage[0], 0, 0, canvas.width, 79);
+        }
+        @endif
+
         // Draw title
-        context.fillStyle = "#ffffff";
+        context.fillStyle = '{{$arcade->data['header_text_colour'] ?? " #ffffff" }}';
         context.font = "24px Verdana";
-        context.fillText("Bubble Shooter :3c", 10, 37);
+        context.fillText("{{ $arcade->name }}", 10, 37);
 
         // Display fps
         context.fillStyle = "#ffffff";
@@ -846,13 +906,11 @@
         context.strokeStyle = "#8c8c8c";
         context.stroke();
 
-        // Draw the angle
-        context.lineWidth = 2;
-        context.strokeStyle = "#000033";
-        context.beginPath();
-        context.moveTo(centerx, centery);
-        context.lineTo(centerx + 1.5*level.tilewidth * Math.cos(degToRad(player.angle)), centery - 1.5*level.tileheight * Math.sin(degToRad(player.angle)));
-        context.stroke();
+        // Draw the predicted path
+        const path = getPredictedBubblePath(
+            centerx, centery, player.angle
+        );
+        drawPredictedPath(path);
 
         // Draw the next bubble
         drawBubble(player.nextbubble.x, player.nextbubble.y, player.nextbubble.tiletype);
@@ -863,6 +921,86 @@
         }
 
     }
+
+    function drawPredictedPath(path) {
+        context.beginPath();
+        context.strokeStyle = '{{isset($arcade->data['aim_assist_colour']) ? $arcade->data['aim_assist_colour'] :" #FFFFFF" }}';
+        context.lineWidth = 2;
+
+        context.moveTo(path[0].x, path[0].y);
+        for (let i = 1; i < path.length; i++) {
+            context.lineTo(path[i].x, path[i].y);
+        }
+
+        context.stroke();
+    }
+
+    function getPredictedBubblePath(startX, startY, angleDeg) {
+        const path = [];
+        const angleRad = degToRad(angleDeg);
+        const speed = 4;
+
+        let x = startX;
+        let y = startY;
+        let angle = angleDeg;
+        let dx = Math.cos(angleRad) * speed;
+        let dy = -Math.sin(angleRad) * speed; // Canvas y-axis is downward
+
+        while (true) {
+            // Move
+            x += dx;
+            y += dy;
+            
+            path.push({ x, y });
+
+            // Wall bounce check (left)
+            if (x <= level.x + level.radius) {
+                angle = 180 - angle;
+                x = level.x + level.radius;
+                const rad = degToRad(angle);
+                dx = Math.cos(rad) * speed;
+                dy = -Math.sin(rad) * speed;
+            }
+            // Wall bounce check (right)
+            else if (x >= level.x + level.width - level.radius) {
+                angle = 180 - angle;
+                x = level.x + level.width - level.radius;
+                const rad = degToRad(angle);
+                dx = Math.cos(rad) * speed;
+                dy = -Math.sin(rad) * speed;
+            }
+
+            // Top collision
+            if (y <= level.y + level.radius) {
+                path.push({ x, y: level.y + level.radius });
+                return path;
+            }
+
+            // Check for collisions with existing bubbles
+            for (let i = 0; i < level.columns; i++) {
+                for (let j = 0; j < level.rows; j++) {
+                    const tile = level.tiles[i][j];
+                    if (tile.type < 0) continue;
+
+                    //get the coordinates of existing tiles.
+                    const coord = getTileCoordinate(i, j);
+                    const hit = circleIntersection(
+                        x, y, level.radius, coord.tilex + level.radius, coord.tiley + level.radius, level.radius
+                    );
+
+
+                    if (hit) {
+                        path.push({ x, y });
+                        return path;
+                    }
+                }
+            }
+
+            // Optional safety limit to prevent infinite loops
+            if (path.length > {{isset($arcade->data['aim_assist_length']) ? $arcade->data['aim_assist_length'] : "250" }})  return path;
+        }
+    }
+
 
     // Get the tile coordinate
     function getTileCoordinate(column, row) {
@@ -941,7 +1079,7 @@
                 }
                 count++;
 
-                if (j < level.rows/2) {
+                if (j < {{ isset($arcade->data['initial_rows']) ? ($arcade->data['initial_rows']) : ($arcade->data['game_rows'] ?? 14) / 2}}) {
                     level.tiles[i][j].type = randomtile;
                 } else {
                     level.tiles[i][j].type = -1;

@@ -65,12 +65,21 @@ class BubblepopService extends Service
 
         return [
             'bubble_colour_amount'          => $data['bubble_colour_amount'],
+            'initial_rows'                  => $data['initial_rows'],
             'turn_speed'                    => $data['turn_speed'],
             'cluster_size'                  => $data['cluster_size'],
             'points_per_pop'                => $data['points_per_pop'],
-            'game_columns'                  => $data['game_columns'],
-            'game_rows'                     => $data['game_rows'],
+            'bubble_speed'                  => $data['bubble_speed'],
             'bubble_size'                   => $data['bubble_size'],
+            'game_rows'                     => $data['game_rows'],
+            'game_columns'                  => $data['game_columns'],
+            'aim_assist_length'             => $data['aim_assist_length'],
+            'aim_assist_colour'             => $data['aim_assist_colour'],
+            'header_colour'                 => $data['header_colour'],
+            'header_text_colour'            => $data['header_text_colour'],
+            'footer_colour'                 => $data['footer_colour'],
+            'footer_text_colour'            => $data['footer_text_colour'],
+            'background_colour'             => $data['background_colour'],
         ];
     }
 
