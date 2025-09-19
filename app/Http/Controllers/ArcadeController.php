@@ -75,6 +75,7 @@ class ArcadeController extends Controller
                     flash($error)->error();
                 }
             }
+
         }
 
         if ($service->play($arcade, $request->all(), $user)) {
@@ -145,32 +146,6 @@ class ArcadeController extends Controller
 
         }
         return redirect()->back();
-    }
-
-    /**
-     * get arcade ajax
-     *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function getAjaxInfo(Request $request, $id)
-    {
-        $arcade = Arcade::where('id', $id)->visible()->whereNotNull('data')->first();
-        if (! $arcade) {
-            return response(404);
-        }
-        $user = Auth::user();
-
-        if (!$arcade->configInfo['ajax']) {
-            return response(404);
-        }
-
-        if ($arcade->arcade_type == 'sudoku') {
-            if ($arcade->customImageExists('number_' . $request['num'])) {
-                return $arcade->customImageUrl('number_' . $request['num']);
-            }
-            return null;
-        }
     }
 
 }

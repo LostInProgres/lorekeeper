@@ -84,10 +84,11 @@ class ArcadeService extends Service
                 unset($data['image']);
             }
 
-            // If changing games, clear out the old data
+            // clear data if changing type
             if ($arcade->arcade_type !== $data['arcade_type']) {
                 $arcade->data          = null;
                 $arcade->variable_data = null;
+                $arcade->is_visible = 0;
                 $arcade->save();
             }
 
@@ -125,10 +126,9 @@ class ArcadeService extends Service
             }
         }
 
+
         if (isset($data['rewardable_type'])) {
             $data['output'] = encodeForDataColumn($data, false);
-        } elseif ($arcade->configInfo['require_reward']) {
-            throw new \Exception("You must add rewards for this type of arcade.");
         } else {
             $data['output'] = null;
         }
@@ -136,8 +136,6 @@ class ArcadeService extends Service
         if (isset($data['description']) && $data['description']) {
             $data['parsed_description'] = parse($data['description']);
         }
-
-        $data['is_visible'] = isset($data['is_visible']);
 
         if (isset($data['remove_image'])) {
             if ($arcade && $arcade->has_image && $data['remove_image']) {
@@ -211,12 +209,29 @@ class ArcadeService extends Service
      * @param  string  $data
      * @return bool
      */
+    public function updateScoreData($data)
+    {
+        return [
+            'score_min' => $data['score_min'],
+            'milestone' => $data['milestone'],
+            'score_max' => $data['score_max'],
+        ];
+    }
+
+    /**
+     * Update the arcade's game data.
+     *
+     * @param  string  $data
+     * @return bool
+     */
     public function updateType($arcade, $data)
     {
         DB::beginTransaction();
 
         try {
-            $arcade->data = $arcade->service->updateData($arcade, $data);
+            $arcade->is_visible = isset($data['is_visible']);
+            $arcade->data = $arcade->service->updateData($arcade, $data) + $this->updateScoreData($data);
+
             $arcade->save();
 
             return $this->commitReturn(true);

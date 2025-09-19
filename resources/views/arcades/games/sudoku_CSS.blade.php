@@ -1,38 +1,4 @@
 <style>
-    /* board */
-    .sudoku_board {
-        margin: 6px auto;
-
-        width: 100% !important;
-        overflow: hidden;
-
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-
-        box-shadow: 0px 0px 5px 5px #bdc3c7;
-    }
-
-    .sudoku_board .cell {
-        width: 11.11%;
-        display: inline-block;
-        float: left;
-        cursor: pointer;
-        text-align: center;
-        overflow: hidden;
-
-        -webkit-box-sizing: border-box;
-        /* Safari/Chrome, other WebKit */
-        -moz-box-sizing: border-box;
-        /* Firefox, other Gecko */
-        box-sizing: border-box;
-
-        box-shadow: 0px 0px 0px 1px #bdc3c7;
-
-        background: white;
-    }
-
     .sudoku_board .cell.border_h {
         box-shadow: 0px 0px 0px 1px #bdc3c7, inset 0px -2px 0 0 #34495e;
     }
@@ -304,6 +270,73 @@
             font-size: 10px;
         }
     }
+
+        @php if ($arcade->customImageExists("board_")) { @endphp
+        .sudoku_board {
+            background-image: url("{{ $arcade->customImageUrl("board_") }}") !important;
+            background-size: cover !important;
+            margin: 6px auto;
+            width: 100% !important;
+            overflow: hidden;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            box-shadow: 0px 0px 5px 5px #bdc3c7;
+        }
+
+        .sudoku_board .cell {
+            width: 11.11%;
+            display: inline-block;
+            float: left;
+            cursor: pointer;
+            text-align: center;
+            overflow: hidden;
+
+            -webkit-box-sizing: border-box;
+            /* Safari/Chrome, other WebKit */
+            -moz-box-sizing: border-box;
+            /* Firefox, other Gecko */
+            box-sizing: border-box;
+
+            box-shadow: 0px 0px 0px 1px #bdc3c7;
+
+            background: transparent;
+        }
+        @php } else { @endphp
+            .sudoku_board {
+                margin: 6px auto;
+
+                width: 100% !important;
+                overflow: hidden;
+
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+
+                box-shadow: 0px 0px 5px 5px #bdc3c7;
+            }
+
+            .sudoku_board .cell {
+                width: 11.11%;
+                display: inline-block;
+                float: left;
+                cursor: pointer;
+                text-align: center;
+                overflow: hidden;
+
+                -webkit-box-sizing: border-box;
+                /* Safari/Chrome, other WebKit */
+                -moz-box-sizing: border-box;
+                /* Firefox, other Gecko */
+                box-sizing: border-box;
+
+                box-shadow: 0px 0px 0px 1px #bdc3c7;
+
+                background: white;
+            }
+        @php } @endphp
 
     @for ($t = 0; $t < 10; $t++)
         @php $key = 'number_' . $t; @endphp

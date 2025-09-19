@@ -40,11 +40,6 @@
         {!! Form::textarea('description', $arcade->description, ['class' => 'form-control wysiwyg']) !!}
     </div>
 
-    <div class="form-group">
-        {!! Form::checkbox('is_visible', 1, $arcade->id ? $arcade->is_visible : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
-        {!! Form::label('is_visible', 'Set Active', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned off, the game will not be visible to regular users.') !!}
-    </div>
-
     <h3>Play Limits (Optional)</h3>
     <p>You can limit the amount of times a user can play this game.</p>
     <p>Set a number into number of plays. This will be applied for all time if you leave period blank, or per time period (ex: once a month, twice a week) if selected.</p>
@@ -74,6 +69,7 @@
 
     <h5>Custom Text (Optional)</h5>
     <p>You can change the default messages for the game here, further messages may be editable from the specific game's settings.</p>
+    <p>This is still a bit of a WIP!!!!</p>
     <h5>Win/Loss Messages</h5>
     <div class="row">
         <div class="col-md-4 form-group">
@@ -100,12 +96,26 @@
     <h4 class="mt-5">Rewards</h4>
     <p>Users will receive these rewards upon successful completion of the game.</p>
     <p>For some games, this may or may not be optional.</p>
+    <h5>Games that <u class="text-danger">DO NOT</u> require rewards: </h5>
+    <ul>
+        @foreach (config('lorekeeper.arcade_types') as $type)
+            @if (!$type['require_reward'])
+                <li>{{ $type['name'] }}</li>
+            @endif
+        @endforeach
+    </ul>
 
     @include('widgets._loot_select', ['loots' => $arcade->rewards, 'showLootTables' => true, 'showRaffles' => true])
+
+    <div class="col-md-4 form-group">
+        {!! Form::label('Daily Currency Cap') !!}{!! add_help('You can set a maximum amount that a user may earn from this game per day. This only will check for currency awards, and not items or anything else. A global limit for all games can be set in site settings.') !!}
+        {!! Form::number('currency_cap', $arcade->currency_cap, ['class' => 'form-control']) !!}
+    </div>
 
     <h3>Game Type</h3>
     <p>Game types are the different types of games, which all have their own settings. You can edit the specific game's settings after you've chosen the type of game.
     </p>
+    <p>Please note that depending on the arcade type, there might be additional options. Because of this, an arcade can only be set to active after you've selected a type.</p>
 
     <div class="form-group">
         {!! Form::select('arcade_type', [null => 'Select a Type'] + $types, $arcade->arcade_type ?? null, ['class' => 'form-control']) !!}
@@ -121,12 +131,23 @@
 
     @if ($arcade->arcade_type)
         {!! Form::open(['url' => 'admin/data/arcade/games/' . $arcade->id]) !!}
+
+        <div class="form-group">
+            {!! Form::checkbox('is_visible', 1, $arcade->id ? $arcade->is_visible : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
+            {!! Form::label('is_visible', 'Set Active', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned off, the game will not be visible to regular users.') !!}
+        </div>
+
+        @if (isset($arcade->configInfo['scored']) && $arcade->configInfo['scored'] == true)
+            @include('admin.arcades.scored', ['data' => $arcade->data])
+        @endif
+
+
         @if (View::exists('admin.arcades.games.' . $arcade->arcade_type))
             @include('admin.arcades.games.' . $arcade->arcade_type, ['data' => $arcade->data])
         @endif
 
         <div class="text-right">
-            {!! Form::submit('Edit', ['class' => 'btn btn-primary']) !!}
+            {!! Form::submit('Edit Game Settings', ['class' => 'btn btn-primary']) !!}
         </div>
         {!! Form::close() !!}
         @if (View::exists('admin.arcades.games.' . $arcade->arcade_type . '_post'))

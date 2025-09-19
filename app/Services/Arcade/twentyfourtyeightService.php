@@ -4,7 +4,7 @@ namespace App\Services\Arcade;
 use App\Services\Service;
 use DB;
 
-class SudokuService extends Service
+class twentyfourtyeightService extends Service
 {
 
     /**
@@ -64,7 +64,7 @@ class SudokuService extends Service
     { //this is placeholder data for now because the data cannot be null
 
         return [
-            'word_min' => $data['word_min'],
+            'word_min' => "1",
         ];
     }
 
@@ -99,3 +99,4 @@ class SudokuService extends Service
     }
 
 }
+

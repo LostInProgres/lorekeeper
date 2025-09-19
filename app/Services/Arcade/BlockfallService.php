@@ -4,7 +4,7 @@ namespace App\Services\Arcade;
 use App\Services\Service;
 use DB;
 
-class SudokuService extends Service
+class BlockfallService extends Service
 {
 
     /**
@@ -64,7 +64,7 @@ class SudokuService extends Service
     { //this is placeholder data for now because the data cannot be null
 
         return [
-            'word_min' => $data['word_min'],
+            'word_min' => "1",
         ];
     }
 
@@ -85,9 +85,9 @@ class SudokuService extends Service
             $gameData = $arcade->data;
 
             if ($data['count'] == "0") {
-                throw new \Exception('Cannot submit an unfinished sudoku.');
+                throw new \Exception('Cannot submit an unfinished game.');
             } else {
-                $arcade->generalService->grantRewards($arcade, $user);
+                $arcade->generalService->calculateRewards($arcade, $user, $data['count']);
                 $arcade->generalService->updateLog($arcade, $user);
             }
 
@@ -99,3 +99,4 @@ class SudokuService extends Service
     }
 
 }
+

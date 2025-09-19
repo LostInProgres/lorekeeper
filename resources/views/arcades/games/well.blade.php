@@ -58,7 +58,7 @@
                             @if ($use_characters)
                                 {!! $wish->character ? $wish->character->displayName : 'Deleted Character' !!}
                             @else
-                                {!! $wish->user->displayName !!}
+                                {!! $wish->user ? $wish->user->displayName : 'Deleted User' !!}
                             @endif
                         </div>
                     @endif

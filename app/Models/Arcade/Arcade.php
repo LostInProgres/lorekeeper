@@ -1,6 +1,7 @@
 <?php
 namespace App\Models\Arcade;
 
+use App\Facades\Settings;
 use App\Models\Arcade\ArcadeLog;
 use App\Models\Model;
 use App\Services\Arcade\GeneralService;
@@ -13,7 +14,7 @@ class Arcade extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'sort', 'has_image', 'description', 'parsed_description', 'is_visible', 'arcade_type', 'data', 'limit', 'limit_period', 'output', 'variable_data', 'currency_id', 'fee', 'flavor_data',
+        'name', 'sort', 'has_image', 'description', 'parsed_description', 'is_visible', 'arcade_type', 'data', 'limit', 'limit_period', 'output', 'variable_data', 'currency_id', 'fee', 'flavor_data', 'currency_cap',
     ];
 
     /**
@@ -264,6 +265,35 @@ class Arcade extends Model
 
         }
         return true;
+    }
+
+    public function checkCurrencyCap($user)
+    {
+
+        if (Settings::get('arcade_global_cap') != 0 || isset($this->currency_cap)) {
+            $sum = $this->dailySum($user);
+            if (Settings::get('arcade_global_cap') != 0) {
+                if ($sum >= Settings::get('arcade_global_cap')) {
+                    return false;
+
+                }
+
+            } elseif (isset($this->currency_cap)) {
+                if ($sum >= $this->currency_cap) {
+                    return false;
+                }
+            }
+
+        }
+
+        return true;
+
+    }
+
+    public function dailySum($user)
+    {
+
+        return ArcadeLog::played($this->id, $user->id)->where('created_at', '>=', now()->startOfDay())->sum('currency_earned');
     }
 
     public function logCount($user)

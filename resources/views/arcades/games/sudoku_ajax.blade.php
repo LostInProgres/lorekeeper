@@ -217,8 +217,6 @@
                     y: Math.floor((position.y - 1) / this.n)
                 };
 
-                // LOSTODO: here, we want to set the value to the corresponding image, so that the image displays instead of the number where needed.
-
                 var value = (this.board[index] > 0 ? this.board[index] : ''),
                     value_solution = (this.boardSolution[index] > 0 ? this.boardSolution[index] : '');
 
@@ -563,7 +561,6 @@
         });
 
         //click on console num
-        //LOSTTODO: Make images not paste "NaN". What even is NaN? Not a number??? I think images can be numbers if they want to be.
         $('#' + this.id + ' .board_console .num').on('click', function(e) {
             var
                 value = parseInt($(this).text());

@@ -37,11 +37,13 @@ class WellService extends Service
             $wishes = ArcadeLog::where('user_id', Auth::user()->id)->orderBy('id', 'DESC');
         }
         if($gameData['use_characters']){
-            $wishes = $wishes->with('character');
+            $wishes = $wishes->has('character');
+        }else{
+             $wishes = $wishes->has('user');
         }
 
         return [
-            'wishes' => $wishes->get()->take(10),
+            'wishes' => $wishes->where('arcade_id', $arcade->id)->get()->take(10),
             'use_characters' => $gameData['use_characters'] ?? false,
             'require_message' => $gameData['require_message'] ?? false,
         ];

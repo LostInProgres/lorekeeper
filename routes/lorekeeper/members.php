@@ -205,5 +205,4 @@ Route::group(['prefix' => 'arcade'], function () {
     Route::post('{id}/play', 'ArcadeController@postPlay')->where(['id' => '[0-9]+']);
     Route::get('{id}/play/ajax', 'ArcadeController@getAjax')->where(['id' => '[0-9]+']);
     Route::post('{id}/play/ajax', 'ArcadeController@postAjax')->where(['id' => '[0-9]+']);
-    Route::get('{id}/ajax-info', 'ArcadeController@getAjaxInfo')->where(['id' => '[0-9]+']);
 });

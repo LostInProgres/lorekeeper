@@ -13,7 +13,7 @@ class ArcadeLog extends Model
      * @var array
      */
     protected $fillable = [
-        'arcade_id', 'user_id', 'won','character_id','data'
+        'arcade_id', 'user_id', 'won','character_id','data','currency_earned'
     ];
 
     /**

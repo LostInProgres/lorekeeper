@@ -96,7 +96,7 @@ class ArcadeController extends Controller
         $id ? $request->validate(Arcade::$updateRules) : $request->validate(Arcade::$createRules);
         $data = $request->only([
             'name', 'description', 'image', 'remove_image', 'is_visible', 'arcade_type',
-            'rewardable_type', 'rewardable_id', 'quantity', 'currency_id', 'fee', 'limit', 'limit_period','win_message','lose_message','neutral_message','log_name'
+            'rewardable_type', 'rewardable_id', 'quantity', 'currency_id', 'fee', 'limit', 'limit_period','win_message','lose_message','neutral_message','log_name','currency_cap'
         ]);
         if ($id && $service->updateArcade(Arcade::find($id), $data)) {
             flash('Arcade updated successfully.')->success();
