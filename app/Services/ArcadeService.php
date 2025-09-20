@@ -230,7 +230,11 @@ class ArcadeService extends Service
 
         try {
             $arcade->is_visible = isset($data['is_visible']);
-            $arcade->data = $arcade->service->updateData($arcade, $data) + $this->updateScoreData($data);
+            if (isset($data['score_min']) || isset($data['score_max']) || isset($data['milestone'])) {
+                $arcade->data = $arcade->service->updateData($arcade, $data) + $this->updateScoreData($data);
+            } else {
+                $arcade->data = $arcade->service->updateData($arcade, $data);
+            }
 
             $arcade->save();
 
