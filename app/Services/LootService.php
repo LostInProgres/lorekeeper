@@ -168,7 +168,7 @@ class LootService extends Service {
             Loot::create([
                 'loot_table_id'   => $table->id,
                 'rewardable_type' => $type,
-                'rewardable_id'   => $data['rewardable_id'][$key] ?? 1,
+                'rewardable_id'   => $data['rewardable_id'][$key],
                 'quantity'        => $data['quantity'][$key],
                 'weight'          => $data['weight'][$key],
                 'data'            => $lootData ?? null,
