@@ -99,7 +99,7 @@
                         @foreach ($items as $item)
                             <div class="col-md-3 col-6 profile-inventory-item">
                                 @if ($item->imageUrl)
-                                    <img src="{{ $item->imageUrl }}" data-toggle="tooltip" title="{{ $item->name }}" alt="{{ $item->name }}" />
+                                    <img src="{{ $item->imageUrl }}" data-toggle="tooltip" title="{{ $item->name }}" alt="" />
                                 @else
                                     <p>{{ $item->name }}</p>
                                 @endif
