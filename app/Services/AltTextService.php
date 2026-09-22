@@ -1,13 +1,13 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\ImageAltText;
+use App\Traits\AltText;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Traits\AltText;
 
-class AltTextService extends Service
-{
+class AltTextService extends Service {
     /*
     |--------------------------------------------------------------------------
     | Alt Text Service
@@ -31,53 +31,52 @@ class AltTextService extends Service
      * @param mixed $object_id
      * @param mixed $data
      */
-    public function createEditAltText($object_model, $object_id, $data)
-    {
+    public function createEditAltText($object_model, $object_id, $data) {
         DB::beginTransaction();
 
         try {
             $object = $object_model::find($object_id);
-            if (! $object) {
+            if (!$object) {
                 throw new \Exception('Object not found.');
             }
-            if (! isset($data['text_key'])) {
+            if (!isset($data['text_key'])) {
                 throw new \Exception('Key not given.');
             }
-            if(!in_array(AltText::class, class_uses_recursive($object_model))){
+            if (!in_array(AltText::class, class_uses_recursive($object_model))) {
                 throw new \Exception('Alt text is not supported for this model.');
             }
 
             $altText = $object->altText($data['text_key']);
 
-            //would it be better to make individual copies of the function instead of changing the variable?
-            //idk. i don't think it matters
+            // would it be better to make individual copies of the function instead of changing the variable?
+            // idk. i don't think it matters
             $cretype = 'Edited';
             if ($altText) {
-                //existing entry
-                if (! isset($data['alt_text'])) {
-                    //no text. delet
+                // existing entry
+                if (!isset($data['alt_text'])) {
+                    // no text. delet
                     $altText->delete();
                     $cretype = 'Deleted';
                 } else {
-                    //update existing entry
+                    // update existing entry
                     $altText->update(['alt_text' => $data['alt_text']]);
                 }
             } else {
-                //new entry
-                if (! isset($data['alt_text'])) {
-                    //no text. bad
+                // new entry
+                if (!isset($data['alt_text'])) {
+                    // no text. bad
                     throw new \Exception('You must enter alt text.');
                 } else {
-                    //create entry
+                    // create entry
                     $textData = [
                         'object_model'         => $object_model,
                         'object_id'            => $object_id,
-                        'alt_text' => $data['alt_text'],
-                        'text_key'      => $data['text_key'],
+                        'alt_text'             => $data['alt_text'],
+                        'text_key'             => $data['text_key'],
                     ];
                     $textModel = ImageAltText::create($textData);
 
-                    if (! $textModel) {
+                    if (!$textModel) {
                         throw new \Exception('Failed to create alt text.');
                     }
                     $cretype = 'Created';
@@ -85,7 +84,7 @@ class AltTextService extends Service
             }
 
             // log the action
-            if (! $this->logAdminAction(Auth::user(), $cretype.' Alt Text', $cretype.' ' . $object->displayName . ' alt text')) {
+            if (!$this->logAdminAction(Auth::user(), $cretype.' Alt Text', $cretype.' '.$object->displayName.' alt text')) {
                 throw new \Exception('Failed to log admin action.');
             }
 

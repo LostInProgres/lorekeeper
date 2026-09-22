@@ -17,7 +17,7 @@ class AltTextController extends Controller {
      */
     public function postCreateEditAltText(Request $request, AltTextService $service) {
         $data = $request->only([
-            'object_model', 'object_id', 'alt_text','text_key'
+            'object_model', 'object_id', 'alt_text', 'text_key',
         ]);
         if ($service->createEditAltText($data['object_model'], $data['object_id'], $data, Auth::user())) {
             flash('Alt text updated successfully.')->success();

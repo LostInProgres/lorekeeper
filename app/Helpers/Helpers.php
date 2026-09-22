@@ -627,11 +627,10 @@ function getLimitData() {
     return $limitData;
 }
 
-
 /**
  * Return the object's alt text.
  *
- * @param mixed $object
+ * @param mixed  $object
  * @param string $text_key
  *
  * @return mixed
@@ -647,7 +646,7 @@ function getAltText($object, $text_key) {
 /**
  * Check if an object has alt text.
  *
- * @param mixed $object
+ * @param mixed  $object
  * @param string $text_key
  *
  * @return bool
