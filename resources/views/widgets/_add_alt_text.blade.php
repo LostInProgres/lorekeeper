@@ -7,7 +7,7 @@
 @endphp
 
 <div class="card p-4 mb-3 mt-3" id="text-card">
-    <h3>{{ $altText ? 'Edit' : 'Create' }} {{$keytitle}} {{ ucfirst($type) }} Alt Text</h3>
+    <h3>{{ $altText ? 'Edit' : 'Create' }} {{ $keytitle }} {{ ucfirst($type) }} Alt Text</h3>
 
     <p>
         Consider adding alt text to this {{ $type }} via this widget. It will be a text substitute to this image that will be used in certain areas of the site, and it will better help visually impaired users!
