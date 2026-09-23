@@ -10,8 +10,10 @@
     <h3>{{ $altText ? 'Edit' : 'Create' }} {{ $keytitle }} {{ ucfirst($type) }} Alt Text</h3>
 
     <p>
-        Consider adding alt text to this {{ $type }} via this widget. It will be a text substitute to this image that will be used in certain areas of the site, and it will better help visually impaired users!
-        <span class="form-text text-muted"><a target="_blank" href="https://webaim.org/techniques/alttext/">A guide</a> on how to write alt text.</span>
+        Consider adding alt text to this {{ $type }}'s {{ $text_key }} image via this widget. It will be a text substitute to this image that will be used by screenreaders or when the image is unavailable. Adding alt text is important to help visually impaired users!
+    </p>
+    <p>
+        <a target="_blank" href="https://webaim.org/techniques/alttext/">A guide</a> on how to write alt text.
     </p>
     {!! isset($info) ? '<div class="alert alert-info">' . $info . '</div>' : '' !!}
 
